@@ -1,6 +1,6 @@
 # Modify AR #
 
-This is the first augmented reality application which is allow you *modify* the World around you.
+This is the first augmented reality application which is allow you `modify` the World around you.
 
 
 ### Requirements ###

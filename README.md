@@ -1,16 +1,18 @@
 # Modify AR #
 
-This is the first augmented reality application which is allow you `modify` the World around you.
+This is the first augmented reality application which is allow you **modify** the world around you.
 
 
 ### Requirements ###
 
-* Xcode 9 beta 4
 * iOS 11
+* iPhone 6s and upwards
+* XCode 9 and higher
 
 
-### Based on ###
+### Frameworks ###
 
 * ARKit 
 * Core Location
 * Scene Kit
+* Replay Kit 2

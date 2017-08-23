@@ -1,5 +1,6 @@
 ### CocoaPods ###
 Pods/
+Podfile.lock
 
 ### macOS ###
 *.DS_Store
@@ -45,4 +46,3 @@ playground.xcworkspace
 !*.xcodeproj/xcshareddata/
 !*.xcworkspace/contents.xcworkspacedata
 /*.gcno
-

@@ -36,8 +36,8 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     }
     
     func addObject() {
-        let scene = SCNScene(named: "art.scnassets/ship.scn")!
-        let object = scene.rootNode.childNode(withName: "ship", recursively: true)!
+        let scene = SCNScene(named: "art.scnassets/mr.pig.scn")!
+        let object = scene.rootNode.childNode(withName: "pig", recursively: true)!
         object.position = sceneLocationView.currentScenePosition()!
         sceneLocationView.scene.rootNode.addChildNode(object)
     }

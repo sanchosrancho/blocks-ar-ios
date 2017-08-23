@@ -14,6 +14,7 @@
 		826A73561F4CCB8A00204DC7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 826A73541F4CCB8A00204DC7 /* Main.storyboard */; };
 		826A73581F4CCB8A00204DC7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 826A73571F4CCB8A00204DC7 /* Assets.xcassets */; };
 		826A735B1F4CCB8A00204DC7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 826A73591F4CCB8A00204DC7 /* LaunchScreen.storyboard */; };
+		B64F0C371F4DBA920004BA49 /* HUDViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B64F0C361F4DBA920004BA49 /* HUDViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +28,7 @@
 		826A73571F4CCB8A00204DC7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		826A735A1F4CCB8A00204DC7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		826A735C1F4CCB8A00204DC7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B64F0C361F4DBA920004BA49 /* HUDViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUDViewController.swift; sourceTree = "<group>"; };
 		FCDA4043423E1BCB46521F8B /* Pods_Modify.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Modify.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -72,15 +74,33 @@
 		826A734D1F4CCB8A00204DC7 /* Modify */ = {
 			isa = PBXGroup;
 			children = (
-				826A734E1F4CCB8A00204DC7 /* AppDelegate.swift */,
-				826A73501F4CCB8A00204DC7 /* art.scnassets */,
+				B6A89CB01F4DC25D00E76984 /* HUD */,
 				826A73521F4CCB8A00204DC7 /* ViewController.swift */,
-				826A73541F4CCB8A00204DC7 /* Main.storyboard */,
+				826A734E1F4CCB8A00204DC7 /* AppDelegate.swift */,
+				B6A89CAF1F4DC25100E76984 /* Supporting Files */,
+			);
+			path = Modify;
+			sourceTree = "<group>";
+		};
+		B6A89CAF1F4DC25100E76984 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				826A73501F4CCB8A00204DC7 /* art.scnassets */,
 				826A73571F4CCB8A00204DC7 /* Assets.xcassets */,
+				826A73541F4CCB8A00204DC7 /* Main.storyboard */,
 				826A73591F4CCB8A00204DC7 /* LaunchScreen.storyboard */,
 				826A735C1F4CCB8A00204DC7 /* Info.plist */,
 			);
-			path = Modify;
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		B6A89CB01F4DC25D00E76984 /* HUD */ = {
+			isa = PBXGroup;
+			children = (
+				B64F0C361F4DBA920004BA49 /* HUDViewController.swift */,
+			);
+			name = HUD;
+			path = "Supporting Files/HUD";
 			sourceTree = "<group>";
 		};
 		C4ACF2DD39F51896192AF86B /* Frameworks */ = {
@@ -193,7 +213,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		E933804E7293DEF4CCD000C2 /* [CP] Embed Pods Frameworks */ = {
@@ -221,6 +241,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B64F0C371F4DBA920004BA49 /* HUDViewController.swift in Sources */,
 				826A73531F4CCB8A00204DC7 /* ViewController.swift in Sources */,
 				826A734F1F4CCB8A00204DC7 /* AppDelegate.swift in Sources */,
 			);
@@ -362,7 +383,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = KD9PQ46B2N;
-				INFOPLIST_FILE = Modify/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Modify/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.de.Modify;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -378,7 +399,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = KD9PQ46B2N;
-				INFOPLIST_FILE = Modify/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Modify/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.de.Modify;
 				PRODUCT_NAME = "$(TARGET_NAME)";

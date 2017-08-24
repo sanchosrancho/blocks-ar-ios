@@ -27,6 +27,18 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         view.addSubview(sceneLocationView)
 
         prepareHUD()
+        
+        let pinCoordinate = CLLocationCoordinate2D(latitude: 59.934891129, longitude: 30.324988654)
+        let pinLocation = CLLocation(coordinate: pinCoordinate, altitude: CLLocationDistance(0))
+        
+        let pinLocationNode = LocationNode(location: pinLocation)
+//            pinLocationNode.scaleRelativeToDistance = $0.scale
+        
+        let scene = SCNScene(named: "art.scnassets/mr.pig.scn")!
+        let object = scene.rootNode.childNode(withName: "pig", recursively: true)!
+        pinLocationNode.addChildNode(object)
+        
+        sceneLocationView.addLocationNodeWithConfirmedLocation(locationNode: pinLocationNode)
     }
     
     func prepareHUD() {

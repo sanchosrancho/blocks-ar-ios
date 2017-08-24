@@ -48,5 +48,10 @@
 	</array>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>This application will use location services to place AR objects according with real coordinates.</string>
+    <key>NSAppTransportSecurity</key>
+    <dict>
+        <key>NSAllowsArbitraryLoads</key>
+        <true/>
+    </dict>
 </dict>
 </plist>

@@ -1,14 +1,7 @@
-### CocoaPods ###
+
 Pods/
-Podfile.lock
-
-### macOS ###
 *.DS_Store
-.AppleDouble
-.LSOverride
-
-# Thumbnails
-._*
+xcuserdata/
 
 ## Build generated
 build/
@@ -24,6 +17,7 @@ DerivedData/
 *.perspectivev3
 !default.perspectivev3
 xcuserdata/
+*.xcworkspace/xcuserdata/
 
 ## Other
 *.moved-aside

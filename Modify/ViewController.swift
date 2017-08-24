@@ -12,11 +12,15 @@ import ARKit
 import ARCL
 import CoreLocation
 
+open class ArtifactSceneView: SceneLocationView {
+    public var locationNodes = [LocationNode]()
+}
+
 
 class ViewController: UIViewController, ARSCNViewDelegate {
     
     var hudWindow: HUDWindow?
-    var sceneLocationView = SceneLocationView()
+    var sceneLocationView = ArtifactSceneView()
     
     
     override func viewDidLoad() {

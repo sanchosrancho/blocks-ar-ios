@@ -15,6 +15,7 @@
 		826A73581F4CCB8A00204DC7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 826A73571F4CCB8A00204DC7 /* Assets.xcassets */; };
 		826A735B1F4CCB8A00204DC7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 826A73591F4CCB8A00204DC7 /* LaunchScreen.storyboard */; };
 		B64F0C371F4DBA920004BA49 /* HUDViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B64F0C361F4DBA920004BA49 /* HUDViewController.swift */; };
+		B69843961F4F3189002B0EE4 /* Artifact.swift in Sources */ = {isa = PBXBuildFile; fileRef = B69843951F4F3189002B0EE4 /* Artifact.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +30,7 @@
 		826A735A1F4CCB8A00204DC7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		826A735C1F4CCB8A00204DC7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B64F0C361F4DBA920004BA49 /* HUDViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUDViewController.swift; sourceTree = "<group>"; };
+		B69843951F4F3189002B0EE4 /* Artifact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Artifact.swift; sourceTree = "<group>"; };
 		FCDA4043423E1BCB46521F8B /* Pods_Modify.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Modify.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -74,12 +76,21 @@
 		826A734D1F4CCB8A00204DC7 /* Modify */ = {
 			isa = PBXGroup;
 			children = (
+				B69843941F4F2FFE002B0EE4 /* Core */,
 				B6A89CB01F4DC25D00E76984 /* HUD */,
 				826A73521F4CCB8A00204DC7 /* ViewController.swift */,
 				826A734E1F4CCB8A00204DC7 /* AppDelegate.swift */,
 				B6A89CAF1F4DC25100E76984 /* Supporting Files */,
 			);
 			path = Modify;
+			sourceTree = "<group>";
+		};
+		B69843941F4F2FFE002B0EE4 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				B69843951F4F3189002B0EE4 /* Artifact.swift */,
+			);
+			path = Core;
 			sourceTree = "<group>";
 		};
 		B6A89CAF1F4DC25100E76984 /* Supporting Files */ = {
@@ -224,10 +235,14 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-Modify/Pods-Modify-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/ARCL/ARCL.framework",
+				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
+				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ARCL.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -244,6 +259,7 @@
 				B64F0C371F4DBA920004BA49 /* HUDViewController.swift in Sources */,
 				826A73531F4CCB8A00204DC7 /* ViewController.swift in Sources */,
 				826A734F1F4CCB8A00204DC7 /* AppDelegate.swift in Sources */,
+				B69843961F4F3189002B0EE4 /* Artifact.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

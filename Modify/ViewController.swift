@@ -22,6 +22,9 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     
     var hudWindow: HUDWindow?
     var sceneLocationView = ArtifactSceneView()
+    var notificationToken: NotificationToken!
+    var realm: Realm!
+    var results: Results<Artifact>?
     
     deinit { notificationToken.stop() }
     
@@ -33,18 +36,6 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         view.addSubview(sceneLocationView)
 
         prepareHUD()
-        
-        /*
-        let pinCoordinate = CLLocationCoordinate2D(latitude: 59.934891129, longitude: 30.324988654)
-        let pinLocation = CLLocation(coordinate: pinCoordinate, altitude: CLLocationDistance(0))
-        let pinLocationNode = LocationNode(location: pinLocation)
-//        pinLocationNode.scaleRelativeToDistance = $0.scale
-        
-        let scene = SCNScene(named: "art.scnassets/mr.pig.scn")!
-        let object = scene.rootNode.childNode(withName: "pig", recursively: true)!
-        pinLocationNode.addChildNode(object)
-//        pinLocationNode.continuallyAdjustNodePositionWhenWithinRange
-        
         setupRealm()
     }
     
@@ -55,8 +46,6 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     }
     
     func addArtifact() {
-        guard let realm = self.results?.realm else { print("no realm to add"); return }
-        
         let currentLocation = sceneLocationView.currentLocation()
         try! realm.write {
             let artifact = Artifact()
@@ -65,11 +54,6 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             artifact.alt = currentLocation?.altitude ?? 0
             realm.add(artifact)
         }
-//        let scene = SCNScene(named: "art.scnassets/mr.pig.scn")!
-//        let object = scene.rootNode.childNode(withName: "pig", recursively: true)!
-//        object.scale = SCNVector3(0.02, 0.02, 0.02)
-//        object.position = sceneLocationView.currentScenePosition()!
-//        sceneLocationView.scene.rootNode.addChildNode(object)
     }
     
     
@@ -84,7 +68,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
                 )
                 self.realm = try! Realm(configuration: configuration)
                 
-                // Show initial tasks
+                // Show initial artifacts
                 func updateList() {
                     if self.results?.realm == nil {
                         self.results = self.realm.objects(Artifact.self)
@@ -152,14 +136,13 @@ extension ViewController: HUDViewControllerDelegate {
     func hudAddObjectPressed() {
         addArtifact()
     }
-    
-    
-    
+
     func hudStopAdjustingNodesPosition() {
         sceneLocationView.locationNodes.forEach {
             $0.continuallyUpdatePositionAndScale = false
         }
     }
+    
     func hudStartAdjustingNodesPosition() {
         sceneLocationView.locationNodes.forEach {
             $0.continuallyUpdatePositionAndScale = true

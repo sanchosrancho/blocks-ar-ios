@@ -52,6 +52,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             artifact.lat = currentLocation?.coordinate.latitude ?? 0
             artifact.lon = currentLocation?.coordinate.longitude ?? 0
             artifact.alt = currentLocation?.altitude ?? 0
+            artifact.createdAt = NSDate()
             realm.add(artifact)
         }
     }

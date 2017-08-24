@@ -9,8 +9,14 @@
 import RealmSwift
 import CoreLocation
 
-@objc class Artifact: Object {
+class Artifact: RealmSwift.Object {
+    @objc dynamic var objectId: String = NSUUID().uuidString
     @objc dynamic var lat: CLLocationDegrees = 0
     @objc dynamic var lon: CLLocationDegrees = 0
     @objc dynamic var alt: CLLocationDistance = 0
+    @objc dynamic var createdAt: NSDate?
+    
+    override static func primaryKey() -> String? {
+        return "objectId"
+    }
 }

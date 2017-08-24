@@ -32,11 +32,12 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         let pinLocation = CLLocation(coordinate: pinCoordinate, altitude: CLLocationDistance(0))
         
         let pinLocationNode = LocationNode(location: pinLocation)
-//            pinLocationNode.scaleRelativeToDistance = $0.scale
+//        pinLocationNode.scaleRelativeToDistance = $0.scale
         
         let scene = SCNScene(named: "art.scnassets/mr.pig.scn")!
         let object = scene.rootNode.childNode(withName: "pig", recursively: true)!
         pinLocationNode.addChildNode(object)
+//        pinLocationNode.continuallyAdjustNodePositionWhenWithinRange
         
         sceneLocationView.addLocationNodeWithConfirmedLocation(locationNode: pinLocationNode)
     }
@@ -76,5 +77,18 @@ extension ViewController: HUDViewControllerDelegate {
     
     func hudAddObjectPressed() {
         addObject()
+    }
+    
+    
+    
+    func hudStopAdjustingNodesPosition() {
+        sceneLocationView.locationNodes.forEach {
+            $0.continuallyUpdatePositionAndScale = false
+        }
+    }
+    func hudStartAdjustingNodesPosition() {
+        sceneLocationView.locationNodes.forEach {
+            $0.continuallyUpdatePositionAndScale = true
+        }
     }
 }

@@ -35,8 +35,10 @@ class HUDWindow: UIWindow {
     }
 }
 
-protocol HUDViewControllerDelegate: class {
+@objc  protocol HUDViewControllerDelegate: class {
     func hudAddObjectPressed()
+    @objc optional func hudStopAdjustingNodesPosition()
+    @objc optional func hudStartAdjustingNodesPosition()
 }
 
 class HUDViewController: UIViewController {
@@ -44,13 +46,15 @@ class HUDViewController: UIViewController {
     weak var delegate: HUDViewControllerDelegate?
     
     private let recButton = HUDButton(frame: CGRect(x: 20, y: 140, width: 60, height: 60))
-    private let addObjectButton = HUDButton(frame: CGRect(x: 20, y: 20, width: 200, height: 100))
+    private let addObjectButton = HUDButton(frame: CGRect(x: 20, y: 20, width: 100, height: 44))
+    private let toggleAdjustingNodePositionButton = HUDButton(frame: CGRect(x: 140, y: 20, width: 200, height: 44))
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupRecButton()
         setupAddButton()
+        setupAdjustingNodePositionButton()
     }
     
     
@@ -60,7 +64,6 @@ class HUDViewController: UIViewController {
         recButton.addTarget(self, action: #selector(startRecording(sender:)), for: .touchUpInside)
         self.view.addSubview(recButton)
     }
-    
     
     @objc private func startRecording(sender: UIButton) {
         guard !sender.isSelected else {
@@ -126,6 +129,23 @@ class HUDViewController: UIViewController {
     
     @objc private func addButtonPressed() {
         self.delegate?.hudAddObjectPressed()
+    }
+    
+    private func setupAdjustingNodePositionButton() {
+        toggleAdjustingNodePositionButton.setTitle("Stop adjusting", for: .normal)
+        toggleAdjustingNodePositionButton.setTitle("Start adjusting", for: .selected)
+        toggleAdjustingNodePositionButton.backgroundColor = UIColor.black.withAlphaComponent(0.3)
+        toggleAdjustingNodePositionButton.addTarget(self, action: #selector(toggleAdjustingNodePosition(sender:)), for: .touchUpInside)
+        self.view.addSubview(toggleAdjustingNodePositionButton)
+    }
+    
+    @objc private func toggleAdjustingNodePosition(sender: UIButton) {
+        if sender.isSelected {
+            self.delegate?.hudStartAdjustingNodesPosition?()
+        } else {
+            self.delegate?.hudStopAdjustingNodesPosition?()
+        }
+        sender.isSelected = !sender.isSelected
     }
 }
 

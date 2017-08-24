@@ -13,10 +13,31 @@ import ARCL
 import CoreLocation
 import RealmSwift
 
-open class ArtifactSceneView: SceneLocationView {
-    public var locationNodes = [LocationNode]()
+class ArtifactSceneView: SceneLocationView {
+    
+    public func findNode(byId id: String) -> ArtifactNode? {
+        for node in self.locationNodes {
+            guard let artifactNode = node as? ArtifactNode else { continue }
+            if artifactNode.artifactId == id {
+                return artifactNode
+            }
+        }
+        return nil
+    }
 }
 
+class ArtifactNode: LocationNode {
+    let artifactId: String
+    
+    public init(location: CLLocation?, artifactId: String) {
+        self.artifactId = artifactId
+        super.init(location: location)
+    }
+    
+    required public init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
 
 class ViewController: UIViewController, ARSCNViewDelegate {
     
@@ -74,8 +95,9 @@ class ViewController: UIViewController, ARSCNViewDelegate {
                     if self.results?.realm == nil {
                         self.results = self.realm.objects(Artifact.self)
                     }
-                    self.removeOldArtifacts()
-                    self.placeArtifacts()
+//                    self.removeOldArtifacts()
+//                    self.placeArtifacts()
+                    self.updateArtifacts()
                 }
                 updateList()
                 
@@ -88,31 +110,70 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         }
     }
     
-    
-    func removeOldArtifacts() {
-        sceneLocationView.locationNodes.forEach {
-            sceneLocationView.removeLocationNode(locationNode: $0)
-        }
-    }
-    
-    
-    func placeArtifacts() {
-        print("artifacts: \(self.results?.count ?? 0)")
-        
+    func updateArtifacts() {
         guard let results = self.results else { return }
+        
+        let actual = Set( results.map { $0.objectId } )
+        print("Location nodes: ", sceneLocationView.locationNodes)
+        let onScene = Set( sceneLocationView.locationNodes.map { ($0 as! ArtifactNode).artifactId } )
+        
+        var shouldBeRemoved = Set(onScene)
+        shouldBeRemoved.subtract(actual)
+        
+        var shouldBeAdded = Set(actual)
+        shouldBeAdded.subtract(onScene)
+        
+        print("\(shouldBeRemoved.count) artifacts should be removed")
+        print("\(shouldBeAdded.count) artifacts should be added")
+        print("\(results.count) artifacts should be placed on scene")
+        
+        shouldBeRemoved.forEach {
+            guard let node = sceneLocationView.findNode(byId: $0) else { return }
+            sceneLocationView.removeLocationNode(locationNode: node)
+        }
+        
         for artifact in results {
-            let coord = CLLocationCoordinate2D(latitude: artifact.lat, longitude: artifact.lon)
-            let location = CLLocation(coordinate: coord, altitude: artifact.alt)
-            let locationNode = LocationNode(location: location)
-            
-            let scene = SCNScene(named: "art.scnassets/mr.pig.scn")!
-            let object = scene.rootNode.childNode(withName: "pig", recursively: true)!
-            object.scale = SCNVector3(0.1, 0.1, 0.1)
-            locationNode.addChildNode(object)
-            
-            sceneLocationView.addLocationNodeWithConfirmedLocation(locationNode: locationNode)
+            guard shouldBeAdded.contains(artifact.objectId) else { continue }
+            placeArtifact(artifact)
         }
     }
+    
+    func placeArtifact(_ artifact: Artifact) {
+        let coord = CLLocationCoordinate2D(latitude: artifact.lat, longitude: artifact.lon)
+        let location = CLLocation(coordinate: coord, altitude: artifact.alt)
+        let locationNode = ArtifactNode(location: location, artifactId: artifact.objectId)
+        
+        let scene = SCNScene(named: "art.scnassets/mr.pig.scn")!
+        let object = scene.rootNode.childNode(withName: "pig", recursively: true)!
+        object.scale = SCNVector3(0.1, 0.1, 0.1)
+        locationNode.addChildNode(object)
+        
+        sceneLocationView.addLocationNodeWithConfirmedLocation(locationNode: locationNode)
+    }
+    
+//    func removeOldArtifacts() {
+//        sceneLocationView.locationNodes.forEach {
+//            sceneLocationView.removeLocationNode(locationNode: $0)
+//        }
+//    }
+//
+//    func placeArtifacts() {
+//        print("artifacts: \(self.results?.count ?? 0)")
+//
+//        guard let results = self.results else { return }
+//        for artifact in results {
+//            let coord = CLLocationCoordinate2D(latitude: artifact.lat, longitude: artifact.lon)
+//            let location = CLLocation(coordinate: coord, altitude: artifact.alt)
+//            let locationNode = ArtifactNode(location: location, artifactId: artifact.objectId)
+//
+//            let scene = SCNScene(named: "art.scnassets/mr.pig.scn")!
+//            let object = scene.rootNode.childNode(withName: "pig", recursively: true)!
+//            object.scale = SCNVector3(0.1, 0.1, 0.1)
+//            locationNode.addChildNode(object)
+//
+//            sceneLocationView.addLocationNodeWithConfirmedLocation(locationNode: locationNode)
+//        }
+//    }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()

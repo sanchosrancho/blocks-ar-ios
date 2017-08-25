@@ -2,7 +2,6 @@ platform :ios, '11.0'
 use_frameworks!
 
 target 'Modify' do
-  pod 'ARCL'
   pod 'Realm', :git => 'https://github.com/realm/realm-cocoa.git', :branch => 'master', submodules: true
   pod 'RealmSwift', :git => 'https://github.com/realm/realm-cocoa.git', :branch => 'master', submodules: true
   post_install do |installer|

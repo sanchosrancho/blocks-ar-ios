@@ -95,8 +95,6 @@ class ViewController: UIViewController, ARSCNViewDelegate {
                     if self.results?.realm == nil {
                         self.results = self.realm.objects(Artifact.self)
                     }
-//                    self.removeOldArtifacts()
-//                    self.placeArtifacts()
                     self.updateArtifacts()
                 }
                 updateList()
@@ -150,30 +148,6 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         
         sceneLocationView.addLocationNodeWithConfirmedLocation(locationNode: locationNode)
     }
-    
-//    func removeOldArtifacts() {
-//        sceneLocationView.locationNodes.forEach {
-//            sceneLocationView.removeLocationNode(locationNode: $0)
-//        }
-//    }
-//
-//    func placeArtifacts() {
-//        print("artifacts: \(self.results?.count ?? 0)")
-//
-//        guard let results = self.results else { return }
-//        for artifact in results {
-//            let coord = CLLocationCoordinate2D(latitude: artifact.lat, longitude: artifact.lon)
-//            let location = CLLocation(coordinate: coord, altitude: artifact.alt)
-//            let locationNode = ArtifactNode(location: location, artifactId: artifact.objectId)
-//
-//            let scene = SCNScene(named: "art.scnassets/mr.pig.scn")!
-//            let object = scene.rootNode.childNode(withName: "pig", recursively: true)!
-//            object.scale = SCNVector3(0.1, 0.1, 0.1)
-//            locationNode.addChildNode(object)
-//
-//            sceneLocationView.addLocationNodeWithConfirmedLocation(locationNode: locationNode)
-//        }
-//    }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()

@@ -78,7 +78,9 @@ class HUDViewController: UIViewController {
         
         sender.removeTarget(self, action: #selector(startRecording(sender:)), for: .touchUpInside)
         
-        RPScreenRecorder.shared().startRecording(withMicrophoneEnabled: true) { error in
+        let recorder = RPScreenRecorder.shared()
+        recorder.isMicrophoneEnabled = true
+        recorder.startRecording { error in
             DispatchQueue.main.async {
                 guard error == nil else {
                     print("Error start recording: \(error!)")

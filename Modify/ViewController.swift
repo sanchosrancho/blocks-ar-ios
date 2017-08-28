@@ -38,7 +38,7 @@ class ArtifactNode: LocationNode {
     }
 }
 
-class ViewController: UIViewController, ARSCNViewDelegate {
+class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate {
     
     var hudWindow: HUDWindow?
     var sceneLocationView = ArtifactSceneView()
@@ -53,10 +53,11 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         
         sceneLocationView.showsStatistics = true
         sceneLocationView.run()
+        sceneLocationView.session.delegate = self
         view.addSubview(sceneLocationView)
 
         prepareHUD()
-        setupRealm()
+//        setupRealm()
     }
     
     func prepareHUD() {
@@ -66,7 +67,18 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     }
     
     func addArtifact() {
-        let currentLocation = sceneLocationView.currentLocation()
+        let pig = SCNScene(named: "art.scnassets/mr.pig.scn")!.rootNode.childNode(withName: "pig", recursively: true)!
+        pig.pivot = SCNMatrix4MakeTranslation(0, 4.5, 0)
+        pig.scale = SCNVector3(0.02, 0.02, 0.02)
+        
+        var translation = matrix_identity_float4x4
+        translation.columns.3.z = -20
+        pig.simdTransform = matrix_multiply(sceneLocationView.pointOfView!.simdTransform, translation)
+        
+        sceneLocationView.scene.rootNode.addChildNode(pig)
+        self.placeNode = pig
+        
+        /*let currentLocation = sceneLocationView.currentLocation()
         try! realm.write {
             let artifact = Artifact()
             artifact.lat = currentLocation?.coordinate.latitude ?? 0
@@ -74,7 +86,15 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             artifact.alt = currentLocation?.altitude ?? 0
             artifact.createdAt = NSDate()
             realm.add(artifact)
-        }
+        }*/
+    }
+    
+    private var placeNode: SCNNode?
+    
+    func session(_ session: ARSession, didUpdate frame: ARFrame) {
+        var translation = matrix_identity_float4x4
+        translation.columns.3.z = -20
+        self.placeNode?.simdTransform = matrix_multiply(sceneLocationView.pointOfView!.simdTransform, translation)
     }
     
     

@@ -68,33 +68,26 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate {
     
     func addArtifact() {
         let pig = SCNScene(named: "art.scnassets/mr.pig.scn")!.rootNode.childNode(withName: "pig", recursively: true)!
-        pig.pivot = SCNMatrix4MakeTranslation(0, 4.5, 0)
         pig.scale = SCNVector3(0.02, 0.02, 0.02)
         
-        var translation = matrix_identity_float4x4
-        translation.columns.3.z = -20
-        pig.simdTransform = matrix_multiply(sceneLocationView.pointOfView!.simdTransform, translation)
-        
+        let gPos = SCNVector3ToGLKVector3(SCNVector3Make(0, 0, -2))
+        let camRot = sceneLocationView.pointOfView!.rotation
+        let gRot = GLKMatrix4MakeRotation(camRot.w, camRot.x, camRot.y, camRot.z)
+        let r = GLKMatrix4MultiplyVector3(gRot, gPos)
+        pig.position = SCNVector3Make(r.x, r.y, r.z)
         sceneLocationView.scene.rootNode.addChildNode(pig)
         self.placeNode = pig
-        
-        /*let currentLocation = sceneLocationView.currentLocation()
-        try! realm.write {
-            let artifact = Artifact()
-            artifact.lat = currentLocation?.coordinate.latitude ?? 0
-            artifact.lon = currentLocation?.coordinate.longitude ?? 0
-            artifact.alt = currentLocation?.altitude ?? 0
-            artifact.createdAt = NSDate()
-            realm.add(artifact)
-        }*/
     }
     
     private var placeNode: SCNNode?
     
     func session(_ session: ARSession, didUpdate frame: ARFrame) {
-        var translation = matrix_identity_float4x4
-        translation.columns.3.z = -20
-        self.placeNode?.simdTransform = matrix_multiply(sceneLocationView.pointOfView!.simdTransform, translation)
+        guard let node = placeNode else { return }
+        let gPos = SCNVector3ToGLKVector3(SCNVector3Make(0, 0, -2))
+        let camRot = sceneLocationView.pointOfView!.rotation
+        let gRot = GLKMatrix4MakeRotation(camRot.w, camRot.x, camRot.y, camRot.z)
+        let r = GLKMatrix4MultiplyVector3(gRot, gPos)
+        node.position = SCNVector3Make(r.x, r.y, r.z)
     }
     
     
@@ -193,14 +186,18 @@ extension ViewController: HUDViewControllerDelegate {
     }
 
     func hudStopAdjustingNodesPosition() {
-        sceneLocationView.locationNodes.forEach {
-            $0.continuallyUpdatePositionAndScale = false
-        }
+        sceneLocationView.locationManager.locationManager?.stopUpdatingLocation()
+        sceneLocationView.locationManager.locationManager?.stopUpdatingHeading()
+//        sceneLocationView.locationNodes.forEach {
+//            $0.continuallyUpdatePositionAndScale = false
+//        }
     }
     
     func hudStartAdjustingNodesPosition() {
-        sceneLocationView.locationNodes.forEach {
-            $0.continuallyUpdatePositionAndScale = true
-        }
+        sceneLocationView.locationManager.locationManager?.startUpdatingLocation()
+        sceneLocationView.locationManager.locationManager?.startUpdatingHeading()
+//        sceneLocationView.locationNodes.forEach {
+//            $0.continuallyUpdatePositionAndScale = true
+//        }
     }
 }

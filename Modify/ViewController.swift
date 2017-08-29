@@ -84,10 +84,18 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate {
     
     
     func addArtifact() {
-        let ship = SCNScene(named: "art.scnassets/ship.scn")!.rootNode.childNode(withName: "ship", recursively: true)!
-        ship.position = SCNVector3(0, 0, -2)
-        sceneLocationView.pointOfView?.addChildNode(ship)
-        self.placeState = PlaceState.placing(ship)
+        let scene = SCNScene(named: "art.scnassets/mr.pig.scn")!
+        let object = scene.rootNode.childNode(withName: "pig", recursively: true)!
+        object.scale = SCNVector3(0.1, 0.1, 0.1)
+        object.position = SCNVector3(0, 0, -2)
+        object.opacity = 0.8
+        sceneLocationView.pointOfView?.addChildNode(object)
+        self.placeState = PlaceState.placing(object)
+        
+//        let ship = SCNScene(named: "art.scnassets/ship.scn")!.rootNode.childNode(withName: "ship", recursively: true)!
+//        ship.position = SCNVector3(0, 0, -2)
+//        sceneLocationView.pointOfView?.addChildNode(ship)
+//        self.placeState = PlaceState.placing(ship)
     }
     
     

@@ -204,6 +204,13 @@ extension ViewController: HUDViewControllerDelegate {
     }
     
     func hudPlaceObjectPressed() {
+        if case .placing(let node) = placeState {
+            let t = node.worldTransform
+            node.removeFromParentNode()
+            node.transform = t
+            sceneLocationView.scene.rootNode.addChildNode(node)
+            placeState = .none
+        }
     }
     
     func hudPlaceObjectCancelled() {

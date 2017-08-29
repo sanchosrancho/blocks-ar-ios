@@ -72,7 +72,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate {
         view.addSubview(sceneLocationView)
         
         prepareHUD()
-//        setupRealm()
+        setupRealm()
     }
     
     
@@ -84,17 +84,17 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate {
     
     
     func addArtifact() {
-        let currentLocation = sceneLocationView.currentLocation()
-        try! realm.write {
-            let artifact = Artifact()
-            artifact.lat = currentLocation?.coordinate.latitude ?? 0
-            artifact.lon = currentLocation?.coordinate.longitude ?? 0
-            artifact.alt = currentLocation?.altitude ?? 0
-            artifact.horizontalAccuracy = currentLocation?.horizontalAccuracy ?? -2
-            artifact.verticalAccuracy = currentLocation?.verticalAccuracy ?? -2
-            artifact.groundDistance = CLLocationDistance( sceneLocationView.currentScenePosition()?.y ?? -100 )
-            artifact.createdAt = NSDate()
-            realm.add(artifact)
+        let ship = SCNScene(named: "art.scnassets/ship.scn")!.rootNode.childNode(withName: "ship", recursively: true)!
+        ship.position = SCNVector3(0, 0, -2)
+        sceneLocationView.pointOfView?.addChildNode(ship)
+        self.placeState = PlaceState.placing(ship)
+    }
+    
+    
+    func session(_ session: ARSession, didUpdate frame: ARFrame) {
+        if case .placing(let node) = placeState {
+            node.eulerAngles.x = -frame.camera.eulerAngles.x
+            node.eulerAngles.z = -frame.camera.eulerAngles.z - Float(Double.pi / 2)
         }
     }
     
@@ -202,6 +202,31 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate {
         super.viewWillDisappear(animated)
         sceneLocationView.pause()
     }
+    
+    func saveArtifact(withPosition artifactPosition: SCNVector3) {
+        guard
+            let currentLocation = sceneLocationView.currentLocation(),
+            let currentPosition = sceneLocationView.currentScenePosition()
+        else {
+            return
+        }
+        
+        let currentLocationEstimate = SceneLocationEstimate(location: currentLocation, position: currentPosition)
+        let artifactLocation = currentLocationEstimate.translatedLocation(to: artifactPosition)
+        let distanceToGround = artifactPosition.y
+        
+        try! realm.write {
+            let artifact = Artifact()
+            artifact.lat = artifactLocation.coordinate.latitude
+            artifact.lon = artifactLocation.coordinate.longitude
+            artifact.alt = artifactLocation.altitude
+            artifact.horizontalAccuracy = artifactLocation.horizontalAccuracy
+            artifact.verticalAccuracy = artifactLocation.verticalAccuracy
+            artifact.groundDistance = CLLocationDistance(distanceToGround)
+            artifact.createdAt = NSDate()
+            realm.add(artifact)
+        }
+    }
 }
 
 
@@ -216,7 +241,7 @@ extension ViewController: HUDViewControllerDelegate {
             let t = node.worldTransform
             node.removeFromParentNode()
             node.transform = t
-            sceneLocationView.scene.rootNode.addChildNode(node)
+            self.saveArtifact(withPosition: node.position)
             placeState = .none
         }
     }

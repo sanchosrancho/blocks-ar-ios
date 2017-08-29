@@ -82,10 +82,20 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate {
     private var placeNode: SCNNode?
     
     func session(_ session: ARSession, didUpdate frame: ARFrame) {
+        
         guard let node = placeNode else { return }
         let gPos = SCNVector3ToGLKVector3(SCNVector3Make(0, 0, -2))
-        let camRot = sceneLocationView.pointOfView!.rotation
-        let gRot = GLKMatrix4MakeRotation(camRot.w, camRot.x, camRot.y, camRot.z)
+        let cameraMatrix = frame.camera.transform
+        let camColumn0 = cameraMatrix.columns.0
+        let camColumn1 = cameraMatrix.columns.1
+        let camColumn2 = cameraMatrix.columns.2
+        let camColumn3 = cameraMatrix.columns.3
+        let column0 = GLKVector4Make(camColumn0.x,camColumn0.y,camColumn0.z,camColumn0.w)
+        let column1 = GLKVector4Make(camColumn1.x,camColumn1.y,camColumn1.z,camColumn1.w)
+        let column2 = GLKVector4Make(camColumn2.x,camColumn2.y,camColumn2.z,camColumn2.w)
+        let column3 = GLKVector4Make(camColumn3.x,camColumn3.y,camColumn3.z,camColumn3.w)
+        //let camRot = GLKMatrix4MakeWithColumns(column0,column1,column2,column3);
+        let gRot =  GLKMatrix4MakeWithColumns(column0,column1,column2,column3);//GLKMatrix4MakeRotation(camRot.w, camRot.x, camRot.y, camRot.z)
         let r = GLKMatrix4MultiplyVector3(gRot, gPos)
         node.position = SCNVector3Make(r.x, r.y, r.z)
     }

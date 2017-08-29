@@ -19,7 +19,7 @@ protocol LocationManagerDelegate: class {
 class LocationManager: NSObject, CLLocationManagerDelegate {
     weak var delegate: LocationManagerDelegate?
     
-    private var locationManager: CLLocationManager?
+    public var locationManager: CLLocationManager?
     
     var currentLocation: CLLocation?
     

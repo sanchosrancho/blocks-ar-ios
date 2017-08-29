@@ -38,13 +38,28 @@ class ArtifactNode: LocationNode {
     }
 }
 
-class ViewController: UIViewController, ARSCNViewDelegate {
+
+enum PlaceState {
+    case none
+    case placing(SCNNode)
+}
+
+class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate {
     
     var hudWindow: HUDWindow?
     var sceneLocationView = ArtifactSceneView()
     var notificationToken: NotificationToken!
     var realm: Realm!
     var results: Results<Artifact>?
+    
+    private var placeState = PlaceState.none {
+        didSet {
+            var isPlacing = false
+            if case .placing(_) = placeState { isPlacing = true }
+            hudWindow?.hudController.updateState(isPlacing: isPlacing)
+        }
+    }
+    
     
     deinit { notificationToken.stop() }
     
@@ -53,17 +68,20 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         
         sceneLocationView.showsStatistics = true
         sceneLocationView.run()
+        sceneLocationView.session.delegate = self
         view.addSubview(sceneLocationView)
-
+        
         prepareHUD()
-        setupRealm()
+//        setupRealm()
     }
+    
     
     func prepareHUD() {
         hudWindow = HUDWindow(frame: view.bounds)
         hudWindow?.hudController.delegate = self
         hudWindow?.makeKeyAndVisible()
     }
+    
     
     func addArtifact() {
         let currentLocation = sceneLocationView.currentLocation()
@@ -80,6 +98,15 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         }
     }
     
+    
+    func session(_ session: ARSession, cameraDidChangeTrackingState camera: ARCamera) {
+        switch camera.trackingState {
+        case .normal:
+            self.hudWindow?.hudController.cameraReady(true)
+        default:
+            self.hudWindow?.hudController.cameraReady(false)
+        }
+    }
     
     func setupRealm() {
         SyncUser.logIn(with: .usernamePassword(username: "sanchosrancho@gmail.com", password: "(Zotto123123)"), server: URL(string: "http://212.224.112.252:9080")!) { user, error in
@@ -183,16 +210,37 @@ extension ViewController: HUDViewControllerDelegate {
     func hudAddObjectPressed() {
         addArtifact()
     }
-
-    func hudStopAdjustingNodesPosition() {
-        sceneLocationView.locationNodes.forEach {
-            $0.continuallyUpdatePositionAndScale = false
+    
+    func hudPlaceObjectPressed() {
+        if case .placing(let node) = placeState {
+            let t = node.worldTransform
+            node.removeFromParentNode()
+            node.transform = t
+            sceneLocationView.scene.rootNode.addChildNode(node)
+            placeState = .none
         }
     }
     
-    func hudStartAdjustingNodesPosition() {
-        sceneLocationView.locationNodes.forEach {
-            $0.continuallyUpdatePositionAndScale = true
+    func hudPlaceObjectCancelled() {
+        if case .placing(let node) = placeState {
+            node.removeFromParentNode()
+            placeState = .none
         }
+    }
+
+    func hudStopAdjustingNodesPosition() {
+        sceneLocationView.locationManager.locationManager?.stopUpdatingLocation()
+        sceneLocationView.locationManager.locationManager?.stopUpdatingHeading()
+//        sceneLocationView.locationNodes.forEach {
+//            $0.continuallyUpdatePositionAndScale = false
+//        }
+    }
+    
+    func hudStartAdjustingNodesPosition() {
+        sceneLocationView.locationManager.locationManager?.startUpdatingLocation()
+        sceneLocationView.locationManager.locationManager?.startUpdatingHeading()
+//        sceneLocationView.locationNodes.forEach {
+//            $0.continuallyUpdatePositionAndScale = true
+//        }
     }
 }

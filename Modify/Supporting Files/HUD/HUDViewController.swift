@@ -57,6 +57,10 @@ class HUDViewController: UIViewController {
         setupAdjustingNodePositionButton()
     }
     
+    func cameraReady(_ ready: Bool) {
+        self.recButton.setTitleColor(ready ? UIColor.green : UIColor.lightGray, for: .normal)
+        
+    }
     
     private func setupRecButton() {
         recButton.setImage(UIImage(named: "rec_start"), for: .normal)

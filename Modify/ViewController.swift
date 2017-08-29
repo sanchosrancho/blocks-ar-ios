@@ -55,9 +55,14 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate {
         sceneLocationView.run()
         sceneLocationView.session.delegate = self
         view.addSubview(sceneLocationView)
-
+        
         prepareHUD()
 //        setupRealm()
+        
+        let node = SCNNode()
+        node.position = SCNVector3(0, 0, -1)
+        cameraNode = node
+        sceneLocationView.pointOfView?.addChildNode(node)
     }
     
     func prepareHUD() {
@@ -67,39 +72,54 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate {
     }
     
     func addArtifact() {
-        let pig = SCNScene(named: "art.scnassets/mr.pig.scn")!.rootNode.childNode(withName: "pig", recursively: true)!
-        pig.scale = SCNVector3(0.02, 0.02, 0.02)
+        let ship = SCNScene(named: "art.scnassets/ship.scn")!.rootNode.childNode(withName: "ship", recursively: true)!
         
-        let gPos = SCNVector3ToGLKVector3(SCNVector3Make(0, 0, -2))
-        let camRot = sceneLocationView.pointOfView!.rotation
-        let gRot = GLKMatrix4MakeRotation(camRot.w, camRot.x, camRot.y, camRot.z)
-        let r = GLKMatrix4MultiplyVector3(gRot, gPos)
-        pig.position = SCNVector3Make(r.x, r.y, r.z)
-        sceneLocationView.scene.rootNode.addChildNode(pig)
-        self.placeNode = pig
+        // 3
+        ship.position = SCNVector3(0, 0, -2)
+        sceneLocationView.pointOfView?.addChildNode(ship)
+        initilaY = -Float(Double.pi) + sceneLocationView.pointOfView!.eulerAngles.x
+        
+        // 2
+        //ship.transform = cameraNode.worldTransform
+        //sceneLocationView.scene.rootNode.addChildNode(ship)
+        
+        // 1
+        /*ship.simdTransform = sceneLocationView.pointOfView!.simdTransform
+        let cameraWorldPos = sceneLocationView.pointOfView!.simdPosition
+        var newPos = cameraWorldPos
+        newPos.z *= 20
+        ship.simdPosition = sceneLocationView.pointOfView!.simdPosition + newPos
+        sceneLocationView.scene.rootNode.addChildNode(ship)*/
+        
+        self.placeNode = ship
     }
     
     private var placeNode: SCNNode?
+    private var cameraNode: SCNNode!
+    private var initilaY: Float!
     
     func session(_ session: ARSession, didUpdate frame: ARFrame) {
+        guard let ship = placeNode else { return }
         
-        guard let node = placeNode else { return }
-        let gPos = SCNVector3ToGLKVector3(SCNVector3Make(0, 0, -2))
-        let cameraMatrix = frame.camera.transform
-        let camColumn0 = cameraMatrix.columns.0
-        let camColumn1 = cameraMatrix.columns.1
-        let camColumn2 = cameraMatrix.columns.2
-        let camColumn3 = cameraMatrix.columns.3
-        let column0 = GLKVector4Make(camColumn0.x,camColumn0.y,camColumn0.z,camColumn0.w)
-        let column1 = GLKVector4Make(camColumn1.x,camColumn1.y,camColumn1.z,camColumn1.w)
-        let column2 = GLKVector4Make(camColumn2.x,camColumn2.y,camColumn2.z,camColumn2.w)
-        let column3 = GLKVector4Make(camColumn3.x,camColumn3.y,camColumn3.z,camColumn3.w)
-        //let camRot = GLKMatrix4MakeWithColumns(column0,column1,column2,column3);
-        let gRot =  GLKMatrix4MakeWithColumns(column0,column1,column2,column3);//GLKMatrix4MakeRotation(camRot.w, camRot.x, camRot.y, camRot.z)
-        let r = GLKMatrix4MultiplyVector3(gRot, gPos)
-        node.position = SCNVector3Make(r.x, r.y, r.z)
+        //3
+        let delta = initilaY - frame.camera.eulerAngles.x
+        ship.eulerAngles.x = delta
+        print("frame x: \(sceneLocationView.pointOfView!.eulerAngles.x)")
+        
+        // 2
+        //ship.position = cameraNode.worldPosition
+        //ship.eulerAngles.y = frame.camera.eulerAngles.y
     }
     
+    
+    func session(_ session: ARSession, cameraDidChangeTrackingState camera: ARCamera) {
+        switch camera.trackingState {
+        case .normal:
+            self.hudWindow?.hudController.cameraReady(true)
+        default:
+            self.hudWindow?.hudController.cameraReady(false)
+        }
+    }
     
     func setupRealm() {
         SyncUser.logIn(with: .usernamePassword(username: "sanchosrancho@gmail.com", password: "(Zotto123123)"), server: URL(string: "http://212.224.112.252:9080")!) { user, error in
@@ -209,5 +229,14 @@ extension ViewController: HUDViewControllerDelegate {
 //        sceneLocationView.locationNodes.forEach {
 //            $0.continuallyUpdatePositionAndScale = true
 //        }
+    }
+}
+
+extension float4x4 {
+    /// Treats matrix as a (right-hand column-major convention) transform matrix
+    /// and factors out the translation component of the transform.
+    var translation: float3 {
+        let translation = self.columns.3
+        return float3(translation.x, translation.y, translation.z)
     }
 }

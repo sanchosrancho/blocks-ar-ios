@@ -52,8 +52,13 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate {
     var realm: Realm!
     var results: Results<Artifact>?
     
-    private var placeState = PlaceState.none
-    private var placeNode: SCNNode?
+    private var placeState = PlaceState.none {
+        didSet {
+            var isPlacing = false
+            if case .placing(_) = placeState { isPlacing = true }
+            hudWindow?.hudController.updateState(isPlacing: isPlacing)
+        }
+    }
     
     
     deinit { notificationToken.stop() }
@@ -82,14 +87,16 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate {
         let ship = SCNScene(named: "art.scnassets/ship.scn")!.rootNode.childNode(withName: "ship", recursively: true)!
         ship.position = SCNVector3(0, 0, -2)
         sceneLocationView.pointOfView?.addChildNode(ship)
-        self.placeNode = ship
+        
+        self.placeState = PlaceState.placing(ship)
     }
     
     
     func session(_ session: ARSession, didUpdate frame: ARFrame) {
-        guard let ship = placeNode else { return }
-        ship.eulerAngles.x = -frame.camera.eulerAngles.x
-        ship.eulerAngles.z = -frame.camera.eulerAngles.z - Float(Double.pi / 2)
+        if case .placing(let node) = placeState {
+            node.eulerAngles.x = -frame.camera.eulerAngles.x
+            node.eulerAngles.z = -frame.camera.eulerAngles.z - Float(Double.pi / 2)
+        }
     }
     
     
@@ -195,6 +202,16 @@ extension ViewController: HUDViewControllerDelegate {
     func hudAddObjectPressed() {
         addArtifact()
     }
+    
+    func hudPlaceObjectPressed() {
+    }
+    
+    func hudPlaceObjectCancelled() {
+        if case .placing(let node) = placeState {
+            node.removeFromParentNode()
+            placeState = .none
+        }
+    }
 
     func hudStopAdjustingNodesPosition() {
         sceneLocationView.locationManager.locationManager?.stopUpdatingLocation()
@@ -210,14 +227,5 @@ extension ViewController: HUDViewControllerDelegate {
 //        sceneLocationView.locationNodes.forEach {
 //            $0.continuallyUpdatePositionAndScale = true
 //        }
-    }
-}
-
-extension float4x4 {
-    /// Treats matrix as a (right-hand column-major convention) transform matrix
-    /// and factors out the translation component of the transform.
-    var translation: float3 {
-        let translation = self.columns.3
-        return float3(translation.x, translation.y, translation.z)
     }
 }

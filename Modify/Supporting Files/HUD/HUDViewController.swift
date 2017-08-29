@@ -35,19 +35,20 @@ class HUDWindow: UIWindow {
     }
 }
 
-@objc  protocol HUDViewControllerDelegate: class {
+
+@objc protocol HUDViewControllerDelegate: class {
     func hudAddObjectPressed()
+    func hudPlaceObjectPressed()
+    func hudPlaceObjectCancelled()
     @objc optional func hudStopAdjustingNodesPosition()
     @objc optional func hudStartAdjustingNodesPosition()
 }
+
 
 class HUDViewController: UIViewController {
 
     weak var delegate: HUDViewControllerDelegate?
     
-    private let recButton = HUDButton(frame: CGRect(x: 20, y: 140, width: 60, height: 60))
-    private let addObjectButton = HUDButton(frame: CGRect(x: 20, y: 20, width: 100, height: 44))
-    private let toggleAdjustingNodePositionButton = HUDButton(frame: CGRect(x: 140, y: 20, width: 200, height: 44))
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,12 +56,28 @@ class HUDViewController: UIViewController {
         setupRecButton()
         setupAddButton()
         setupAdjustingNodePositionButton()
+        setupPlaceButton()
     }
     
+    
     func cameraReady(_ ready: Bool) {
-        self.addObjectButton.setTitleColor(ready ? UIColor.green : UIColor.lightGray, for: .normal)
-        
+        self.addObjectButton.setTitleColor(ready ? .green : .lightGray, for: .normal)
     }
+    
+    
+    func updateState(isPlacing: Bool) {
+        addObjectButton.isSelected = isPlacing
+        placeObjectButton.isHidden = !isPlacing
+    }
+    
+    
+    //MARK: - Private
+    
+    private let recButton = HUDButton(frame: CGRect(x: 20, y: 140, width: 60, height: 60))
+    private let addObjectButton = HUDButton(frame: CGRect(x: 20, y: 20, width: 100, height: 44))
+    private let toggleAdjustingNodePositionButton = HUDButton(frame: CGRect(x: 140, y: 20, width: 200, height: 44))
+    private let placeObjectButton = HUDButton(frame: CGRect(x: round((UIScreen.main.bounds.width - 80)/2), y: UIScreen.main.bounds.height - 60, width: 80, height: 44))
+    
     
     private func setupRecButton() {
         recButton.setImage(UIImage(named: "rec_start"), for: .normal)
@@ -126,15 +143,16 @@ class HUDViewController: UIViewController {
     }
     
     
-    func setupAddButton() {
+    private func setupAddButton() {
         addObjectButton.setTitle("Add object", for: .normal)
+        addObjectButton.setTitle("Cancel", for: .selected)
         addObjectButton.backgroundColor = UIColor.black.withAlphaComponent(0.3)
         addObjectButton.addTarget(self, action: #selector(addButtonPressed), for: .touchUpInside)
         self.view.addSubview(addObjectButton)
     }
     
-    @objc private func addButtonPressed() {
-        self.delegate?.hudAddObjectPressed()
+    @objc private func addButtonPressed(_ sender: UIButton) {
+        sender.isSelected ? delegate?.hudPlaceObjectCancelled() : delegate?.hudAddObjectPressed()
     }
     
     private func setupAdjustingNodePositionButton() {
@@ -152,6 +170,20 @@ class HUDViewController: UIViewController {
             self.delegate?.hudStopAdjustingNodesPosition?()
         }
         sender.isSelected = !sender.isSelected
+    }
+    
+    
+    private func setupPlaceButton() {
+        placeObjectButton.setTitleColor(.white, for: .normal)
+        placeObjectButton.setTitle("Place", for: .normal)
+        placeObjectButton.backgroundColor = UIColor.yellow.withAlphaComponent(0.7)
+        placeObjectButton.addTarget(self, action: #selector(placeButtonPressed), for: .touchUpInside)
+        placeObjectButton.isHidden = true
+        self.view.addSubview(placeObjectButton)
+    }
+    
+    @objc private func placeButtonPressed() {
+        self.delegate?.hudPlaceObjectPressed()
     }
 }
 

@@ -58,7 +58,7 @@ class HUDViewController: UIViewController {
     }
     
     func cameraReady(_ ready: Bool) {
-        self.recButton.setTitleColor(ready ? UIColor.green : UIColor.lightGray, for: .normal)
+        self.addObjectButton.setTitleColor(ready ? UIColor.green : UIColor.lightGray, for: .normal)
         
     }
     

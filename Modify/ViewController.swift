@@ -38,6 +38,12 @@ class ArtifactNode: LocationNode {
     }
 }
 
+
+enum PlaceState {
+    case none
+    case placing(SCNNode)
+}
+
 class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate {
     
     var hudWindow: HUDWindow?
@@ -45,6 +51,10 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate {
     var notificationToken: NotificationToken!
     var realm: Realm!
     var results: Results<Artifact>?
+    
+    private var placeState = PlaceState.none
+    private var placeNode: SCNNode?
+    
     
     deinit { notificationToken.stop() }
     
@@ -58,12 +68,8 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate {
         
         prepareHUD()
 //        setupRealm()
-        
-        let node = SCNNode()
-        node.position = SCNVector3(0, 0, -1)
-        cameraNode = node
-        sceneLocationView.pointOfView?.addChildNode(node)
     }
+    
     
     func prepareHUD() {
         hudWindow = HUDWindow(frame: view.bounds)
@@ -71,44 +77,19 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate {
         hudWindow?.makeKeyAndVisible()
     }
     
+    
     func addArtifact() {
         let ship = SCNScene(named: "art.scnassets/ship.scn")!.rootNode.childNode(withName: "ship", recursively: true)!
-        
-        // 3
         ship.position = SCNVector3(0, 0, -2)
         sceneLocationView.pointOfView?.addChildNode(ship)
-        initilaY = -Float(Double.pi) + sceneLocationView.pointOfView!.eulerAngles.x
-        
-        // 2
-        //ship.transform = cameraNode.worldTransform
-        //sceneLocationView.scene.rootNode.addChildNode(ship)
-        
-        // 1
-        /*ship.simdTransform = sceneLocationView.pointOfView!.simdTransform
-        let cameraWorldPos = sceneLocationView.pointOfView!.simdPosition
-        var newPos = cameraWorldPos
-        newPos.z *= 20
-        ship.simdPosition = sceneLocationView.pointOfView!.simdPosition + newPos
-        sceneLocationView.scene.rootNode.addChildNode(ship)*/
-        
         self.placeNode = ship
     }
     
-    private var placeNode: SCNNode?
-    private var cameraNode: SCNNode!
-    private var initilaY: Float!
     
     func session(_ session: ARSession, didUpdate frame: ARFrame) {
         guard let ship = placeNode else { return }
-        
-        //3
-        let delta = initilaY - frame.camera.eulerAngles.x
-        ship.eulerAngles.x = delta
-        print("frame x: \(sceneLocationView.pointOfView!.eulerAngles.x)")
-        
-        // 2
-        //ship.position = cameraNode.worldPosition
-        //ship.eulerAngles.y = frame.camera.eulerAngles.y
+        ship.eulerAngles.x = -frame.camera.eulerAngles.x
+        ship.eulerAngles.z = -frame.camera.eulerAngles.z - Float(Double.pi / 2)
     }
     
     

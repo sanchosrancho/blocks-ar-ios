@@ -72,6 +72,9 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             artifact.lat = currentLocation?.coordinate.latitude ?? 0
             artifact.lon = currentLocation?.coordinate.longitude ?? 0
             artifact.alt = currentLocation?.altitude ?? 0
+            artifact.horizontalAccuracy = currentLocation?.horizontalAccuracy ?? -2
+            artifact.verticalAccuracy = currentLocation?.verticalAccuracy ?? -2
+            artifact.groundDistance = CLLocationDistance( sceneLocationView.currentScenePosition()?.y ?? -100 )
             artifact.createdAt = NSDate()
             realm.add(artifact)
         }
@@ -136,8 +139,17 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     }
     
     func placeArtifact(_ artifact: Artifact) {
+        guard
+            let currentLocation = sceneLocationView.currentLocation(),
+            let currentPosition = sceneLocationView.currentScenePosition()
+        else {
+            return
+        }
+        
+        let altitude = currentLocation.altitude - Double(currentPosition.y) + artifact.groundDistance
+        
         let coord = CLLocationCoordinate2D(latitude: artifact.lat, longitude: artifact.lon)
-        let location = CLLocation(coordinate: coord, altitude: artifact.alt)
+        let location = CLLocation(coordinate: coord, altitude: altitude) // artifact.alt
         let locationNode = ArtifactNode(location: location, artifactId: artifact.objectId)
         
         let scene = SCNScene(named: "art.scnassets/mr.pig.scn")!

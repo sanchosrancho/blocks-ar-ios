@@ -25,6 +25,7 @@
 		8DFF39F61F50344700E55652 /* SCNNode+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC8263D1F50335900DF7DF9 /* SCNNode+Extensions.swift */; };
 		8DFF39F71F50344700E55652 /* SCNVector3+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC826401F50335900DF7DF9 /* SCNVector3+Extensions.swift */; };
 		B64F0C371F4DBA920004BA49 /* HUDViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B64F0C361F4DBA920004BA49 /* HUDViewController.swift */; };
+		B6650F971F57130C0085ABBE /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6650F961F57130C0085ABBE /* Extensions.swift */; };
 		B69843961F4F3189002B0EE4 /* Artifact.swift in Sources */ = {isa = PBXBuildFile; fileRef = B69843951F4F3189002B0EE4 /* Artifact.swift */; };
 /* End PBXBuildFile section */
 
@@ -50,6 +51,7 @@
 		8DC826411F50335900DF7DF9 /* CLLocation+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CLLocation+Extensions.swift"; sourceTree = "<group>"; };
 		8DC826421F50335900DF7DF9 /* LocationNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationNode.swift; sourceTree = "<group>"; };
 		B64F0C361F4DBA920004BA49 /* HUDViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUDViewController.swift; sourceTree = "<group>"; };
+		B6650F961F57130C0085ABBE /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		B69843951F4F3189002B0EE4 /* Artifact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Artifact.swift; sourceTree = "<group>"; };
 		FCDA4043423E1BCB46521F8B /* Pods_Modify.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Modify.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -96,6 +98,7 @@
 		826A734D1F4CCB8A00204DC7 /* Modify */ = {
 			isa = PBXGroup;
 			children = (
+				B6650F951F5712F60085ABBE /* Common */,
 				8DF7BD831F502EF00033EE3B /* Library */,
 				B69843941F4F2FFE002B0EE4 /* Core */,
 				B6A89CB01F4DC25D00E76984 /* HUD */,
@@ -129,6 +132,14 @@
 				8DC826381F50331000DF7DF9 /* ARKit+CoreLocation */,
 			);
 			path = Library;
+			sourceTree = "<group>";
+		};
+		B6650F951F5712F60085ABBE /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				B6650F961F57130C0085ABBE /* Extensions.swift */,
+			);
+			path = Common;
 			sourceTree = "<group>";
 		};
 		B69843941F4F2FFE002B0EE4 /* Core */ = {
@@ -310,6 +321,7 @@
 				8DFF39F51F50344700E55652 /* SceneLocationView.swift in Sources */,
 				8DFF39F61F50344700E55652 /* SCNNode+Extensions.swift in Sources */,
 				8DFF39F71F50344700E55652 /* SCNVector3+Extensions.swift in Sources */,
+				B6650F971F57130C0085ABBE /* Extensions.swift in Sources */,
 				B64F0C371F4DBA920004BA49 /* HUDViewController.swift in Sources */,
 				826A73531F4CCB8A00204DC7 /* ViewController.swift in Sources */,
 				826A734F1F4CCB8A00204DC7 /* AppDelegate.swift in Sources */,

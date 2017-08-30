@@ -57,6 +57,7 @@ class HUDViewController: UIViewController {
         setupAddButton()
         setupAdjustingNodePositionButton()
         setupPlaceButton()
+        setupPan()
     }
     
     
@@ -184,6 +185,16 @@ class HUDViewController: UIViewController {
     
     @objc private func placeButtonPressed() {
         self.delegate?.hudPlaceObjectPressed()
+    }
+    
+    
+    private func setupPan() {
+        let gesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan(_:)))
+        self.view.addGestureRecognizer(gesture)
+    }
+    
+    @objc private func handlePan(_ gesture: UIPanGestureRecognizer) {
+        let location = gesture.location(in: self.view)
     }
 }
 

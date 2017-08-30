@@ -23,6 +23,8 @@ public protocol SceneLocationViewDelegate: class {
     func sceneLocationViewDidSetupSceneNode(sceneLocationView: SceneLocationView, sceneNode: SCNNode)
     
     func sceneLocationViewDidUpdateLocationAndScaleOfLocationNode(sceneLocationView: SceneLocationView, locationNode: LocationNode)
+    
+    func sceneLocationViewDidUpdateRenderer()
 }
 
 ///Different methods which can be used when determining locations (such as the user's location).
@@ -456,6 +458,10 @@ open class SceneLocationView: ARSCNView, ARSCNViewDelegate {
         }
     }
     
+    public func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
+        locationDelegate?.sceneLocationViewDidUpdateRenderer()
+    }
+    
     public func sessionWasInterrupted(_ session: ARSession) {
         print("session was interrupted")
     }
@@ -482,6 +488,7 @@ open class SceneLocationView: ARSCNView, ARSCNViewDelegate {
             print("camera did change tracking state: not available")
         }
     }
+    
 }
 
 //MARK: LocationManager

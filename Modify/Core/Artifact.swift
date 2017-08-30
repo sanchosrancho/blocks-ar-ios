@@ -19,6 +19,12 @@ class Artifact: RealmSwift.Object {
     @objc dynamic var groundDistance: CLLocationDistance = 0
     @objc dynamic var createdAt: NSDate?
     
+    @objc dynamic var eulerX: Float = 0
+    @objc dynamic var eulerY: Float = 0
+    @objc dynamic var eulerZ: Float = 0
+    
+    @objc dynamic var modelName: String = ""
+    
     override static func primaryKey() -> String? {
         return "objectId"
     }

@@ -46,6 +46,7 @@ enum PlaceState {
 
 class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate {
     
+    let serialQueue = DispatchQueue(label: "com.apple.arkitexample.serialSceneKitQueue")
     var hudWindow: HUDWindow?
     var sceneLocationView = ArtifactSceneView()
     var notificationToken: NotificationToken!
@@ -68,7 +69,21 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate {
         
         sceneLocationView.showsStatistics = true
         sceneLocationView.run()
+        sceneLocationView.scene.enableEnvironmentMapWithIntensity(25, queue: serialQueue)
+        sceneLocationView.antialiasingMode = .multisampling4X
+        sceneLocationView.automaticallyUpdatesLighting = false
+        
+        sceneLocationView.preferredFramesPerSecond = 60
+//        sceneLocationView.contentScaleFactor = 1.3
+        if let camera = sceneLocationView.pointOfView?.camera {
+            camera.wantsHDR = true
+            camera.wantsExposureAdaptation = true
+            camera.exposureOffset = -1
+            camera.minimumExposure = -1
+            camera.maximumExposure = 3
+        }
         sceneLocationView.session.delegate = self
+        sceneLocationView.locationDelegate = self
         view.addSubview(sceneLocationView)
         
         prepareHUD()
@@ -84,11 +99,12 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate {
     
     
     func addArtifact() {
-        let scene = SCNScene(named: "art.scnassets/mr.pig.scn")!
-        let object = scene.rootNode.childNode(withName: "pig", recursively: true)!
-        object.scale = SCNVector3(0.1, 0.1, 0.1)
+//        let scene = SCNScene(named: "art.scnassets/mr.pig.scn")!
+//        let object = scene.rootNode.childNode(withName: "pig", recursively: true)!
+        let scene = SCNScene(named: "art.scnassets/lips/lips.scn")!
+        let object = scene.rootNode.childNode(withName: "lips", recursively: true)!
+        object.scale = SCNVector3(0.015, 0.015, 0.015)
         object.position = SCNVector3(0, 0, -2)
-        object.opacity = 0.8
         sceneLocationView.pointOfView?.addChildNode(object)
         self.placeState = PlaceState.placing(object)
         
@@ -187,9 +203,13 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate {
         let location = CLLocation(coordinate: coord, altitude: altitude) // artifact.alt
         let locationNode = ArtifactNode(location: location, artifactId: artifact.objectId)
         
-        let scene = SCNScene(named: "art.scnassets/mr.pig.scn")!
-        let object = scene.rootNode.childNode(withName: "pig", recursively: true)!
-        object.scale = SCNVector3(0.1, 0.1, 0.1)
+//        let scene = SCNScene(named: "art.scnassets/mr.pig.scn")!
+//        let object = scene.rootNode.childNode(withName: "pig", recursively: true)!
+        let scene = SCNScene(named: "art.scnassets/lips/lips.scn")!
+        let object = scene.rootNode.childNode(withName: "lips", recursively: true)!
+
+        object.scale = SCNVector3(0.015, 0.015, 0.015)
+        object.eulerAngles = SCNVector3(artifact.eulerX, artifact.eulerY, artifact.eulerZ)
         locationNode.addChildNode(object)
         
         sceneLocationView.addLocationNodeWithConfirmedLocation(locationNode: locationNode)
@@ -211,7 +231,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate {
         sceneLocationView.pause()
     }
     
-    func saveArtifact(withPosition artifactPosition: SCNVector3) {
+    func saveArtifact(withPosition artifactPosition: SCNVector3, andAngles eulerAngles: SCNVector3) {
         guard
             let currentLocation = sceneLocationView.currentLocation(),
             let currentPosition = sceneLocationView.currentScenePosition()
@@ -232,9 +252,34 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate {
             artifact.verticalAccuracy = artifactLocation.verticalAccuracy
             artifact.groundDistance = CLLocationDistance(distanceToGround)
             artifact.createdAt = NSDate()
+            artifact.eulerX = eulerAngles.x
+            artifact.eulerY = eulerAngles.y
+            artifact.eulerZ = eulerAngles.z
             realm.add(artifact)
         }
     }
+}
+
+
+extension ViewController: SceneLocationViewDelegate {
+    
+    func sceneLocationViewDidUpdateRenderer() {
+        if let lightEstimate = sceneLocationView.session.currentFrame?.lightEstimate {
+            sceneLocationView.scene.enableEnvironmentMapWithIntensity(lightEstimate.ambientIntensity / 40, queue: serialQueue)
+        } else {
+            sceneLocationView.scene.enableEnvironmentMapWithIntensity(40, queue: serialQueue)
+        }
+    }
+    
+    func sceneLocationViewDidSetupSceneNode(sceneLocationView: SceneLocationView, sceneNode: SCNNode) {}
+    
+    func sceneLocationViewDidConfirmLocationOfNode(sceneLocationView: SceneLocationView, node: LocationNode) {}
+    
+    func sceneLocationViewDidUpdateLocationAndScaleOfLocationNode(sceneLocationView: SceneLocationView, locationNode: LocationNode) {}
+    
+    func sceneLocationViewDidAddSceneLocationEstimate(sceneLocationView: SceneLocationView, position: SCNVector3, location: CLLocation) {}
+    
+    func sceneLocationViewDidRemoveSceneLocationEstimate(sceneLocationView: SceneLocationView, position: SCNVector3, location: CLLocation) {}
 }
 
 
@@ -249,7 +294,7 @@ extension ViewController: HUDViewControllerDelegate {
             let t = node.worldTransform
             node.removeFromParentNode()
             node.transform = t
-            self.saveArtifact(withPosition: node.position)
+            saveArtifact(withPosition: node.position, andAngles: node.eulerAngles)
             placeState = .none
         }
     }

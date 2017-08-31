@@ -28,11 +28,11 @@ class HUDWindow: UIWindow {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+    /*override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         guard let hitView = super.hitTest(point, with: event) else { return nil }
         if hitView is HUDButton { return hitView }
         return nil
-    }
+    }*/
 }
 
 
@@ -40,6 +40,10 @@ class HUDWindow: UIWindow {
     func hudAddObjectPressed()
     func hudPlaceObjectPressed()
     func hudPlaceObjectCancelled()
+    
+    func hudPlaceChangeDistance(_ value: Float)
+    func hudPlaceWillChangeDistance()
+    
     @objc optional func hudStopAdjustingNodesPosition()
     @objc optional func hudStartAdjustingNodesPosition()
 }
@@ -78,6 +82,7 @@ class HUDViewController: UIViewController {
     private let addObjectButton = HUDButton(frame: CGRect(x: 20, y: 20, width: 100, height: 44))
     private let toggleAdjustingNodePositionButton = HUDButton(frame: CGRect(x: 140, y: 20, width: 200, height: 44))
     private let placeObjectButton = HUDButton(frame: CGRect(x: round((UIScreen.main.bounds.width - 80)/2), y: UIScreen.main.bounds.height - 60, width: 80, height: 44))
+    private var startYPos: CGFloat = 0
     
     
     private func setupRecButton() {
@@ -195,6 +200,17 @@ class HUDViewController: UIViewController {
     
     @objc private func handlePan(_ gesture: UIPanGestureRecognizer) {
         let location = gesture.location(in: self.view)
+        switch gesture.state {
+        case .began:
+            self.startYPos = location.y
+            self.delegate?.hudPlaceWillChangeDistance()
+        case .changed:
+            var deltaY = (location.y - startYPos)/12
+            deltaY = CGFloat(round(100 * deltaY) / 100)
+            self.delegate?.hudPlaceChangeDistance(Float(deltaY))
+        case .ended: break
+        default: break
+        }
     }
 }
 

@@ -17,6 +17,7 @@ class ARViewController: UIViewController {
     var notificationToken: NotificationToken!
     var realm: Realm!
     var results: Results<Artifact>?
+    var zDistance: Float = 2
     
     internal var placeState = PlaceState.none {
         didSet {

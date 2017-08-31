@@ -31,6 +31,22 @@ extension ARViewController: HUDViewControllerDelegate {
         }
     }
     
+    
+    func hudPlaceChangeDistance(_ value: Float) {
+        if case .placing(let object) = placeState {
+            var delta = zDistance - value
+            delta = max(min(30, delta), 1)
+            object.node.position.z = -delta
+        }
+    }
+    
+    func hudPlaceWillChangeDistance() {
+        if case .placing(let object) = placeState {
+            self.zDistance = -object.node.position.z
+        }
+    }
+    
+    
     func hudStopAdjustingNodesPosition() {
         sceneLocationView.locationManager.locationManager?.stopUpdatingLocation()
         sceneLocationView.locationManager.locationManager?.stopUpdatingHeading()

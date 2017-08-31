@@ -58,8 +58,15 @@ class HUDViewController: UIViewController {
         setupAdjustingNodePositionButton()
         setupPlaceButton()
         setupPan()
+        setupLocationStatus()
     }
     
+    func updateLocationStatus(_ status: Application.LocationAccuracyState) {
+        switch status {
+        case .poor: locationStatus.text = "Bad location accuracy"
+        case .good: locationStatus.text = "Good location accuracy"
+        }
+    }
     
     func cameraReady(_ ready: Bool) {
         self.addObjectButton.setTitleColor(ready ? .green : .lightGray, for: .normal)
@@ -75,10 +82,18 @@ class HUDViewController: UIViewController {
     //MARK: - Private
     
     private let recButton = HUDButton(frame: CGRect(x: 20, y: 140, width: 60, height: 60))
-    private let addObjectButton = HUDButton(frame: CGRect(x: 20, y: 20, width: 100, height: 44))
-    private let toggleAdjustingNodePositionButton = HUDButton(frame: CGRect(x: 140, y: 20, width: 200, height: 44))
+    private let addObjectButton = HUDButton(frame: CGRect(x: 20, y: 30, width: 100, height: 44))
+    private let toggleAdjustingNodePositionButton = HUDButton(frame: CGRect(x: 140, y: 30, width: 200, height: 44))
     private let placeObjectButton = HUDButton(frame: CGRect(x: round((UIScreen.main.bounds.width - 80)/2), y: UIScreen.main.bounds.height - 60, width: 80, height: 44))
+    private let locationStatus = UILabel(frame: CGRect(x: 20, y: 10, width: (UIScreen.main.bounds.width-40), height: 20))
     
+    private func setupLocationStatus() {
+        locationStatus.layer.opacity = 0.6
+        locationStatus.backgroundColor = UIColor.black.withAlphaComponent(0.8)
+        locationStatus.textColor = UIColor.white
+        locationStatus.textAlignment = .center
+        self.view.addSubview(locationStatus)
+    }
     
     private func setupRecButton() {
         recButton.setImage(UIImage(named: "rec_start"), for: .normal)

@@ -10,7 +10,7 @@ import Foundation
 import ARKit
 import CoreLocation
 
-struct Application {
+class Application {
     
     enum LocationAccuracyState {
         case poor
@@ -20,13 +20,21 @@ struct Application {
     static let sharedInstance = Application()
     private init() {}
     
-    var state: Application.LocationAccuracyState = .poor
+    var state: Application.LocationAccuracyState = .poor {
+        willSet(newState) {
+            guard newState != state else { return }
+            switch newState {
+            case .poor: NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: "ApplicationLocationAccuracyDidChange"), object: nil, userInfo: ["current": Application.LocationAccuracyState.poor]))
+            case .good: NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: "ApplicationLocationAccuracyDidChange"), object: nil, userInfo: ["current": Application.LocationAccuracyState.good]))
+            }
+        }
+    }
     
     var cameraTrackingState: ARCamera.TrackingState = .notAvailable
     var locationHorizontalAccuracy: CLLocationAccuracy = -1 { didSet { adjustifyLocationAccuracyState() } }
     var locationVerticalAccuracy:   CLLocationAccuracy = -1 { didSet { adjustifyLocationAccuracyState() } }
     
-    private mutating func adjustifyLocationAccuracyState() {
+    private func adjustifyLocationAccuracyState() {
         state = (0...5 ~= locationHorizontalAccuracy && 0...3 ~= locationVerticalAccuracy) ? .good : .poor
     }
     

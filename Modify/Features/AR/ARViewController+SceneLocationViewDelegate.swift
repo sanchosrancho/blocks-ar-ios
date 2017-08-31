@@ -11,7 +11,7 @@ import SceneKit
 
 extension ARViewController: SceneLocationViewDelegate {
     
-    func sceneLocationViewDidUpdateRenderer() {
+    func sceneLocationViewDidUpdateRenderer(sceneLocationView: SceneLocationView) {
         if let lightEstimate = sceneLocationView.session.currentFrame?.lightEstimate {
             sceneLocationView.scene.enableEnvironmentMapWithIntensity(lightEstimate.ambientIntensity / 40, queue: serialQueue)
         } else {

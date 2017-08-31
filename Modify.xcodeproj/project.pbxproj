@@ -22,6 +22,7 @@
 		829A6DE31F576D9F00FFE858 /* ARViewController+SceneLocationViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829A6DE21F576D9F00FFE858 /* ARViewController+SceneLocationViewDelegate.swift */; };
 		829A6DE51F57706800FFE858 /* ARViewController+HUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829A6DE41F57706800FFE858 /* ARViewController+HUD.swift */; };
 		829A6DE71F5770E500FFE858 /* ARViewController+Artifacts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829A6DE61F5770E500FFE858 /* ARViewController+Artifacts.swift */; };
+		8D65F2911F582AA800A6E463 /* Application.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D65F2901F582AA800A6E463 /* Application.swift */; };
 		8DFF39EE1F50344700E55652 /* CGPoint+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC8263E1F50335900DF7DF9 /* CGPoint+Extensions.swift */; };
 		8DFF39EF1F50344700E55652 /* CLLocation+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC826411F50335900DF7DF9 /* CLLocation+Extensions.swift */; };
 		8DFF39F01F50344700E55652 /* FloatingPoint+Radians.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC8263B1F50335900DF7DF9 /* FloatingPoint+Radians.swift */; };
@@ -55,6 +56,7 @@
 		829A6DE21F576D9F00FFE858 /* ARViewController+SceneLocationViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ARViewController+SceneLocationViewDelegate.swift"; sourceTree = "<group>"; };
 		829A6DE41F57706800FFE858 /* ARViewController+HUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ARViewController+HUD.swift"; sourceTree = "<group>"; };
 		829A6DE61F5770E500FFE858 /* ARViewController+Artifacts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ARViewController+Artifacts.swift"; sourceTree = "<group>"; };
+		8D65F2901F582AA800A6E463 /* Application.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Application.swift; sourceTree = "<group>"; };
 		8DC826391F50335900DF7DF9 /* SceneLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneLocationView.swift; sourceTree = "<group>"; };
 		8DC8263A1F50335900DF7DF9 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		8DC8263B1F50335900DF7DF9 /* FloatingPoint+Radians.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FloatingPoint+Radians.swift"; sourceTree = "<group>"; };
@@ -150,7 +152,7 @@
 			isa = PBXGroup;
 			children = (
 				829C53D21F576413006B77F9 /* Item */,
-				829C53D31F57641B006B77F9 /* List */,
+				8D65F28F1F582A8500A6E463 /* List */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -163,9 +165,10 @@
 			path = Item;
 			sourceTree = "<group>";
 		};
-		829C53D31F57641B006B77F9 /* List */ = {
+		8D65F28F1F582A8500A6E463 /* List */ = {
 			isa = PBXGroup;
 			children = (
+				8D65F2901F582AA800A6E463 /* Application.swift */,
 			);
 			path = List;
 			sourceTree = "<group>";
@@ -341,7 +344,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		E933804E7293DEF4CCD000C2 /* [CP] Embed Pods Frameworks */ = {
@@ -384,6 +387,7 @@
 				8DFF39F41F50344700E55652 /* SceneLocationEstimate+Extensions.swift in Sources */,
 				8DFF39F51F50344700E55652 /* SceneLocationView.swift in Sources */,
 				829A6DDF1F576A1000FFE858 /* ARViewController+Creating.swift in Sources */,
+				8D65F2911F582AA800A6E463 /* Application.swift in Sources */,
 				8DFF39F61F50344700E55652 /* SCNNode+Extensions.swift in Sources */,
 				829A6DDB1F57688F00FFE858 /* ArtifactNode.swift in Sources */,
 				829A6DD81F57678700FFE858 /* ARViewController.swift in Sources */,

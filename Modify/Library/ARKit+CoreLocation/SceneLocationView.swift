@@ -50,6 +50,9 @@ open class SceneLocationView: ARSCNView, ARSCNViewDelegate {
     ///Not advisable to change this as the scene is ongoing.
     public var locationEstimateMethod: LocationEstimateMethod = .mostRelevantEstimate
     
+    /// Envent: set on/off adjusting the scene by location
+    public var shouldUpdateLocationEstimate = true
+    
     let locationManager = LocationManager()
     ///When set to true, displays an axes node at the start of the scene
     public var showAxesNode = false
@@ -494,7 +497,9 @@ open class SceneLocationView: ARSCNView, ARSCNViewDelegate {
 //MARK: LocationManager
 extension SceneLocationView: LocationManagerDelegate {
     func locationManagerDidUpdateLocation(_ locationManager: LocationManager, location: CLLocation) {
-        addSceneLocationEstimate(location: location)
+        if shouldUpdateLocationEstimate {
+            addSceneLocationEstimate(location: location)
+        }
     }
     
     func locationManagerDidUpdateHeading(_ locationManager: LocationManager, heading: CLLocationDirection, accuracy: CLLocationAccuracy) {

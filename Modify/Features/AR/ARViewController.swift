@@ -61,7 +61,7 @@ class ARViewController: UIViewController {
     func setupScene() {
         sceneLocationView.showsStatistics = true
         sceneLocationView.run()
-        sceneLocationView.scene.enableEnvironmentMapWithIntensity(25, queue: serialQueue)
+        sceneLocationView.scene.enableEnvironmentMapWithIntensity(500, queue: serialQueue)
         sceneLocationView.antialiasingMode = .multisampling4X
         sceneLocationView.automaticallyUpdatesLighting = false
         
@@ -87,7 +87,7 @@ class ARViewController: UIViewController {
     
     func setupRealm() {
         SyncUser.logIn(with: .usernamePassword(username: "sanchosrancho@gmail.com", password: "(Zotto123123)"), server: URL(string: "http://212.224.112.252:9080")!) { user, error in
-            guard let user = user else { print(error); return }
+            guard let user = user else { print(error ?? "Unknown sync error"); return }
             
             DispatchQueue.main.async {
                 // Open Realm

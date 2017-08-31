@@ -11,22 +11,22 @@ import Foundation
 extension ARViewController: HUDViewControllerDelegate {
     
     func hudAddObjectPressed() {
-        addArtifact()
+        addArtifact(named: "rainbow")
     }
     
     func hudPlaceObjectPressed() {
-        if case .placing(let node) = placeState {
-            let t = node.worldTransform
-            node.removeFromParentNode()
-            node.transform = t
-            saveArtifact(withPosition: node.position, andAngles: node.eulerAngles)
+        if case .placing(let object) = placeState {
+            let t = object.node.worldTransform
+            object.node.removeFromParentNode()
+            object.node.transform = t
+            saveArtifact(artifactNode: object)
             placeState = .none
         }
     }
     
     func hudPlaceObjectCancelled() {
-        if case .placing(let node) = placeState {
-            node.removeFromParentNode()
+        if case .placing(let object) = placeState {
+            object.node.removeFromParentNode()
             placeState = .none
         }
     }

@@ -17,7 +17,7 @@ extension ARViewController {
         
         let actual = Set( results.map { $0.objectId } )
         print("Location nodes: ", sceneLocationView.locationNodes)
-        let onScene = Set( sceneLocationView.locationNodes.map { ($0 as! ArtifactNode).artifactId } )
+        let onScene = Set( sceneLocationView.locationNodes.map { ($0 as! ArtifactLocationNode).artifactId } )
         
         var shouldBeRemoved = Set(onScene)
         shouldBeRemoved.subtract(actual)
@@ -49,19 +49,10 @@ extension ARViewController {
         }
         
         let altitude = currentLocation.altitude - Double(currentPosition.y) + artifact.groundDistance
-        
         let coord = CLLocationCoordinate2D(latitude: artifact.lat, longitude: artifact.lon)
-        let location = CLLocation(coordinate: coord, altitude: altitude) // artifact.alt
-        let locationNode = ArtifactNode(location: location, artifactId: artifact.objectId)
+        let location = CLLocation(coordinate: coord, altitude: altitude)
         
-//        let scene = SCNScene(named: "art.scnassets/mr.pig.scn")!
-//        let object = scene.rootNode.childNode(withName: "pig", recursively: true)!
-        let scene = SCNScene(named: "art.scnassets/lips/lips.scn")!
-        let object = scene.rootNode.childNode(withName: "lips", recursively: true)!
-        
-        object.scale = SCNVector3(0.015, 0.015, 0.015)
-        object.eulerAngles = SCNVector3(artifact.eulerX, artifact.eulerY, artifact.eulerZ)
-        locationNode.addChildNode(object)
+        guard let locationNode = ArtifactLocationNode(artifact: artifact, location: location) else { return }
         
         sceneLocationView.addLocationNodeWithConfirmedLocation(locationNode: locationNode)
     }

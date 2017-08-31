@@ -12,7 +12,7 @@ extension SCNScene {
     func enableEnvironmentMapWithIntensity(_ intensity: CGFloat, queue: DispatchQueue) {
         queue.async {
             if self.lightingEnvironment.contents == nil {
-                if let environmentMap = UIImage(named: "art.scnassets/sharedImages/environment_blur.exr") {
+                if let environmentMap = UIImage(named: "art.scnassets/sharedImages/environment.jpg") {
                     self.lightingEnvironment.contents = environmentMap
                 }
             }

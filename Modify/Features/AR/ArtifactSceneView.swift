@@ -8,9 +8,9 @@
 
 class ArtifactSceneView: SceneLocationView {
     
-    public func findNode(byId id: String) -> ArtifactNode? {
+    public func findNode(byId id: String) -> ArtifactLocationNode? {
         for node in self.locationNodes {
-            guard let artifactNode = node as? ArtifactNode else { continue }
+            guard let artifactNode = node as? ArtifactLocationNode else { continue }
             if artifactNode.artifactId == id {
                 return artifactNode
             }

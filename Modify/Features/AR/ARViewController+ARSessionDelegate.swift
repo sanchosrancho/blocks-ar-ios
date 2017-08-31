@@ -12,9 +12,9 @@ import ARKit
 extension ARViewController: ARSessionDelegate {
     
     func session(_ session: ARSession, didUpdate frame: ARFrame) {
-        if case .placing(let node) = placeState {
-            node.eulerAngles.x = -frame.camera.eulerAngles.x
-            node.eulerAngles.z = -frame.camera.eulerAngles.z - Float(Double.pi / 2)
+        if case .placing(let object) = placeState {
+            object.node.eulerAngles.x = -frame.camera.eulerAngles.x
+            object.node.eulerAngles.z = -frame.camera.eulerAngles.z - Float(Double.pi / 2)
         }
     }
     

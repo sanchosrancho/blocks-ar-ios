@@ -24,7 +24,8 @@ public protocol SceneLocationViewDelegate: class {
     
     func sceneLocationViewDidUpdateLocationAndScaleOfLocationNode(sceneLocationView: SceneLocationView, locationNode: LocationNode)
     
-    func sceneLocationViewDidUpdateRenderer()
+    func sceneLocationViewDidUpdateRenderer(sceneLocationView: SceneLocationView)
+    func sceneLocationViewDidUpdateLocation(sceneLocationView: SceneLocationView, location: CLLocation)
 }
 
 ///Different methods which can be used when determining locations (such as the user's location).
@@ -462,7 +463,7 @@ open class SceneLocationView: ARSCNView, ARSCNViewDelegate {
     }
     
     public func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
-        locationDelegate?.sceneLocationViewDidUpdateRenderer()
+        locationDelegate?.sceneLocationViewDidUpdateRenderer(sceneLocationView: self)
     }
     
     public func sessionWasInterrupted(_ session: ARSession) {
@@ -500,6 +501,7 @@ extension SceneLocationView: LocationManagerDelegate {
         if shouldUpdateLocationEstimate {
             addSceneLocationEstimate(location: location)
         }
+        locationDelegate?.sceneLocationViewDidUpdateLocation(sceneLocationView: self, location: location)
     }
     
     func locationManagerDidUpdateHeading(_ locationManager: LocationManager, heading: CLLocationDirection, accuracy: CLLocationAccuracy) {

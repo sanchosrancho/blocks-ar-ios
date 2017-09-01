@@ -35,7 +35,7 @@ class Application {
     var locationVerticalAccuracy:   CLLocationAccuracy = -1 { didSet { adjustifyLocationAccuracyState() } }
     
     private func adjustifyLocationAccuracyState() {
-        state = (0...5 ~= locationHorizontalAccuracy && 0...3 ~= locationVerticalAccuracy) ? .good : .poor
+        state = (0...10 ~= locationHorizontalAccuracy && 0...5 ~= locationVerticalAccuracy) ? .good : .poor
     }
     
     

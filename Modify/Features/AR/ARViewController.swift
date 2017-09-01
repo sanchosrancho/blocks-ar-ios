@@ -60,7 +60,7 @@ class ARViewController: UIViewController {
     // MARK: - Setup
     
     func setupLocationAccuracyStatus() {
-        self.hudWindow?.hudController.updateLocationStatus(.poor)
+        self.hudWindow?.hudController.updateLocationStatus(Application.sharedInstance.state)
         
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "ApplicationLocationAccuracyDidChange"), object: nil, queue: nil) {
             guard let currentAccuracy = $0.userInfo?["current"] as? Application.LocationAccuracyState else { return }

@@ -135,7 +135,7 @@ class HUDViewController: UIViewController {
                     return
                 }
                 print("Did stop recording...")
-                sender.addTarget(self, action: #selector(self.stopRecording(sender:)), for: .touchUpInside)
+                sender.addTarget(self, action: #selector(self.startRecording(sender:)), for: .touchUpInside)
                 sender.isSelected = false
                 
                 guard let preview = previewController else {

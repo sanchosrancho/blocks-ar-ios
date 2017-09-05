@@ -90,6 +90,7 @@ class HUDViewController: UIViewController {
     private let toggleAdjustingNodePositionButton = HUDButton(frame: CGRect(x: 140, y: 30, width: 200, height: 44))
     private let placeObjectButton = HUDButton(frame: CGRect(x: round((UIScreen.main.bounds.width - 80)/2), y: UIScreen.main.bounds.height - 60, width: 80, height: 44))
     private var startYPos: CGFloat = 0
+    private let locationStatus = UILabel(frame: CGRect(x: 20, y: 10, width: (UIScreen.main.bounds.width-40), height: 20))
     
     private func setupLocationStatus() {
         locationStatus.layer.opacity = 0.6

@@ -24,7 +24,8 @@ public protocol SceneLocationViewDelegate: class {
     
     func sceneLocationViewDidUpdateLocationAndScaleOfLocationNode(sceneLocationView: SceneLocationView, locationNode: LocationNode)
     
-    func sceneLocationViewDidUpdateRenderer()
+    func sceneLocationViewDidUpdateRenderer(sceneLocationView: SceneLocationView)
+    func sceneLocationViewDidUpdateLocation(sceneLocationView: SceneLocationView, location: CLLocation)
 }
 
 ///Different methods which can be used when determining locations (such as the user's location).
@@ -49,6 +50,9 @@ open class SceneLocationView: ARSCNView, ARSCNViewDelegate {
     ///The method to use for determining locations.
     ///Not advisable to change this as the scene is ongoing.
     public var locationEstimateMethod: LocationEstimateMethod = .mostRelevantEstimate
+    
+    /// Envent: set on/off adjusting the scene by location
+    public var shouldUpdateLocationEstimate = true
     
     let locationManager = LocationManager()
     ///When set to true, displays an axes node at the start of the scene
@@ -459,7 +463,7 @@ open class SceneLocationView: ARSCNView, ARSCNViewDelegate {
     }
     
     public func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
-        locationDelegate?.sceneLocationViewDidUpdateRenderer()
+        locationDelegate?.sceneLocationViewDidUpdateRenderer(sceneLocationView: self)
     }
     
     public func sessionWasInterrupted(_ session: ARSession) {
@@ -494,7 +498,10 @@ open class SceneLocationView: ARSCNView, ARSCNViewDelegate {
 //MARK: LocationManager
 extension SceneLocationView: LocationManagerDelegate {
     func locationManagerDidUpdateLocation(_ locationManager: LocationManager, location: CLLocation) {
-        addSceneLocationEstimate(location: location)
+        if shouldUpdateLocationEstimate {
+            addSceneLocationEstimate(location: location)
+        }
+        locationDelegate?.sceneLocationViewDidUpdateLocation(sceneLocationView: self, location: location)
     }
     
     func locationManagerDidUpdateHeading(_ locationManager: LocationManager, heading: CLLocationDirection, accuracy: CLLocationAccuracy) {

@@ -38,6 +38,7 @@ class ARViewController: UIViewController {
         setupScene()
         setupHUD()
         setupRealm()
+        setupLocationAccuracyStatus()
     }
     
     override func viewDidLayoutSubviews() {
@@ -58,6 +59,20 @@ class ARViewController: UIViewController {
     
     
     // MARK: - Setup
+    
+    func setupLocationAccuracyStatus() {
+        self.hudWindow?.hudController.updateLocationStatus(Application.sharedInstance.state)
+        
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "ApplicationLocationAccuracyDidChange"), object: nil, queue: nil) {
+            guard let currentAccuracy = $0.userInfo?["current"] as? Application.LocationAccuracyState else { return }
+            
+            if case Application.LocationAccuracyState.good = currentAccuracy {
+                self.sceneLocationView.shouldUpdateLocationEstimate = false
+            }
+            
+            self.hudWindow?.hudController.updateLocationStatus(currentAccuracy)
+        }
+    }
     
     func setupScene() {
         sceneLocationView.showsStatistics = true

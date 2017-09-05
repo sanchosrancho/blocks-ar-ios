@@ -11,12 +11,17 @@ import SceneKit
 
 extension ARViewController: SceneLocationViewDelegate {
     
-    func sceneLocationViewDidUpdateRenderer() {
+    func sceneLocationViewDidUpdateRenderer(sceneLocationView: SceneLocationView) {
         if let lightEstimate = sceneLocationView.session.currentFrame?.lightEstimate {
             sceneLocationView.scene.enableEnvironmentMapWithIntensity(lightEstimate.ambientIntensity / 40, queue: serialQueue)
         } else {
             sceneLocationView.scene.enableEnvironmentMapWithIntensity(40, queue: serialQueue)
         }
+    }
+    
+    func sceneLocationViewDidUpdateLocation(sceneLocationView: SceneLocationView, location: CLLocation) {
+        Application.sharedInstance.locationHorizontalAccuracy = location.horizontalAccuracy
+        Application.sharedInstance.locationVerticalAccuracy   = location.verticalAccuracy
     }
     
     func sceneLocationViewDidSetupSceneNode(sceneLocationView: SceneLocationView, sceneNode: SCNNode) {}

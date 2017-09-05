@@ -48,18 +48,10 @@ extension ARViewController: HUDViewControllerDelegate {
     
     
     func hudStopAdjustingNodesPosition() {
-        sceneLocationView.locationManager.locationManager?.stopUpdatingLocation()
-        sceneLocationView.locationManager.locationManager?.stopUpdatingHeading()
-//        sceneLocationView.locationNodes.forEach {
-//            $0.continuallyUpdatePositionAndScale = false
-//        }
+        sceneLocationView.shouldUpdateLocationEstimate = false
     }
     
     func hudStartAdjustingNodesPosition() {
-        sceneLocationView.locationManager.locationManager?.startUpdatingLocation()
-        sceneLocationView.locationManager.locationManager?.startUpdatingHeading()
-//        sceneLocationView.locationNodes.forEach {
-//            $0.continuallyUpdatePositionAndScale = true
-//        }
+        sceneLocationView.shouldUpdateLocationEstimate = true
     }
 }

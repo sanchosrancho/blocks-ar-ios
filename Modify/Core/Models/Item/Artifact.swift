@@ -9,23 +9,21 @@
 import RealmSwift
 import CoreLocation
 
-class Artifact: RealmSwift.Object {
+class Artifact: RealmSwift.Object, Codable {
     @objc dynamic var objectId: String = NSUUID().uuidString
-    @objc dynamic var lat: CLLocationDegrees = 0
-    @objc dynamic var lon: CLLocationDegrees = 0
-    @objc dynamic var alt: CLLocationDistance = 0
-    @objc dynamic var horizontalAccuracy: CLLocationAccuracy = -2
-    @objc dynamic var verticalAccuracy: CLLocationAccuracy = -2
-    @objc dynamic var groundDistance: CLLocationDistance = 0
-    @objc dynamic var createdAt: NSDate?
+    @objc dynamic var initialBlock: Block?
     
-    @objc dynamic var eulerX: Float = 0
-    @objc dynamic var eulerY: Float = 0
-    @objc dynamic var eulerZ: Float = 0
-    
-    @objc dynamic var modelName: String = ""
+    let blocks = List<Block>()
     
     override static func primaryKey() -> String? {
         return "objectId"
+    }
+    
+    required convenience init(from decoder: Decoder) throws {
+        self.init()
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        
     }
 }

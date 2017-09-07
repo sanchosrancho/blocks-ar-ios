@@ -37,16 +37,16 @@ class ArtifactLocationNode: LocationNode {
     let object: ArtifactNode
     
     
-    public init?(artifact: Artifact, location: CLLocation?) {
-        guard let object = ArtifactNode(name: artifact.modelName) else { return nil }
-        object.node.eulerAngles = SCNVector3(artifact.eulerX, artifact.eulerY, artifact.eulerZ)
-        self.artifactId = artifact.objectId
-        self.object = object
-        
-        super.init(location: location)
-        
-        self.addChildNode(object.node)
-    }
+//    public init?(artifact: Artifact, location: CLLocation?) {
+//        guard let object = ArtifactNode(name: artifact.modelName) else { return nil }
+//        object.node.eulerAngles = SCNVector3(artifact.eulerX, artifact.eulerY, artifact.eulerZ)
+//        self.artifactId = artifact.objectId
+//        self.object = object
+//        
+//        super.init(location: location)
+//
+//        self.addChildNode(object.node)
+//    }
     
     
     //MARK: - Private

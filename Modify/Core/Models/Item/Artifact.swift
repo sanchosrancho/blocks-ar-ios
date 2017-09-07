@@ -18,12 +18,4 @@ class Artifact: RealmSwift.Object, Codable {
     override static func primaryKey() -> String? {
         return "objectId"
     }
-    
-    required convenience init(from decoder: Decoder) throws {
-        self.init()
-    }
-    
-    func encode(to encoder: Encoder) throws {
-        
-    }
 }

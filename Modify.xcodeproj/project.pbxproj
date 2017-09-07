@@ -24,6 +24,7 @@
 		829A6DE71F5770E500FFE858 /* ARViewController+Artifacts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829A6DE61F5770E500FFE858 /* ARViewController+Artifacts.swift */; };
 		82E9352C1F61E2F20066741C /* Block.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E9352B1F61E2F20066741C /* Block.swift */; };
 		82E9352F1F61F0C00066741C /* Artifacts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E9352E1F61F0C00066741C /* Artifacts.swift */; };
+		82E935311F6208190066741C /* RealmSwift+Codable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E935301F6208190066741C /* RealmSwift+Codable.swift */; };
 		8D65F2911F582AA800A6E463 /* Application.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D65F2901F582AA800A6E463 /* Application.swift */; };
 		8DFF39EE1F50344700E55652 /* CGPoint+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC8263E1F50335900DF7DF9 /* CGPoint+Extensions.swift */; };
 		8DFF39EF1F50344700E55652 /* CLLocation+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC826411F50335900DF7DF9 /* CLLocation+Extensions.swift */; };
@@ -60,6 +61,7 @@
 		829A6DE61F5770E500FFE858 /* ARViewController+Artifacts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ARViewController+Artifacts.swift"; sourceTree = "<group>"; };
 		82E9352B1F61E2F20066741C /* Block.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Block.swift; sourceTree = "<group>"; };
 		82E9352E1F61F0C00066741C /* Artifacts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Artifacts.swift; sourceTree = "<group>"; };
+		82E935301F6208190066741C /* RealmSwift+Codable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RealmSwift+Codable.swift"; sourceTree = "<group>"; };
 		8D65F2901F582AA800A6E463 /* Application.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Application.swift; sourceTree = "<group>"; };
 		8DC826391F50335900DF7DF9 /* SceneLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneLocationView.swift; sourceTree = "<group>"; };
 		8DC8263A1F50335900DF7DF9 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
@@ -224,6 +226,7 @@
 			children = (
 				82E9352D1F61EF6B0066741C /* ModifyAPI */,
 				829C53D11F5763FB006B77F9 /* Models */,
+				82E935301F6208190066741C /* RealmSwift+Codable.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -390,6 +393,7 @@
 			files = (
 				829A6DD91F5767AC00FFE858 /* Artifact.swift in Sources */,
 				829A6DE31F576D9F00FFE858 /* ARViewController+SceneLocationViewDelegate.swift in Sources */,
+				82E935311F6208190066741C /* RealmSwift+Codable.swift in Sources */,
 				8DFF39EE1F50344700E55652 /* CGPoint+Extensions.swift in Sources */,
 				8DFF39EF1F50344700E55652 /* CLLocation+Extensions.swift in Sources */,
 				8DFF39F01F50344700E55652 /* FloatingPoint+Radians.swift in Sources */,

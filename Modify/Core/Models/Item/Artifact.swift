@@ -11,7 +11,7 @@ import CoreLocation
 
 class Artifact: RealmSwift.Object, Codable {
     @objc dynamic var objectId: String = NSUUID().uuidString
-    @objc dynamic var initialBlock: Block?
+    @objc dynamic var genesisBlock: Block?
     
     let blocks = List<Block>()
     

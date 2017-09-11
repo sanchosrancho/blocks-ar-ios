@@ -9,7 +9,7 @@
 import RealmSwift
 import CoreLocation
 
-class Artifact: RealmSwift.Object, Codable {
+class Artifact: RealmSwift.Object/*, Codable*/ {
     @objc dynamic var objectId: String = NSUUID().uuidString
     @objc dynamic var genesisBlock: Block?
     

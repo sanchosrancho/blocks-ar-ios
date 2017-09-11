@@ -34,8 +34,8 @@ extension ARViewController {
         let artifactLocation = currentLocationEstimate.translatedLocation(to: object.node.position)
         let distanceToGround = object.node.position.y
         
-        try! realm.write {
-            let artifact = Artifact()
+//        try! realm.write {
+//            let artifact = Artifact()
 //            artifact.modelName = object.name
 //            artifact.lat = artifactLocation.coordinate.latitude
 //            artifact.lon = artifactLocation.coordinate.longitude
@@ -48,7 +48,7 @@ extension ARViewController {
 //            artifact.eulerY = object.node.eulerAngles.y
 //            artifact.eulerZ = object.node.eulerAngles.z
 //            realm.add(artifact)
-        }
+//        }
     }
     
 }

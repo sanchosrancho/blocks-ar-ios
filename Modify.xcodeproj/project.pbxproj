@@ -34,6 +34,10 @@
 		8DFF39F61F50344700E55652 /* SCNNode+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC8263D1F50335900DF7DF9 /* SCNNode+Extensions.swift */; };
 		8DFF39F71F50344700E55652 /* SCNVector3+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC826401F50335900DF7DF9 /* SCNVector3+Extensions.swift */; };
 		B606BC121F5EB77E002555A2 /* SCNNode+Cube.swift in Sources */ = {isa = PBXBuildFile; fileRef = B606BC111F5EB77E002555A2 /* SCNNode+Cube.swift */; };
+		B63579391F66D6130016E598 /* Block.swift in Sources */ = {isa = PBXBuildFile; fileRef = B63579371F66D6130016E598 /* Block.swift */; };
+		B635793A1F66D6130016E598 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = B63579381F66D6130016E598 /* User.swift */; };
+		B635793C1F66D6210016E598 /* Artifacts.swift in Sources */ = {isa = PBXBuildFile; fileRef = B635793B1F66D6210016E598 /* Artifacts.swift */; };
+		B635793E1F66D7590016E598 /* RealmSwift+Codable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B635793D1F66D62A0016E598 /* RealmSwift+Codable.swift */; };
 		B64F0C371F4DBA920004BA49 /* HUDViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B64F0C361F4DBA920004BA49 /* HUDViewController.swift */; };
 		B6650F971F57130C0085ABBE /* SCNScene+Lighting.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6650F961F57130C0085ABBE /* SCNScene+Lighting.swift */; };
 		B6DA6E871F66A4BE006EB7F7 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6DA6E861F66A4BE006EB7F7 /* Extensions.swift */; };
@@ -70,6 +74,10 @@
 		8DC826411F50335900DF7DF9 /* CLLocation+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CLLocation+Extensions.swift"; sourceTree = "<group>"; };
 		8DC826421F50335900DF7DF9 /* LocationNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationNode.swift; sourceTree = "<group>"; };
 		B606BC111F5EB77E002555A2 /* SCNNode+Cube.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SCNNode+Cube.swift"; sourceTree = "<group>"; };
+		B63579371F66D6130016E598 /* Block.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Block.swift; sourceTree = "<group>"; };
+		B63579381F66D6130016E598 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		B635793B1F66D6210016E598 /* Artifacts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Artifacts.swift; sourceTree = "<group>"; };
+		B635793D1F66D62A0016E598 /* RealmSwift+Codable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "RealmSwift+Codable.swift"; path = "Modify/Core/RealmSwift+Codable.swift"; sourceTree = SOURCE_ROOT; };
 		B64F0C361F4DBA920004BA49 /* HUDViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUDViewController.swift; sourceTree = "<group>"; };
 		B6650F961F57130C0085ABBE /* SCNScene+Lighting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SCNScene+Lighting.swift"; sourceTree = "<group>"; };
 		B6DA6E861F66A4BE006EB7F7 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
@@ -155,6 +163,7 @@
 		829C53D11F5763FB006B77F9 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				B635793D1F66D62A0016E598 /* RealmSwift+Codable.swift */,
 				829C53D21F576413006B77F9 /* Item */,
 				8D65F28F1F582A8500A6E463 /* List */,
 			);
@@ -164,6 +173,8 @@
 		829C53D21F576413006B77F9 /* Item */ = {
 			isa = PBXGroup;
 			children = (
+				B63579371F66D6130016E598 /* Block.swift */,
+				B63579381F66D6130016E598 /* User.swift */,
 				829A6DD51F5764D200FFE858 /* Artifact.swift */,
 			);
 			path = Item;
@@ -173,6 +184,7 @@
 			isa = PBXGroup;
 			children = (
 				8D65F2901F582AA800A6E463 /* Application.swift */,
+				B635793B1F66D6210016E598 /* Artifacts.swift */,
 			);
 			path = List;
 			sourceTree = "<group>";
@@ -380,11 +392,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B635793E1F66D7590016E598 /* RealmSwift+Codable.swift in Sources */,
 				829A6DD91F5767AC00FFE858 /* Artifact.swift in Sources */,
 				B606BC121F5EB77E002555A2 /* SCNNode+Cube.swift in Sources */,
 				829A6DE31F576D9F00FFE858 /* ARViewController+SceneLocationViewDelegate.swift in Sources */,
+				B635793C1F66D6210016E598 /* Artifacts.swift in Sources */,
 				8DFF39EE1F50344700E55652 /* CGPoint+Extensions.swift in Sources */,
 				8DFF39EF1F50344700E55652 /* CLLocation+Extensions.swift in Sources */,
+				B635793A1F66D6130016E598 /* User.swift in Sources */,
 				8DFF39F01F50344700E55652 /* FloatingPoint+Radians.swift in Sources */,
 				8DFF39F11F50344700E55652 /* LocationManager.swift in Sources */,
 				8DFF39F21F50344700E55652 /* LocationNode.swift in Sources */,
@@ -395,6 +410,7 @@
 				8DFF39F51F50344700E55652 /* SceneLocationView.swift in Sources */,
 				829A6DDF1F576A1000FFE858 /* ARViewController+Creating.swift in Sources */,
 				8D65F2911F582AA800A6E463 /* Application.swift in Sources */,
+				B63579391F66D6130016E598 /* Block.swift in Sources */,
 				8DFF39F61F50344700E55652 /* SCNNode+Extensions.swift in Sources */,
 				829A6DDB1F57688F00FFE858 /* ArtifactNode.swift in Sources */,
 				829A6DD81F57678700FFE858 /* ARViewController.swift in Sources */,

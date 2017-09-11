@@ -10,7 +10,7 @@ import Foundation
 import RealmSwift
 import CoreLocation
 
-class User: RealmSwift.Object, Codable {
+class User: RealmSwift.Object/*, Codable*/ {
     @objc dynamic var objectId: String = NSUUID().uuidString
     
     @objc dynamic var deviceId:  String?

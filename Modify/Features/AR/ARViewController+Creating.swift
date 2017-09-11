@@ -36,18 +36,18 @@ extension ARViewController {
         
         try! realm.write {
             let artifact = Artifact()
-            artifact.modelName = object.name
-            artifact.lat = artifactLocation.coordinate.latitude
-            artifact.lon = artifactLocation.coordinate.longitude
-            artifact.alt = artifactLocation.altitude
-            artifact.horizontalAccuracy = artifactLocation.horizontalAccuracy
-            artifact.verticalAccuracy = artifactLocation.verticalAccuracy
-            artifact.groundDistance = CLLocationDistance(distanceToGround)
-            artifact.createdAt = NSDate()
-            artifact.eulerX = object.node.eulerAngles.x
-            artifact.eulerY = object.node.eulerAngles.y
-            artifact.eulerZ = object.node.eulerAngles.z
-            realm.add(artifact)
+//            artifact.modelName = object.name
+//            artifact.lat = artifactLocation.coordinate.latitude
+//            artifact.lon = artifactLocation.coordinate.longitude
+//            artifact.alt = artifactLocation.altitude
+//            artifact.horizontalAccuracy = artifactLocation.horizontalAccuracy
+//            artifact.verticalAccuracy = artifactLocation.verticalAccuracy
+//            artifact.groundDistance = CLLocationDistance(distanceToGround)
+//            artifact.createdAt = NSDate()
+//            artifact.eulerX = object.node.eulerAngles.x
+//            artifact.eulerY = object.node.eulerAngles.y
+//            artifact.eulerZ = object.node.eulerAngles.z
+//            realm.add(artifact)
         }
     }
     

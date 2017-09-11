@@ -48,13 +48,13 @@ extension ARViewController {
                 return
         }
         
-        let altitude = currentLocation.altitude - Double(currentPosition.y) + artifact.groundDistance
-        let coord = CLLocationCoordinate2D(latitude: artifact.lat, longitude: artifact.lon)
-        let location = CLLocation(coordinate: coord, altitude: altitude)
-        
-        guard let locationNode = ArtifactLocationNode(artifact: artifact, location: location) else { return }
-        
-        sceneLocationView.addLocationNodeWithConfirmedLocation(locationNode: locationNode)
+//        let altitude = currentLocation.altitude - Double(currentPosition.y) + artifact.groundDistance
+//        let coord = CLLocationCoordinate2D(latitude: artifact.lat, longitude: artifact.lon)
+//        let location = CLLocation(coordinate: coord, altitude: altitude)
+//        
+//        guard let locationNode = ArtifactLocationNode(artifact: artifact, location: location) else { return }
+//        
+//        sceneLocationView.addLocationNodeWithConfirmedLocation(locationNode: locationNode)
     }
     
 }

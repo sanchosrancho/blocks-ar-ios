@@ -34,15 +34,15 @@ extension ARViewController: HUDViewControllerDelegate {
     
     func hudPlaceChangeDistance(_ value: Float) {
         if case .placing(let object) = placeState {
-            var delta = zDistance - value
-            delta = max(min(30, delta), 1)
-            object.node.position.z = -delta
+            var delta = self.currentYPosition - value
+            delta = max(min(20, delta), -20)
+            object.node.position.y = delta
         }
     }
     
     func hudPlaceWillChangeDistance() {
         if case .placing(let object) = placeState {
-            self.zDistance = -object.node.position.z
+            self.currentYPosition = object.node.position.y
         }
     }
     

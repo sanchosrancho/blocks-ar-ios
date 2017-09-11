@@ -17,7 +17,8 @@ class ARViewController: UIViewController {
     var notificationToken: NotificationToken!
     var realm: Realm!
     var results: Results<Artifact>?
-    var zDistance: Float = 2
+    var zDistance: Float = -0.3
+    var currentYPosition: Float = 0
     
     internal var placeState = PlaceState.none {
         didSet {
@@ -82,7 +83,6 @@ class ARViewController: UIViewController {
         sceneLocationView.automaticallyUpdatesLighting = false
         
         sceneLocationView.preferredFramesPerSecond = 60
-//        sceneLocationView.contentScaleFactor = 1.3
         if let camera = sceneLocationView.pointOfView?.camera {
             camera.wantsHDR = true
             camera.wantsExposureAdaptation = true

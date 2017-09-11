@@ -89,7 +89,7 @@ class HUDViewController: UIViewController {
     private let addObjectButton = HUDButton(frame: CGRect(x: 20, y: 30, width: 100, height: 44))
     private let toggleAdjustingNodePositionButton = HUDButton(frame: CGRect(x: 140, y: 30, width: 200, height: 44))
     private let placeObjectButton = HUDButton(frame: CGRect(x: round((UIScreen.main.bounds.width - 80)/2), y: UIScreen.main.bounds.height - 60, width: 80, height: 44))
-    private var startYPos: CGFloat = 0
+    private var startYPan: CGFloat = 0
     private let locationStatus = UILabel(frame: CGRect(x: 20, y: 10, width: (UIScreen.main.bounds.width-40), height: 20))
     
     private func setupLocationStatus() {
@@ -217,10 +217,10 @@ class HUDViewController: UIViewController {
         let location = gesture.location(in: self.view)
         switch gesture.state {
         case .began:
-            self.startYPos = location.y
+            self.startYPan = location.y
             self.delegate?.hudPlaceWillChangeDistance()
         case .changed:
-            var deltaY = (location.y - startYPos)/12
+            var deltaY = (location.y - startYPan)/300
             deltaY = CGFloat(round(100 * deltaY) / 100)
             self.delegate?.hudPlaceChangeDistance(Float(deltaY))
         case .ended: break

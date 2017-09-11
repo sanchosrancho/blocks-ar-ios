@@ -22,19 +22,25 @@ struct ModifyApi {
     }
     
     enum Block {
-        case add(artifactId: Int)
-        case delete(artifactId: Int)
+        case add(artifactId: Int, position: CLLocationCoordinate2D)
+        case delete(artifactId: Int, block_id: Int)
     }
     
-    static var BaseURL: URL { return URL(string: "http://192.168.1.130")! }
-    static var Headers: [String: String]? {
+    static var baseURL: URL { return URL(string: "http://192.168.1.130")! }
+    static var headers: [String: String]? {
         return ["Content-type": "application/json"]
+    }
+    static var sampleData: Data {
+        let successResponse = "{\"status\": \"ok\", \"result\": {}".utf8Encoded
+        return successResponse
     }
 }
 
 extension ModifyApi.User: TargetType {
-    var baseURL: URL { return ModifyApi.BaseURL }
-    var headers: [String: String]? { return ModifyApi.Headers }
+    var baseURL: URL { return ModifyApi.baseURL }
+    var headers: [String: String]? { return ModifyApi.headers }
+    var sampleData: Data { return ModifyApi.sampleData }
+    var method: Moya.Method { return .post }
     
     var path: String {
         switch self {
@@ -43,7 +49,7 @@ extension ModifyApi.User: TargetType {
         case .updatePosition: return "/user/updatePosition"
         }
     }
-    var method: Moya.Method { return .post }
+    
     var task: Task {
         switch self {
         case .login(let deviceId):
@@ -61,26 +67,68 @@ extension ModifyApi.User: TargetType {
             return .requestParameters(parameters: ["latitude": position.latitude, "longitude": position.longitude], encoding: JSONEncoding.default)
         }
     }
-    var sampleData: Data {
-        let successResponse = "{\"status\": \"ok\", \"result\": { \"token\": \"sample_token\"}".utf8Encoded
-        return successResponse
+}
+
+extension ModifyApi.Artifact: TargetType {
+    var baseURL: URL { return ModifyApi.baseURL }
+    var headers: [String: String]? { return ModifyApi.headers }
+    var sampleData: Data { return ModifyApi.sampleData }
+    var method: Moya.Method { return .post }
+    
+    var path: String { return "/artifact/getByBounds" }
+    
+    var task: Task {
+        switch self {
+        case .getByBounds(let from, let to):
+            return .requestParameters(parameters: [
+                    "token": "",
+                    "from": from.toDictionary,
+                    "to": to.toDictionary
+                ], encoding: JSONEncoding.default)
+        }
     }
 }
 
-func test() {
-    let provider = MoyaProvider<ModifyApi.User>()
-    provider.request(.login(deviceId: "")) {result in
-        
+extension ModifyApi.Block: TargetType {
+    var baseURL: URL { return ModifyApi.baseURL }
+    var headers: [String: String]? { return ModifyApi.headers }
+    var sampleData: Data { return ModifyApi.sampleData }
+    var method: Moya.Method { return .post }
+    
+    var path: String {
+        switch self {
+        case .add:    return "/block/add"
+        case .delete: return "/block/delete"
+        }
     }
     
-    
-    let pr2 = MoyaProvider<MultiTarget>()
-    pr2.request(MultiTarget(ModifyApi.User.login(deviceId: ""))) { result in
-        
+    var task: Task {
+        switch self {
+        case .add(let artifactId, let position):
+            return .requestParameters(parameters: [
+                    "token": "",
+                    "artifact_id": artifactId,
+                    "position": position.toDictionary,
+                    "color": ""
+                ], encoding: JSONEncoding.default)
+        case .delete(let artifactId, let block_id):
+            return .requestParameters(parameters: [
+                    "token": "",
+                    "artifact_id": artifactId,
+                    "block_id": block_id
+                ], encoding: JSONEncoding.default)
+        }
     }
 }
+
 
 // MARK: - Helpers
+private extension CLLocationCoordinate2D {
+    var toDictionary: [String:CLLocationDegrees] {
+        return ["latitude": self.latitude, "longitude": self.longitude]
+    }
+}
+
 private extension String {
     var urlEscaped: String {
         return addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!

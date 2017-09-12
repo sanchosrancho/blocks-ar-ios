@@ -2,6 +2,7 @@ platform :ios, '11.0'
 use_frameworks!
 
 target 'Modify' do
+  pod 'PromiseKit', '~> 4.4'
   pod 'Moya', :git => 'https://github.com/Moya/Moya.git', :branch => '10.0.0-dev'
   pod 'Realm', :git => 'https://github.com/realm/realm-cocoa.git', :branch => 'master', submodules: true
   pod 'RealmSwift', :git => 'https://github.com/realm/realm-cocoa.git', :branch => 'master', submodules: true

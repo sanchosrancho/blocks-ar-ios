@@ -11,8 +11,9 @@ import CoreLocation
 
 class Artifact: RealmSwift.Object/*, Codable*/ {
     @objc dynamic var objectId: String = NSUUID().uuidString
-    @objc dynamic var genesisBlock: Block?
-    
+    @objc dynamic var eulerX: Float = 0
+    @objc dynamic var eulerY: Float = 0
+    @objc dynamic var eulerZ: Float = 0
     let blocks = List<Block>()
     
     override static func primaryKey() -> String? {

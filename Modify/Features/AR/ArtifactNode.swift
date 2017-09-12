@@ -11,12 +11,12 @@ import SceneKit
 
 class ArtifactNode: LocationNode {
     
-    let artifactId: Int
+    let artifactId: String
     
     init(artifact: Artifact) {
         self.artifactId = artifact.objectId
         
-        super.init(location: location)
+        super.init(location: nil) // location)
         
         test()
     }
@@ -39,6 +39,7 @@ class ArtifactNode: LocationNode {
         self.addChildNode(node)
     }
 }
+
 
 class ObjectNode: SCNNode {
     

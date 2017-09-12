@@ -12,7 +12,45 @@ import CoreLocation
 
 extension ARViewController {
     
-    func updateArtifacts() {
+    func loadAllArtifacts() {
+        guard let artifacts = self.artifacts else { return }
+        for artifact in artifacts {
+            let artifactNode = ArtifactNode(artifact: artifact)
+            sceneLocationView.addLocationNodeWithConfirmedLocation(locationNode: artifactNode)
+            artifactNodes.append(artifactNode)
+        }
+    }
+    
+    
+    func deleteArtifacts(indexes: [Int]) {
+        print("deleting artefacts at: \(indexes)")
+        var artifactsToRemove = [ArtifactNode]()
+        for index in indexes {
+            guard index < artifactNodes.count else { continue }
+            artifactsToRemove.append(artifactNodes[index])
+        }
+        artifactsToRemove.forEach {
+            sceneLocationView.removeLocationNode(locationNode: $0)
+            artifactNodes.remove(object: $0)
+        }
+    }
+    
+    
+    func insertArtifacts(indexes: [Int]) {
+        print("inserting artefacts at: \(indexes)")
+        guard let artifacts = self.artifacts else { return }
+        for index in indexes {
+            guard index < artifacts.count else { continue }
+            let artifact = ArtifactNode(artifact: artifacts[index])
+            sceneLocationView.addLocationNodeWithConfirmedLocation(locationNode: artifact)
+            artifactNodes.append(artifact)
+        }
+    }
+    
+    
+    func updateArtifacts(indexes: [Int]) {
+        print("updating artefacts at: \(indexes)")
+        /*
         guard let results = self.results else { return }
         
         let actual = Set( results.map { $0.objectId } )
@@ -38,9 +76,11 @@ extension ARViewController {
             guard shouldBeAdded.contains(artifact.objectId) else { continue }
             placeArtifact(artifact)
         }
+        */
     }
     
     func placeArtifact(_ artifact: Artifact) {
+        /*
         guard
             let currentLocation = sceneLocationView.currentLocation(),
             let currentPosition = sceneLocationView.currentScenePosition()
@@ -48,13 +88,14 @@ extension ARViewController {
                 return
         }
         
-//        let altitude = currentLocation.altitude - Double(currentPosition.y) + artifact.groundDistance
-//        let coord = CLLocationCoordinate2D(latitude: artifact.lat, longitude: artifact.lon)
-//        let location = CLLocation(coordinate: coord, altitude: altitude)
-//        
-//        guard let locationNode = ArtifactLocationNode(artifact: artifact, location: location) else { return }
-//        
-//        sceneLocationView.addLocationNodeWithConfirmedLocation(locationNode: locationNode)
+        let altitude = currentLocation.altitude - Double(currentPosition.y) + artifact.groundDistance
+        let coord = CLLocationCoordinate2D(latitude: artifact.lat, longitude: artifact.lon)
+        let location = CLLocation(coordinate: coord, altitude: altitude)
+        
+        guard let locationNode = ArtifactLocationNode(artifact: artifact, location: location) else { return }
+        
+        sceneLocationView.addLocationNodeWithConfirmedLocation(locationNode: locationNode)
+        */
     }
     
 }

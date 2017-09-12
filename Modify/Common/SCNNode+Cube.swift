@@ -15,13 +15,12 @@ enum CubeFace: Int {
 
 class CubeNode: SCNNode {
     
-    init(position: SCNVector3, hexColor: String) {
+    init(position: SCNVector3, color: UIColor) {
         super.init()
         
         let geometry = SCNBox(width: CubeNode.size, height: CubeNode.size, length: CubeNode.size, chamferRadius: CubeNode.chamfer)
         geometry.chamferSegmentCount = CubeNode.chamfersCount
         var materials = [SCNMaterial]()
-        let color = UIColor.fromHex(hexColor)
         for _ in 0..<6 {
             materials.append(getMaterial(with: color))
         }

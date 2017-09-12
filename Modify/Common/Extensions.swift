@@ -25,14 +25,15 @@ extension UIColor {
     }
     
     
-    class func fromHex(_ hexString: String) -> UIColor {
-        guard hexString.characters.count == 8 else { return UIColor.white }
+    class func fromHex(_ hexString: String?) -> UIColor {
+        let defaultColor = UIColor.white
+        guard let hex = hexString, hex.characters.count == 8 else { return defaultColor }
         
         let r, g, b, a: CGFloat
-        let scanner = Scanner(string: hexString)
+        let scanner = Scanner(string: hex)
         var hexNumber: UInt64 = 0
         
-        guard scanner.scanHexInt64(&hexNumber) else { return UIColor.white }
+        guard scanner.scanHexInt64(&hexNumber) else { return defaultColor }
         r = CGFloat((hexNumber & 0xff000000) >> 24) / 255
         g = CGFloat((hexNumber & 0x00ff0000) >> 16) / 255
         b = CGFloat((hexNumber & 0x0000ff00) >> 8) / 255
@@ -51,5 +52,15 @@ extension UIColor {
         self.getRed(&r, green: &g, blue: &b, alpha: &a)
         
         return String(format: "%02X%02X%02X%02X", Int(r * 0xff), Int(g * 0xff), Int(b * 0xff), Int(a * 0xff)).lowercased()
+    }
+}
+
+
+extension Array where Element: Equatable {
+    
+    mutating func remove(object: Element) {
+        if let index = index(of: object) {
+            remove(at: index)
+        }
     }
 }

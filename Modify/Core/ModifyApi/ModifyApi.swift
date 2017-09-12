@@ -25,15 +25,12 @@ struct ModifyApi {
         case add(artifactId: Int, position: CLLocationCoordinate2D)
         case delete(artifactId: Int, block_id: Int)
     }
-    
-    static var baseURL: URL { return URL(string: "http://192.168.1.130")! }
-    static var headers: [String: String]? {
-        return ["Content-type": "application/json"]
-    }
-    static var sampleData: Data {
-        let successResponse = "{\"status\": \"ok\", \"result\": {}".utf8Encoded
-        return successResponse
-    }
+}
+
+extension ModifyApi {
+    static let baseURL = { URL(string: "http://192.168.1.130")! }()
+    static let headers = ["Content-type": "application/json"]
+    static let sampleData = { "{\"status\": \"ok\", \"result\": {}".utf8Encoded }()
 }
 
 extension ModifyApi.User: TargetType {

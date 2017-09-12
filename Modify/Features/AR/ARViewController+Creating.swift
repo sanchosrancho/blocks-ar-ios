@@ -19,10 +19,12 @@ extension ARViewController {
     
     
     func addArtifact(named name: String) {
+        /*
         guard let object = ArtifactNode(name: name) else { return }
         object.node.position = SCNVector3(0, 0, zDistance)
         sceneLocationView.pointOfView?.addChildNode(object.node)
         self.placeState = PlaceState.placing(object)
+        */
     }
     
     
@@ -31,8 +33,8 @@ extension ARViewController {
               let currentPosition = sceneLocationView.currentScenePosition() else { return }
         
         let currentLocationEstimate = SceneLocationEstimate(location: currentLocation, position: currentPosition)
-        let artifactLocation = currentLocationEstimate.translatedLocation(to: object.node.position)
-        let distanceToGround = object.node.position.y
+        // let artifactLocation = currentLocationEstimate.translatedLocation(to: object.node.position)
+        // let distanceToGround = object.node.position.y
         
 //        try! realm.write {
 //            let artifact = Artifact()

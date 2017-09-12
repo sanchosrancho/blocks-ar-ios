@@ -9,44 +9,58 @@
 import CoreLocation
 import SceneKit
 
-class ArtifactNode {
+class ArtifactNode: LocationNode {
     
-    let node: SCNNode
-    let artifactType: ArtifactModelType!
-    var name: String { return artifactType.rawValue }
+    let artifactId: Int
     
-    
-    init(type: ArtifactModelType) {
-        let scene = SCNScene(named: "art.scnassets/\(type.rawValue)/\(type.rawValue).scn")!
-        self.node = scene.rootNode.childNode(withName: type.rawValue, recursively: true)!
-        self.node.scale = type.scale
-        self.artifactType = type
+    init(artifact: Artifact) {
+        self.artifactId = artifact.objectId
+        
+        super.init(location: location)
+        
+        test()
     }
     
     
-    convenience init?(name: String) {
-        guard let type = ArtifactModelType(rawValue: name) else { return nil }
-        self.init(type: type)
+    //MARK: - Private
+    
+    
+    required public init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
+    private func test() {
+        let matertial = SCNMaterial()
+        matertial.diffuse.contents = UIColor.red
+        let geometry = SCNSphere(radius: 0.1)
+        geometry.materials = [matertial]
+        let node = SCNNode(geometry: geometry)
+        self.addChildNode(node)
     }
 }
 
+class ObjectNode: SCNNode {
+    
+}
 
+/*
 class ArtifactLocationNode: LocationNode {
     
     let artifactId: String
     let object: ArtifactNode
     
     
-//    public init?(artifact: Artifact, location: CLLocation?) {
-//        guard let object = ArtifactNode(name: artifact.modelName) else { return nil }
-//        object.node.eulerAngles = SCNVector3(artifact.eulerX, artifact.eulerY, artifact.eulerZ)
-//        self.artifactId = artifact.objectId
-//        self.object = object
-//        
-//        super.init(location: location)
-//
-//        self.addChildNode(object.node)
-//    }
+    public init?(artifact: Artifact, location: CLLocation?) {
+        guard let object = ArtifactNode(name: artifact.modelName) else { return nil }
+        object.node.eulerAngles = SCNVector3(artifact.eulerX, artifact.eulerY, artifact.eulerZ)
+        self.artifactId = artifact.objectId
+        self.object = object
+        
+        super.init(location: location)
+
+        self.addChildNode(object.node)
+    }
     
     
     //MARK: - Private
@@ -76,3 +90,4 @@ extension ArtifactModelType {
         return SCNVector3(value,value,value)
     }
 }
+*/

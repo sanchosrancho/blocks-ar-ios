@@ -20,7 +20,7 @@ extension ARViewController {
     
     
     func addInitialCubeToCamera() {
-        let cubeNode = CubeNode(position: SCNVector3(0, 0, zDistance), color: .white)
+        let cubeNode = CubeNode(position: SCNVector3(0, 0, zDistance), color: .red)
         sceneLocationView.pointOfView?.addChildNode(cubeNode)
         self.placeState = PlaceState.placing(cubeNode)
     }

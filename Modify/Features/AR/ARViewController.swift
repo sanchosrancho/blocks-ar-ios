@@ -81,18 +81,19 @@ class ARViewController: UIViewController {
     func setupScene() {
         sceneLocationView.showsStatistics = true
         sceneLocationView.run()
-//        sceneLocationView.scene.enableEnvironmentMapWithIntensity(500, queue: serialQueue)
-//        sceneLocationView.antialiasingMode = .multisampling4X
-//        sceneLocationView.automaticallyUpdatesLighting = false
+//        sceneLocationView.scene.enableEnvironmentMapWithIntensity(1000, queue: serialQueue)
+        sceneLocationView.antialiasingMode = .multisampling4X
+        sceneLocationView.automaticallyUpdatesLighting = true
+        sceneLocationView.autoenablesDefaultLighting = true
         
         sceneLocationView.preferredFramesPerSecond = 60
-//        if let camera = sceneLocationView.pointOfView?.camera {
-//            camera.wantsHDR = true
-//            camera.wantsExposureAdaptation = true
-//            camera.exposureOffset = -1
-//            camera.minimumExposure = -1
-//            camera.maximumExposure = 3
-//        }
+        if let camera = sceneLocationView.pointOfView?.camera {
+            camera.wantsHDR = true
+            camera.wantsExposureAdaptation = true
+            camera.exposureOffset = -1
+            camera.minimumExposure = -1
+            camera.maximumExposure = 3
+        }
         sceneLocationView.session.delegate = self
         sceneLocationView.locationDelegate = self
         view.addSubview(sceneLocationView)

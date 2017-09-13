@@ -13,6 +13,7 @@ import CoreLocation
 extension ARViewController {
     
     func loadAllArtifacts() {
+        print("Loading all artifacts...")
         guard let artifacts = self.artifacts else { return }
         for artifact in artifacts {
             let artifactNode = ArtifactNode(artifact: artifact)
@@ -38,6 +39,7 @@ extension ARViewController {
     
     func insertArtifacts(indexes: [Int]) {
         print("inserting artefacts at: \(indexes)")
+        /*
         guard let artifacts = self.artifacts else { return }
         for index in indexes {
             guard index < artifacts.count else { continue }
@@ -45,6 +47,7 @@ extension ARViewController {
             sceneLocationView.addLocationNodeWithConfirmedLocation(locationNode: artifact)
             artifactNodes.append(artifact)
         }
+         */
     }
     
     

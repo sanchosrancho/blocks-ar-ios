@@ -18,38 +18,42 @@ extension ARViewController {
         case editing
     }
     
-    func addInitialCube() {
+    
+    func addInitialCubeToCamera() {
         let cubeNode = CubeNode(position: SCNVector3(0, 0, zDistance), color: .white)
         sceneLocationView.pointOfView?.addChildNode(cubeNode)
         self.placeState = PlaceState.placing(cubeNode)
     }
     
     
-    func saveArtifact(artifactNode object: ArtifactNode) {
-        /*
-        guard let currentLocation = sceneLocationView.currentLocation(),
-              let currentPosition = sceneLocationView.currentScenePosition() else { return }
+    func saveArtifact(cubeNode: CubeNode) {
+        guard let location = sceneLocationView.currentLocation(),
+              let position = sceneLocationView.currentScenePosition() else { return }
         
-        let currentLocationEstimate = SceneLocationEstimate(location: currentLocation, position: currentPosition)
-         let artifactLocation = currentLocationEstimate.translatedLocation(to: object.node.position)
-         let distanceToGround = object.node.position.y
+        let locationEstimate = SceneLocationEstimate(location: location, position: position)
+        let artifactLocation = locationEstimate.translatedLocation(to: cubeNode.position)
+        let distanceToGround = cubeNode.position.y
         
         try! realm.write {
             let artifact = Artifact()
-            artifact.modelName = object.name
-            artifact.lat = artifactLocation.coordinate.latitude
-            artifact.lon = artifactLocation.coordinate.longitude
-            artifact.alt = artifactLocation.altitude
-            artifact.horizontalAccuracy = artifactLocation.horizontalAccuracy
-            artifact.verticalAccuracy = artifactLocation.verticalAccuracy
-            artifact.groundDistance = CLLocationDistance(distanceToGround)
-            artifact.createdAt = NSDate()
-            artifact.eulerX = object.node.eulerAngles.x
-            artifact.eulerY = object.node.eulerAngles.y
-            artifact.eulerZ = object.node.eulerAngles.z
+            artifact.eulerX = cubeNode.eulerAngles.x
+            artifact.eulerY = cubeNode.eulerAngles.y
+            artifact.eulerZ = cubeNode.eulerAngles.z
+            
+            let block = Block()
+            block.artifact = artifact
+            block.latitude = artifactLocation.coordinate.latitude
+            block.longitude = artifactLocation.coordinate.longitude
+            block.altitude = artifactLocation.altitude
+            block.horizontalAccuracy = artifactLocation.horizontalAccuracy
+            block.verticalAccuracy = artifactLocation.verticalAccuracy
+            block.groundDistance = CLLocationDistance(distanceToGround)
+            block.createdAt = Date()
+            block.hexColor = cubeNode.hexColor
+            
+            artifact.blocks.append(block)
             realm.add(artifact)
         }
-        */
     }
     
 }

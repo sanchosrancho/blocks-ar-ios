@@ -11,19 +11,18 @@ import Foundation
 extension ARViewController: HUDViewControllerDelegate {
     
     func hudAddObjectPressed() {
-        addInitialCube()
+        addInitialCubeToCamera()
     }
     
+    
     func hudPlaceObjectPressed() {
-        /*
-        if case .placing(let object) = placeState {
-            let t = object.node.worldTransform
-            object.node.removeFromParentNode()
-            object.node.transform = t
-            saveArtifact(artifactNode: object)
-            placeState = .none
+        if case .placing(let cube) = placeState {
+            let t = cube.worldTransform
+            cube.removeFromParentNode()
+            cube.transform = t
+            saveArtifact(cubeNode: cube)
+            placeState = .preview
         }
-        */
     }
     
     func hudPlaceObjectCancelled() {

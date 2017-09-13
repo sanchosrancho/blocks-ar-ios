@@ -22,7 +22,14 @@ class ARViewController: UIViewController {
     var artifactNodes = [ArtifactNode]()
     var zDistance: Float = -0.3
     var currentYPosition: Float = 0
-    var placeState = PlaceState.preview
+    var placeState = PlaceState.preview {
+        didSet {
+            var isPlacing = false
+            if case .placing(_) = placeState { isPlacing = true }
+            hudWindow?.hudController.updateState(isPlacing: isPlacing)
+        }
+    }
+    
     
     // MARK: - ViewController lifecycle
     

@@ -35,10 +35,16 @@ class ARViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupScene()
-        setupHUD()
-        setupRealm()
-        setupLocationAccuracyStatus()
+        Account.sharedInstance.login().then {
+            print("Succefully logged in")
+        }.catch {
+            print("error", $0)
+        }
+        
+//        setupScene()
+//        setupHUD()
+//        setupRealm()
+//        setupLocationAccuracyStatus()
     }
     
     override func viewDidLayoutSubviews() {

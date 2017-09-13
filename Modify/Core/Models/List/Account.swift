@@ -12,13 +12,21 @@ import PromiseKit
 import Moya
 import Locksmith
 import DeviceCheck
+import CoreLocation
 
 class Account {
     struct Info {
-        let deviceToken: String = { return UIDevice.current.identifierForVendor?.uuidString ?? "" }()
+        let platform = "ios"
+        let locale = NSLocale.current.languageCode
+        let deviceToken = UIDevice.current.identifierForVendor?.uuidString ?? ""
+        
         var userId: String?    { didSet { try? self.createInSecureStore() } }
         var pushToken: String? { didSet { try? self.createInSecureStore() } }
         var token: String?     { didSet { try? self.createInSecureStore() } }
+        
+        var position: CLLocationCoordinate2D? {
+            didSet { try? self.createInSecureStore() }
+        }
         
         var user: User? {
             guard userId != "" else { return nil }
@@ -71,6 +79,33 @@ class Account {
                     fulfill(())
                     
                 
+                    
+                case let .failure(error):
+                    print(error)
+                    reject(error)
+                }
+            }
+        }
+    }
+    
+    func syncUserInfo() -> Promise<Void> {
+        return Promise { fulfill, reject in
+            guard let token = self.info.token else { throw NSError.cancelledError() }
+            let authPlugin = AccessTokenPlugin(tokenClosure: token)
+            let api = MoyaProvider<ModifyApi.User>(plugins: [authPlugin, NetworkLoggerPlugin()])
+            
+            api.request(.update(
+                locale:    self.info.locale,
+                pushToken: self.info.platform,
+                platform:  self.info.platform,
+                position:  self.info.position))
+            { result in
+                switch result {
+                case let .success(response):
+                    let data = response.data
+                    let statusCode = response.statusCode
+                    print(data, statusCode)
+                    fulfill(())
                     
                 case let .failure(error):
                     print(error)

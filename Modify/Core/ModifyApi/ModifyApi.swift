@@ -33,7 +33,7 @@ extension ModifyApi {
     static let sampleData = { "{\"status\": \"ok\", \"result\": {}".utf8Encoded }()
 }
 
-extension ModifyApi.User: TargetType {
+extension ModifyApi.User: TargetType, AccessTokenAuthorizable {
     var baseURL: URL { return ModifyApi.baseURL }
     var headers: [String: String]? { return ModifyApi.headers }
     var sampleData: Data { return ModifyApi.sampleData }
@@ -64,13 +64,19 @@ extension ModifyApi.User: TargetType {
             return .requestParameters(parameters: ["latitude": position.latitude, "longitude": position.longitude], encoding: JSONEncoding.default)
         }
     }
+    
+    var authorizationType: AuthorizationType {
+        if case .login = self { return .none }
+        return .bearer
+    }
 }
 
-extension ModifyApi.Artifact: TargetType {
+extension ModifyApi.Artifact: TargetType, AccessTokenAuthorizable {
     var baseURL: URL { return ModifyApi.baseURL }
     var headers: [String: String]? { return ModifyApi.headers }
     var sampleData: Data { return ModifyApi.sampleData }
     var method: Moya.Method { return .post }
+    var authorizationType: AuthorizationType { return .bearer }
     
     var path: String { return "/artifact/getByBounds" }
     
@@ -86,11 +92,12 @@ extension ModifyApi.Artifact: TargetType {
     }
 }
 
-extension ModifyApi.Block: TargetType {
+extension ModifyApi.Block: TargetType, AccessTokenAuthorizable {
     var baseURL: URL { return ModifyApi.baseURL }
     var headers: [String: String]? { return ModifyApi.headers }
     var sampleData: Data { return ModifyApi.sampleData }
     var method: Moya.Method { return .post }
+    var authorizationType: AuthorizationType { return .bearer }
     
     var path: String {
         switch self {

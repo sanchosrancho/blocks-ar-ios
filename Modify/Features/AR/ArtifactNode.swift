@@ -12,37 +12,45 @@ import SceneKit
 class ArtifactNode: LocationNode {
     
     let artifactId: String
+    var mainBlockNode: BlockNode!
     
-    init(artifact: Artifact) {
+    init?(_ artifact: Artifact, currentLocation: CLLocation?, currentPosition: SCNVector3?) {
+        guard let location = currentLocation, let position = currentPosition else { return nil }
+        guard let mainBlock = artifact.blocks.first else { return nil }
+        
+        let mainBlockNode = BlockNode(block: mainBlock, position: SCNVector3Zero)
+        
         self.artifactId = artifact.objectId
+        self.mainBlockNode = mainBlockNode
         
-        super.init(location: nil) // location)
+        let altitude = location.altitude - Double(position.y) + mainBlock.groundDistance
+        let coord = CLLocationCoordinate2D(latitude: mainBlock.latitude, longitude: mainBlock.longitude)
         
-        test()
+        super.init(location: CLLocation(coordinate: coord, altitude: altitude))
+        self.eulerAngles = SCNVector3(artifact.eulerX, artifact.eulerY, artifact.eulerZ)
+        
+        self.addChildNode(mainBlockNode)
     }
     
     
     //MARK: - Private
     
-    
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
-    private func test() {
-        let matertial = SCNMaterial()
-        matertial.diffuse.contents = UIColor.red
-        let geometry = SCNSphere(radius: 0.1)
-        geometry.materials = [matertial]
-        let node = SCNNode(geometry: geometry)
-        self.addChildNode(node)
-    }
 }
 
 
-class ObjectNode: SCNNode {
+class BlockNode: CubeNode {
     
+    init(block: Block, position: SCNVector3) {
+        super.init(position: position, color: block.color)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }
 
 /*

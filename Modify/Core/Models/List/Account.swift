@@ -16,9 +16,10 @@ import DeviceCheck
 class Account {
     struct Info {
         let deviceToken: String = { return UIDevice.current.identifierForVendor?.uuidString ?? "" }()
-        var userId: String?
-        var pushToken: String?
-        var token: String?
+        var userId: String?    { didSet { try? self.createInSecureStore() } }
+        var pushToken: String? { didSet { try? self.createInSecureStore() } }
+        var token: String?     { didSet { try? self.createInSecureStore() } }
+        
         var user: User? {
             guard userId != "" else { return nil }
             let realm = try! Realm()
@@ -35,6 +36,21 @@ class Account {
     
     static let sharedInstance = Account()
     lazy internal var info = Info()
+    
+    var accessToken: String? {
+        get { return self.info.token }
+        set {
+            self.info.token = newValue
+            // syncPushToken()
+        }
+    }
+    var pushToken: String? {
+        get { return self.info.pushToken }
+        set {
+            self.info.pushToken = newValue
+            // syncPushToken()
+        }
+    }
     
     func login() -> Promise<Void> {
         return Promise { fulfill, reject in

@@ -11,7 +11,6 @@ import RealmSwift
 import PromiseKit
 import Moya
 import Locksmith
-import DeviceCheck
 import CoreLocation
 
 class Account {
@@ -24,8 +23,15 @@ class Account {
         var pushToken: String? { didSet { try? self.createInSecureStore() } }
         var token: String?     { didSet { try? self.createInSecureStore() } }
         
+        var latitude:  CLLocationDegrees?
+        var longitude: CLLocationDegrees?
+        
         var position: CLLocationCoordinate2D? {
-            didSet { try? self.createInSecureStore() }
+            get {
+                guard let lat = latitude, let lon = longitude else { return nil }
+                return CLLocationCoordinate2D(latitude: lat, longitude: lon)
+            }
+//            didSet { try? self.createInSecureStore() }
         }
         
         var user: User? {
@@ -35,10 +41,7 @@ class Account {
         }
         
         init() {
-            guard let stored = self.readFromSecureStore()?.data else { return }
-            self.userId = stored["userId"] as? String
-            self.pushToken = stored["pushToken"] as? String
-            self.token = stored["token"] as? String
+            self.readFromStore()
         }
     }
     
@@ -69,22 +72,34 @@ class Account {
     
     func login() -> Promise<Void> {
         return Promise { fulfill, reject in
+            
+            fetchToken().then { token -> Void in
+                self.info.token = token
+                fulfill(())
+            }.catch { reject($0) }
+            
+        }
+    }
+    
+    func fetchToken() -> Promise<String> {
+        return Promise { fulfill, reject in
+            
             let api = MoyaProvider<ModifyApi.User>(plugins: [NetworkLoggerPlugin()])
             api.request(.login(deviceId: self.info.deviceToken)) { result in
                 switch result {
                 case let .success(response):
-                    let data = response.data
-                    let statusCode = response.statusCode
-                    print(data, statusCode)
-                    fulfill(())
-                    
-                
+                    do {
+                        let data = try JSONDecoder().decode(ModifyApi.User.Response.self, from: response.data)
+                        fulfill(data.result.token)
+                    } catch (let error) {
+                        reject(error)
+                    }
                     
                 case let .failure(error):
-                    print(error)
                     reject(error)
                 }
             }
+            
         }
     }
     
@@ -117,6 +132,13 @@ class Account {
 }
 
 extension Account.Info: GenericPasswordSecureStorable, CreateableSecureStorable, ReadableSecureStorable, DeleteableSecureStorable {
+    mutating func readFromStore() {
+        guard let stored = self.readFromSecureStore()?.data else { return }
+        self.userId    = stored["userId"]    as? String
+        self.pushToken = stored["pushToken"] as? String
+        self.token     = stored["token"]     as? String
+    }
+    
     var service: String { return "Modify" }
     var account: String { return deviceToken }
     var data: [String: Any] {

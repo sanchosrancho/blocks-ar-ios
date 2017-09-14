@@ -33,6 +33,16 @@ extension ModifyApi {
     static let sampleData = { "{\"status\": \"ok\", \"result\": {}".utf8Encoded }()
 }
 
+extension ModifyApi.User {
+    struct Response: Decodable {
+        let status: String
+        let result: LoginResult
+    }
+    struct LoginResult: Decodable {
+        let token: String
+    }
+}
+
 extension ModifyApi.User: TargetType, AccessTokenAuthorizable {
     var baseURL: URL { return ModifyApi.baseURL }
     var headers: [String: String]? { return ModifyApi.headers }

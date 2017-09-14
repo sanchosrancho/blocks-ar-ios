@@ -22,7 +22,7 @@ struct ModifyApi {
     }
     
     enum Block {
-        case add(artifactId: Int, position: CLLocationCoordinate2D)
+        case add(data: Data)
         case delete(artifactId: Int, block_id: Int)
     }
 }
@@ -101,7 +101,6 @@ extension ModifyApi.Artifact: TargetType, AccessTokenAuthorizable {
         switch self {
         case .getByBounds(let from, let to):
             return .requestParameters(parameters: [
-                    "token": "",
                     "from": from.toDictionary,
                     "to": to.toDictionary
                 ], encoding: JSONEncoding.default)
@@ -109,6 +108,11 @@ extension ModifyApi.Artifact: TargetType, AccessTokenAuthorizable {
     }
 }
 
+extension ModifyApi.Block {
+    struct Response:Decodable {
+        let status: String
+    }
+}
 extension ModifyApi.Block: TargetType, AccessTokenAuthorizable {
     var baseURL: URL { return ModifyApi.baseURL }
     var headers: [String: String]? { return ModifyApi.headers }
@@ -125,16 +129,12 @@ extension ModifyApi.Block: TargetType, AccessTokenAuthorizable {
     
     var task: Task {
         switch self {
-        case .add(let artifactId, let position):
+        case .add(let data):
             return .requestParameters(parameters: [
-                    "token": "",
-                    "artifact_id": artifactId,
-                    "position": position.toDictionary,
-                    "color": ""
+                    "block": data
                 ], encoding: JSONEncoding.default)
         case .delete(let artifactId, let block_id):
             return .requestParameters(parameters: [
-                    "token": "",
                     "artifact_id": artifactId,
                     "block_id": block_id
                 ], encoding: JSONEncoding.default)

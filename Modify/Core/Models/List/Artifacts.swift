@@ -34,6 +34,7 @@ struct Artifacts {
                 case let .failure(error): reject(error)
                 }
             }
+            
         }
     }
 }

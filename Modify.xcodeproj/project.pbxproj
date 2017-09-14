@@ -29,6 +29,7 @@
 		8D92B3B51F62C115006D0D71 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D92B3B41F62C115006D0D71 /* User.swift */; };
 		8D92B3BA1F63005D006D0D71 /* ModifyApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D92B3B91F63005D006D0D71 /* ModifyApi.swift */; };
 		8D92B3BC1F6811C8006D0D71 /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D92B3BB1F6811C8006D0D71 /* Account.swift */; };
+		8D92B3BE1F6AE68B006D0D71 /* Blocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D92B3BD1F6AE68B006D0D71 /* Blocks.swift */; };
 		8DFF39EE1F50344700E55652 /* CGPoint+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC8263E1F50335900DF7DF9 /* CGPoint+Extensions.swift */; };
 		8DFF39EF1F50344700E55652 /* CLLocation+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC826411F50335900DF7DF9 /* CLLocation+Extensions.swift */; };
 		8DFF39F01F50344700E55652 /* FloatingPoint+Radians.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC8263B1F50335900DF7DF9 /* FloatingPoint+Radians.swift */; };
@@ -69,6 +70,7 @@
 		8D92B3B41F62C115006D0D71 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		8D92B3B91F63005D006D0D71 /* ModifyApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModifyApi.swift; sourceTree = "<group>"; };
 		8D92B3BB1F6811C8006D0D71 /* Account.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
+		8D92B3BD1F6AE68B006D0D71 /* Blocks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Blocks.swift; sourceTree = "<group>"; };
 		8DC826391F50335900DF7DF9 /* SceneLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneLocationView.swift; sourceTree = "<group>"; };
 		8DC8263A1F50335900DF7DF9 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		8DC8263B1F50335900DF7DF9 /* FloatingPoint+Radians.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FloatingPoint+Radians.swift"; sourceTree = "<group>"; };
@@ -185,6 +187,7 @@
 				8D92B3BB1F6811C8006D0D71 /* Account.swift */,
 				8D65F2901F582AA800A6E463 /* Application.swift */,
 				82E9352E1F61F0C00066741C /* Artifacts.swift */,
+				8D92B3BD1F6AE68B006D0D71 /* Blocks.swift */,
 			);
 			path = List;
 			sourceTree = "<group>";
@@ -437,6 +440,7 @@
 				829A6DDD1F5768CE00FFE858 /* ArtifactSceneView.swift in Sources */,
 				B6650F971F57130C0085ABBE /* SCNScene+Lighting.swift in Sources */,
 				B64F0C371F4DBA920004BA49 /* HUDViewController.swift in Sources */,
+				8D92B3BE1F6AE68B006D0D71 /* Blocks.swift in Sources */,
 				826A734F1F4CCB8A00204DC7 /* AppDelegate.swift in Sources */,
 				829A6DE71F5770E500FFE858 /* ARViewController+Artifacts.swift in Sources */,
 			);

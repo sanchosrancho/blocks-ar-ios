@@ -63,13 +63,6 @@ class Account {
         }
     }
     
-//{
-//    "status": "ok",
-//    "result": {
-//        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTEsImV4cCI6MTUwNTQ4NzE4M30.BN4bkHjAinqNMsFYnNugwXADrugPKTGuYwE-l9ODCrw"
-//    }
-//}
-    
     func login() -> Promise<Void> {
         return Promise { fulfill, reject in
             

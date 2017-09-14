@@ -17,7 +17,7 @@ struct Artifacts {
     static func getByBounds(from: CLLocationCoordinate2D, to: CLLocationCoordinate2D) -> Promise<[Artifact]> {
         return Promise { fulfill, reject in
             
-            guard let token = Account.sharedInstance.info.token else { throw NSError.cancelledError() }
+            guard let token = Account.shared.info.token else { throw NSError.cancelledError() }
             let authPlugin = AccessTokenPlugin(tokenClosure: token)
             let api = MoyaProvider<ModifyApi.Artifact>(plugins: [authPlugin, NetworkLoggerPlugin()])
             

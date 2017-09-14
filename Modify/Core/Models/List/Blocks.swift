@@ -15,16 +15,15 @@ struct Blocks {
     func add(block: Block) -> Promise<Void> {
         return Promise { fulfill, reject in
             
-            guard let token = Account.sharedInstance.info.token else { throw NSError.cancelledError() }
+            guard let token = Account.shared.info.token else { throw NSError.cancelledError() }
             let authPlugin = AccessTokenPlugin(tokenClosure: token)
             let api = MoyaProvider<ModifyApi.Block>(plugins: [authPlugin, NetworkLoggerPlugin()])
             
             do {
-                let encoder = JSONEncoder()
-                let data = try encoder.encode(block)
+                let encodedBlock = try JSONEncoder().encode(block)
 //                let encoded = String(data: data, encoding: .utf8)!
                 
-                api.request(.add(data: data)) { result in
+                api.request(.add(data: encodedBlock)) { result in
                     switch result {
                     case let .success(response):
                         do {
@@ -50,7 +49,7 @@ struct Blocks {
     func delete(blockId: String) -> Promise<Void> {
         return Promise { fulfill, reject in
             
-            guard let token = Account.sharedInstance.info.token else { throw NSError.cancelledError() }
+            guard let token = Account.shared.info.token else { throw NSError.cancelledError() }
             let authPlugin = AccessTokenPlugin(tokenClosure: token)
             let api = MoyaProvider<ModifyApi.Block>(plugins: [authPlugin, NetworkLoggerPlugin()])
             api.request(.delete(blockId: blockId)) { result in

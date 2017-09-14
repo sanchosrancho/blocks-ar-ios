@@ -35,7 +35,7 @@ class ARViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        Account.sharedInstance.login().then {
+        Account.shared.login().then {
             print("Succefully logged in")
         }.catch {
             print("error", $0)
@@ -67,7 +67,7 @@ class ARViewController: UIViewController {
     // MARK: - Setup
     
     func setupLocationAccuracyStatus() {
-        self.hudWindow?.hudController.updateLocationStatus(Application.sharedInstance.state)
+        self.hudWindow?.hudController.updateLocationStatus(Application.shared.state)
         
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "ApplicationLocationAccuracyDidChange"), object: nil, queue: nil) {
             guard let currentAccuracy = $0.userInfo?["current"] as? Application.LocationAccuracyState else { return }

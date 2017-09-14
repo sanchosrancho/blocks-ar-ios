@@ -13,7 +13,7 @@ import Moya
 import Locksmith
 import CoreLocation
 
-class Account {
+public final class Account {
     struct Info {
         let platform = "ios"
         let locale = NSLocale.current.languageCode
@@ -45,8 +45,13 @@ class Account {
         }
     }
     
-    static let sharedInstance = Account()
+    
     lazy var info = Info()
+    
+    private static let _shared = Account()
+    public static var shared: Account {
+        return _shared
+    }
     
     var accessToken: String? {
         get { return self.info.token }

@@ -10,14 +10,18 @@ import Foundation
 import ARKit
 import CoreLocation
 
-class Application {
+public final class Application {
     
     enum LocationAccuracyState {
         case poor
         case good
     }
     
-    static let sharedInstance = Application()
+    private static let _shared = Application()
+    public static var shared: Application {
+        return _shared
+    }
+    
     private init() {}
     
     var state: Application.LocationAccuracyState = .poor {

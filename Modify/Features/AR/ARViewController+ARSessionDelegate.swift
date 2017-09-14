@@ -17,12 +17,12 @@ extension ARViewController: ARSessionDelegate {
             cube.eulerAngles.z = -frame.camera.eulerAngles.z - Float(Double.pi / 2)
         }
         
-        let bg = frame.capturedImage
-        if let k1 = CVPixelBufferGetBaseAddressOfPlane(bg, 1) {
-            let x1 = CVPixelBufferGetWidthOfPlane(bg, 1)
-            let y1 = CVPixelBufferGetHeightOfPlane(bg, 1)
-            memset(k1, 128, x1 * y1 * 2)
-        }
+//        let bg = frame.capturedImage
+//        if let k1 = CVPixelBufferGetBaseAddressOfPlane(bg, 1) {
+//            let x1 = CVPixelBufferGetWidthOfPlane(bg, 1)
+//            let y1 = CVPixelBufferGetHeightOfPlane(bg, 1)
+//            memset(k1, 128, x1 * y1 * 2)
+//        }
     }
     
     

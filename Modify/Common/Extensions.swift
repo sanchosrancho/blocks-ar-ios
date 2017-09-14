@@ -26,20 +26,18 @@ extension UIColor {
     
     
     class func fromHex(_ hexString: String?) -> UIColor {
-        let defaultColor = UIColor.white
-        guard let hex = hexString, hex.characters.count == 8 else { return defaultColor }
+        guard let hex = hexString, hex.characters.count == 6 else { return UIColor.white }
         
-        let r, g, b, a: CGFloat
+        let r, g, b: CGFloat
         let scanner = Scanner(string: hex)
         var hexNumber: UInt64 = 0
         
-        guard scanner.scanHexInt64(&hexNumber) else { return defaultColor }
-        r = CGFloat((hexNumber & 0xff000000) >> 24) / 255
-        g = CGFloat((hexNumber & 0x00ff0000) >> 16) / 255
-        b = CGFloat((hexNumber & 0x0000ff00) >> 8) / 255
-        a = CGFloat(hexNumber & 0x000000ff) / 255
+        guard scanner.scanHexInt64(&hexNumber) else { return UIColor.white }
+        r = CGFloat((hexNumber & 0x00ff0000) >> 16) / 255
+        g = CGFloat((hexNumber & 0x0000ff00) >> 8) / 255
+        b = CGFloat(hexNumber & 0x000000ff) / 255
         
-        return UIColor(red: r, green: g, blue: b, alpha: a)
+        return UIColor(red: r, green: g, blue: b, alpha: 1.0)
     }
     
     
@@ -51,7 +49,7 @@ extension UIColor {
         
         self.getRed(&r, green: &g, blue: &b, alpha: &a)
         
-        return String(format: "%02X%02X%02X%02X", Int(r * 0xff), Int(g * 0xff), Int(b * 0xff), Int(a * 0xff)).lowercased()
+        return String(format: "%02X%02X%02X", Int(r * 0xff), Int(g * 0xff), Int(b * 0xff)).lowercased()
     }
 }
 

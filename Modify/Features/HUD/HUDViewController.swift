@@ -63,6 +63,7 @@ class HUDViewController: UIViewController {
         setupPlaceButton()
         setupPan()
         setupLocationStatus()
+        setupColorPicker()
     }
     
     func updateLocationStatus(_ status: Application.LocationAccuracyState) {
@@ -226,6 +227,13 @@ class HUDViewController: UIViewController {
         case .ended: break
         default: break
         }
+    }
+    
+    
+    private func setupColorPicker() {
+        let pos = CGPoint(x: UIScreen.main.bounds.width - 40, y: UIScreen.main.bounds.height - 50)
+        let colorPicker = ColorPickerView(position: pos)
+        self.view.addSubview(colorPicker)
     }
 }
 

@@ -41,6 +41,7 @@
 		B64F0C371F4DBA920004BA49 /* HUDViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B64F0C361F4DBA920004BA49 /* HUDViewController.swift */; };
 		B6650F971F57130C0085ABBE /* SCNScene+Lighting.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6650F961F57130C0085ABBE /* SCNScene+Lighting.swift */; };
 		B6DA6E871F66A4BE006EB7F7 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6DA6E861F66A4BE006EB7F7 /* Extensions.swift */; };
+		B6F97E161F6AA1AE0061CDBF /* ColorPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F97E151F6AA1AE0061CDBF /* ColorPickerView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -81,6 +82,7 @@
 		B64F0C361F4DBA920004BA49 /* HUDViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUDViewController.swift; sourceTree = "<group>"; };
 		B6650F961F57130C0085ABBE /* SCNScene+Lighting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SCNScene+Lighting.swift"; sourceTree = "<group>"; };
 		B6DA6E861F66A4BE006EB7F7 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		B6F97E151F6AA1AE0061CDBF /* ColorPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerView.swift; sourceTree = "<group>"; };
 		FCDA4043423E1BCB46521F8B /* Pods_Modify.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Modify.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -248,6 +250,7 @@
 			isa = PBXGroup;
 			children = (
 				B64F0C361F4DBA920004BA49 /* HUDViewController.swift */,
+				B6F97E151F6AA1AE0061CDBF /* ColorPickerView.swift */,
 			);
 			path = HUD;
 			sourceTree = "<group>";
@@ -414,6 +417,7 @@
 				829A6DE11F576C9E00FFE858 /* ARViewController+ARSessionDelegate.swift in Sources */,
 				8DFF39F31F50344700E55652 /* SceneLocationEstimate.swift in Sources */,
 				829A6DE51F57706800FFE858 /* ARViewController+HUD.swift in Sources */,
+				B6F97E161F6AA1AE0061CDBF /* ColorPickerView.swift in Sources */,
 				8DFF39F41F50344700E55652 /* SceneLocationEstimate+Extensions.swift in Sources */,
 				8DFF39F51F50344700E55652 /* SceneLocationView.swift in Sources */,
 				829A6DDF1F576A1000FFE858 /* ARViewController+Creating.swift in Sources */,

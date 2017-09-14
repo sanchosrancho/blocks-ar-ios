@@ -20,7 +20,7 @@ extension ARViewController {
         let position = sceneLocationView.currentScenePosition()
         
         for artifact in artifacts {
-            guard let artifactNode = ArtifactNode(artifact, currentLocation: location, currentPosition: position)  else { continue }
+            guard let artifactNode = ArtifactNode(artifact, currentLocation: location, currentPosition: position) else { continue }
             sceneLocationView.addLocationNodeWithConfirmedLocation(locationNode: artifactNode)
             artifactNodes.append(artifactNode)
         }

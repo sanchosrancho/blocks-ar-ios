@@ -46,7 +46,7 @@ class Account {
     }
     
     static let sharedInstance = Account()
-    lazy internal var info = Info()
+    lazy var info = Info()
     
     var accessToken: String? {
         get { return self.info.token }

@@ -43,6 +43,13 @@ extension ModifyApi.User {
     }
 }
 
+extension ModifyApi.Artifact {
+    struct Response: Decodable {
+        let status: String
+        let result: [Artifact]
+    }
+}
+
 extension ModifyApi.User: TargetType, AccessTokenAuthorizable {
     var baseURL: URL { return ModifyApi.baseURL }
     var headers: [String: String]? { return ModifyApi.headers }

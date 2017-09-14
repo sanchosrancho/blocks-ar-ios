@@ -23,7 +23,7 @@ struct ModifyApi {
     
     enum Block {
         case add(data: Data)
-        case delete(artifactId: Int, block_id: Int)
+        case delete(blockId: String)
     }
 }
 
@@ -129,15 +129,8 @@ extension ModifyApi.Block: TargetType, AccessTokenAuthorizable {
     
     var task: Task {
         switch self {
-        case .add(let data):
-            return .requestParameters(parameters: [
-                    "block": data
-                ], encoding: JSONEncoding.default)
-        case .delete(let artifactId, let block_id):
-            return .requestParameters(parameters: [
-                    "artifact_id": artifactId,
-                    "block_id": block_id
-                ], encoding: JSONEncoding.default)
+        case .add(let data):       return .requestParameters(parameters: ["block": data],       encoding: JSONEncoding.default)
+        case .delete(let blockId): return .requestParameters(parameters: ["block_id": blockId], encoding: JSONEncoding.default)
         }
     }
 }

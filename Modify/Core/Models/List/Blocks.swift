@@ -47,4 +47,31 @@ struct Blocks {
         }
     }
     
+    func delete(blockId: String) -> Promise<Void> {
+        return Promise { fulfill, reject in
+            
+            guard let token = Account.sharedInstance.info.token else { throw NSError.cancelledError() }
+            let authPlugin = AccessTokenPlugin(tokenClosure: token)
+            let api = MoyaProvider<ModifyApi.Block>(plugins: [authPlugin, NetworkLoggerPlugin()])
+            api.request(.delete(blockId: blockId)) { result in
+                
+                switch result {
+                case let .success(response):
+                    do {
+                        let result = try JSONDecoder().decode(ModifyApi.Block.Response.self, from: response.data)
+                        guard result.status == "ok" else { reject(NSError.cancelledError()); return }
+                        fulfill(())
+                    } catch(let error) {
+                        reject(error)
+                    }
+                    
+                case let .failure(error):
+                    reject(error)
+                }
+                
+            }
+            
+        }
+    }
+    
 }

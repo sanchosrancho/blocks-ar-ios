@@ -26,8 +26,11 @@
 		82E9352F1F61F0C00066741C /* Artifacts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E9352E1F61F0C00066741C /* Artifacts.swift */; };
 		82E935311F6208190066741C /* RealmSwift+Codable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E935301F6208190066741C /* RealmSwift+Codable.swift */; };
 		8D65F2911F582AA800A6E463 /* Application.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D65F2901F582AA800A6E463 /* Application.swift */; };
+		8D68DCF41F6C28A000764F23 /* ApiUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D68DCF31F6C28A000764F23 /* ApiUser.swift */; };
+		8D68DCF61F6C2A0700764F23 /* ApiArtifact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D68DCF51F6C2A0700764F23 /* ApiArtifact.swift */; };
+		8D68DCF81F6C2A4700764F23 /* ApiBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D68DCF71F6C2A4700764F23 /* ApiBlock.swift */; };
 		8D92B3B51F62C115006D0D71 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D92B3B41F62C115006D0D71 /* User.swift */; };
-		8D92B3BA1F63005D006D0D71 /* ModifyApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D92B3B91F63005D006D0D71 /* ModifyApi.swift */; };
+		8D92B3BA1F63005D006D0D71 /* Api.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D92B3B91F63005D006D0D71 /* Api.swift */; };
 		8D92B3BC1F6811C8006D0D71 /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D92B3BB1F6811C8006D0D71 /* Account.swift */; };
 		8D92B3BE1F6AE68B006D0D71 /* Blocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D92B3BD1F6AE68B006D0D71 /* Blocks.swift */; };
 		8DFF39EE1F50344700E55652 /* CGPoint+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC8263E1F50335900DF7DF9 /* CGPoint+Extensions.swift */; };
@@ -67,8 +70,11 @@
 		82E9352E1F61F0C00066741C /* Artifacts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Artifacts.swift; sourceTree = "<group>"; };
 		82E935301F6208190066741C /* RealmSwift+Codable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RealmSwift+Codable.swift"; sourceTree = "<group>"; };
 		8D65F2901F582AA800A6E463 /* Application.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Application.swift; sourceTree = "<group>"; };
+		8D68DCF31F6C28A000764F23 /* ApiUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiUser.swift; sourceTree = "<group>"; };
+		8D68DCF51F6C2A0700764F23 /* ApiArtifact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiArtifact.swift; sourceTree = "<group>"; };
+		8D68DCF71F6C2A4700764F23 /* ApiBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiBlock.swift; sourceTree = "<group>"; };
 		8D92B3B41F62C115006D0D71 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		8D92B3B91F63005D006D0D71 /* ModifyApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModifyApi.swift; sourceTree = "<group>"; };
+		8D92B3B91F63005D006D0D71 /* Api.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Api.swift; sourceTree = "<group>"; };
 		8D92B3BB1F6811C8006D0D71 /* Account.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
 		8D92B3BD1F6AE68B006D0D71 /* Blocks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Blocks.swift; sourceTree = "<group>"; };
 		8DC826391F50335900DF7DF9 /* SceneLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneLocationView.swift; sourceTree = "<group>"; };
@@ -196,7 +202,10 @@
 		8D92B3B81F63005D006D0D71 /* ModifyApi */ = {
 			isa = PBXGroup;
 			children = (
-				8D92B3B91F63005D006D0D71 /* ModifyApi.swift */,
+				8D92B3B91F63005D006D0D71 /* Api.swift */,
+				8D68DCF31F6C28A000764F23 /* ApiUser.swift */,
+				8D68DCF51F6C2A0700764F23 /* ApiArtifact.swift */,
+				8D68DCF71F6C2A4700764F23 /* ApiBlock.swift */,
 			);
 			path = ModifyApi;
 			sourceTree = "<group>";
@@ -417,6 +426,7 @@
 				829A6DE31F576D9F00FFE858 /* ARViewController+SceneLocationViewDelegate.swift in Sources */,
 				82E935311F6208190066741C /* RealmSwift+Codable.swift in Sources */,
 				8DFF39EE1F50344700E55652 /* CGPoint+Extensions.swift in Sources */,
+				8D68DCF41F6C28A000764F23 /* ApiUser.swift in Sources */,
 				8DFF39EF1F50344700E55652 /* CLLocation+Extensions.swift in Sources */,
 				8D92B3B51F62C115006D0D71 /* User.swift in Sources */,
 				8DFF39F01F50344700E55652 /* FloatingPoint+Radians.swift in Sources */,
@@ -430,8 +440,9 @@
 				829A6DE51F57706800FFE858 /* ARViewController+HUD.swift in Sources */,
 				8DFF39F41F50344700E55652 /* SceneLocationEstimate+Extensions.swift in Sources */,
 				8DFF39F51F50344700E55652 /* SceneLocationView.swift in Sources */,
-				8D92B3BA1F63005D006D0D71 /* ModifyApi.swift in Sources */,
+				8D92B3BA1F63005D006D0D71 /* Api.swift in Sources */,
 				829A6DDF1F576A1000FFE858 /* ARViewController+Creating.swift in Sources */,
+				8D68DCF61F6C2A0700764F23 /* ApiArtifact.swift in Sources */,
 				8D65F2911F582AA800A6E463 /* Application.swift in Sources */,
 				8DFF39F61F50344700E55652 /* SCNNode+Extensions.swift in Sources */,
 				829A6DDB1F57688F00FFE858 /* ArtifactNode.swift in Sources */,
@@ -442,6 +453,7 @@
 				B64F0C371F4DBA920004BA49 /* HUDViewController.swift in Sources */,
 				8D92B3BE1F6AE68B006D0D71 /* Blocks.swift in Sources */,
 				826A734F1F4CCB8A00204DC7 /* AppDelegate.swift in Sources */,
+				8D68DCF81F6C2A4700764F23 /* ApiBlock.swift in Sources */,
 				829A6DE71F5770E500FFE858 /* ARViewController+Artifacts.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

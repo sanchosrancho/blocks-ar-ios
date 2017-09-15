@@ -82,12 +82,12 @@ public final class Account {
     func fetchToken() -> Promise<String> {
         return Promise { fulfill, reject in
             
-            let api = MoyaProvider<ModifyApi.User>(plugins: [NetworkLoggerPlugin()])
+            let api = MoyaProvider<Api.User>(plugins: [NetworkLoggerPlugin()])
             api.request(.login(deviceId: self.info.deviceToken)) { result in
                 switch result {
                 case let .success(response):
                     do {
-                        let data = try JSONDecoder().decode(ModifyApi.User.Response.self, from: response.data)
+                        let data = try JSONDecoder().decode(Api.User.Response.self, from: response.data)
                         fulfill(data.result.token)
                     } catch (let error) {
                         reject(error)
@@ -105,7 +105,7 @@ public final class Account {
         return Promise { fulfill, reject in
             guard let token = self.info.token else { throw NSError.cancelledError() }
             let authPlugin = AccessTokenPlugin(tokenClosure: token)
-            let api = MoyaProvider<ModifyApi.User>(plugins: [authPlugin, NetworkLoggerPlugin()])
+            let api = MoyaProvider<Api.User>(plugins: [authPlugin, NetworkLoggerPlugin()])
             
             api.request(.update(
                 locale:    self.info.locale,

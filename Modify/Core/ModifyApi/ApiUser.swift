@@ -8,6 +8,15 @@
 
 import Foundation
 import Moya
+import CoreLocation
+
+extension Api {
+    enum User {
+        case login(deviceId: String)
+        case update(locale: String?, pushToken: String?, platform: String?, position: CLLocationCoordinate2D?)
+        case updatePosition(CLLocationCoordinate2D)
+    }
+}
 
 extension Api.User {
     struct Response: Decodable {

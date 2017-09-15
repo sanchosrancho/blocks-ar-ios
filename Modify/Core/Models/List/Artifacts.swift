@@ -19,13 +19,13 @@ struct Artifacts {
             
             guard let token = Account.shared.info.token else { throw NSError.cancelledError() }
             let authPlugin = AccessTokenPlugin(tokenClosure: token)
-            let api = MoyaProvider<ModifyApi.Artifact>(plugins: [authPlugin, NetworkLoggerPlugin()])
+            let api = MoyaProvider<Api.Artifact>(plugins: [authPlugin, NetworkLoggerPlugin()])
             
             api.request(.getByBounds(from: from, to: to)) { result in
                 switch result {
                 case let .success(response):
                     do {
-                        let data = try JSONDecoder().decode(ModifyApi.Artifact.Response.self, from: response.data)
+                        let data = try JSONDecoder().decode(Api.Artifact.Response.self, from: response.data)
                         fulfill(data.result)
                     } catch(let error) {
                         reject(error)

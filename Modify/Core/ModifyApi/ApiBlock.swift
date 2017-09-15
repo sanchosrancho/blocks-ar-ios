@@ -9,11 +9,19 @@
 import Foundation
 import Moya
 
+extension Api {
+    enum Block {
+        case add(data: Data)
+        case delete(blockId: String)
+    }
+}
+
 extension Api.Block {
     struct Response:Decodable {
         let status: String
     }
 }
+
 extension Api.Block: TargetType, AccessTokenAuthorizable {
     var baseURL: URL { return Api.baseURL }
     var headers: [String: String]? { return Api.headers }

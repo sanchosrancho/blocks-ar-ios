@@ -17,7 +17,7 @@ struct Blocks {
             
             guard let token = Account.shared.info.token else { throw NSError.cancelledError() }
             let authPlugin = AccessTokenPlugin(tokenClosure: token)
-            let api = MoyaProvider<ModifyApi.Block>(plugins: [authPlugin, NetworkLoggerPlugin()])
+            let api = MoyaProvider<Api.Block>(plugins: [authPlugin, NetworkLoggerPlugin()])
             
             do {
                 let encodedBlock = try JSONEncoder().encode(block)
@@ -27,7 +27,7 @@ struct Blocks {
                     switch result {
                     case let .success(response):
                         do {
-                            let result = try JSONDecoder().decode(ModifyApi.Block.Response.self, from: response.data)
+                            let result = try JSONDecoder().decode(Api.Block.Response.self, from: response.data)
                             guard result.status == "ok" else { reject(NSError.cancelledError()); return }
                             fulfill(())
                         } catch(let error) {
@@ -51,13 +51,13 @@ struct Blocks {
             
             guard let token = Account.shared.info.token else { throw NSError.cancelledError() }
             let authPlugin = AccessTokenPlugin(tokenClosure: token)
-            let api = MoyaProvider<ModifyApi.Block>(plugins: [authPlugin, NetworkLoggerPlugin()])
+            let api = MoyaProvider<Api.Block>(plugins: [authPlugin, NetworkLoggerPlugin()])
             api.request(.delete(blockId: blockId)) { result in
                 
                 switch result {
                 case let .success(response):
                     do {
-                        let result = try JSONDecoder().decode(ModifyApi.Block.Response.self, from: response.data)
+                        let result = try JSONDecoder().decode(Api.Block.Response.self, from: response.data)
                         guard result.status == "ok" else { reject(NSError.cancelledError()); return }
                         fulfill(())
                     } catch(let error) {

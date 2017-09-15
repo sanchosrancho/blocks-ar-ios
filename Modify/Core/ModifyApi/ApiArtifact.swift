@@ -8,6 +8,13 @@
 
 import Foundation
 import Moya
+import CoreLocation
+
+extension Api {
+    enum Artifact {
+        case getByBounds(from: CLLocationCoordinate2D, to: CLLocationCoordinate2D)
+    }
+}
 
 extension Api.Artifact {
     struct Response: Decodable {
@@ -35,3 +42,4 @@ extension Api.Artifact: TargetType, AccessTokenAuthorizable {
         }
     }
 }
+

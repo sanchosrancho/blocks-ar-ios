@@ -129,6 +129,7 @@
 			isa = PBXGroup;
 			children = (
 				B69843941F4F2FFE002B0EE4 /* Core */,
+				8D65F2901F582AA800A6E463 /* Application.swift */,
 				8DF7BD831F502EF00033EE3B /* Library */,
 				B6650F951F5712F60085ABBE /* Common */,
 				829C53D01F576350006B77F9 /* Features */,
@@ -167,6 +168,7 @@
 			children = (
 				829C53D21F576413006B77F9 /* Item */,
 				8D65F28F1F582A8500A6E463 /* List */,
+				82E935301F6208190066741C /* RealmSwift+Codable.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -185,7 +187,6 @@
 			isa = PBXGroup;
 			children = (
 				8D92B3BB1F6811C8006D0D71 /* Account.swift */,
-				8D65F2901F582AA800A6E463 /* Application.swift */,
 				82E9352E1F61F0C00066741C /* Artifacts.swift */,
 				8D92B3BD1F6AE68B006D0D71 /* Blocks.swift */,
 			);
@@ -238,7 +239,6 @@
 			children = (
 				8D92B3B81F63005D006D0D71 /* ModifyApi */,
 				829C53D11F5763FB006B77F9 /* Models */,
-				82E935301F6208190066741C /* RealmSwift+Codable.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";

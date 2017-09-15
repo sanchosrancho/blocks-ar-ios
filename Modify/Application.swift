@@ -9,6 +9,7 @@
 import Foundation
 import ARKit
 import CoreLocation
+import PromiseKit
 
 public final class Application {
     
@@ -43,4 +44,26 @@ public final class Application {
     }
     
     
+}
+
+extension Application {
+    
+    // socketConnect()
+    // .catch {
+    //      login().then {
+    //          retry()
+    //      }
+    // }
+    //
+    func establi() -> Promise<Void> {
+        return Promise { fulfill, reject in
+            
+            guard let token = Account.shared.info.token, token != "" else {
+                reject(NSError.cancelledError())
+            }
+            
+            
+            
+        }
+    }
 }

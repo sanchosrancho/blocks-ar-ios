@@ -6,12 +6,12 @@
 //  Copyright © 2017 Envent. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 extension ARViewController: HUDViewControllerDelegate {
     
-    func hudAddObjectPressed() {
-        addInitialCubeToCamera()
+    func hudAddObjectPressed(color: UIColor) {
+        addInitialCubeToCamera(with: color)
     }
     
     

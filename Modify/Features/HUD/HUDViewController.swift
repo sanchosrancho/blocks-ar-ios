@@ -37,7 +37,7 @@ class HUDWindow: UIWindow {
 
 
 @objc protocol HUDViewControllerDelegate: class {
-    func hudAddObjectPressed()
+    func hudAddObjectPressed(color: UIColor)
     func hudPlaceObjectPressed()
     func hudPlaceObjectCancelled()
     
@@ -92,6 +92,8 @@ class HUDViewController: UIViewController {
     private let placeObjectButton = HUDButton(frame: CGRect(x: round((UIScreen.main.bounds.width - 80)/2), y: UIScreen.main.bounds.height - 60, width: 80, height: 44))
     private var startYPan: CGFloat = 0
     private let locationStatus = UILabel(frame: CGRect(x: 20, y: 10, width: (UIScreen.main.bounds.width-40), height: 20))
+    private var colorPicker: ColorPickerView!
+    
     
     private func setupLocationStatus() {
         locationStatus.layer.opacity = 0.6
@@ -174,7 +176,8 @@ class HUDViewController: UIViewController {
     }
     
     @objc private func addButtonPressed(_ sender: UIButton) {
-        sender.isSelected ? delegate?.hudPlaceObjectCancelled() : delegate?.hudAddObjectPressed()
+        let color = self.colorPicker.currentColor
+        sender.isSelected ? delegate?.hudPlaceObjectCancelled() : delegate?.hudAddObjectPressed(color: color)
     }
     
     private func setupAdjustingNodePositionButton() {
@@ -233,6 +236,7 @@ class HUDViewController: UIViewController {
     private func setupColorPicker() {
         let pos = CGPoint(x: UIScreen.main.bounds.width - 40, y: UIScreen.main.bounds.height - 50)
         let colorPicker = ColorPickerView(position: pos)
+        self.colorPicker = colorPicker
         self.view.addSubview(colorPicker)
     }
 }

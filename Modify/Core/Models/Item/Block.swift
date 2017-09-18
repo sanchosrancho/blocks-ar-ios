@@ -36,5 +36,13 @@ extension Block {
     var color: UIColor {
         return UIColor.fromHex(hexColor)
     }
+    
+    var locationCoordinate2D: CLLocationCoordinate2D {
+        return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+    }
+    
+    var location: CLLocation {
+        return CLLocation(coordinate: locationCoordinate2D, altitude: altitude, horizontalAccuracy: horizontalAccuracy, verticalAccuracy: verticalAccuracy, timestamp: createdAt ?? Date())
+    }
 }
 

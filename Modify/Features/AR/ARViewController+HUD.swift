@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SceneKit
 
 extension ARViewController: HUDViewControllerDelegate {
     
@@ -58,5 +59,27 @@ extension ARViewController: HUDViewControllerDelegate {
     
     func hudStartAdjustingNodesPosition() {
         sceneLocationView.shouldUpdateLocationEstimate = true
+    }
+    
+    
+    func hudDidTap(_ gesture: UITapGestureRecognizer, color: UIColor) {
+        let point = gesture.location(in: sceneLocationView)
+        let hitResults = sceneLocationView.hitTest(point, options: [:])
+        guard let result = hitResults.first else { return }
+        
+        guard let block = result.node as? CubeNode /*BlockNode*/ else { return }
+        guard let artifactNode = block.parent as? ArtifactNode else { return }
+        guard let face = block.findFace(with: result.geometryIndex) else { return }
+        let newPos = block.newPosition(from: face)
+        let translation = LocationTranslation(latitudeTranslation: -Double(newPos.z), longitudeTranslation: -Double(newPos.x), altitudeTranslation: -Double(newPos.y))
+        let newLocation = artifactNode.location.translatedLocation(with: translation)
+        
+        let tr = newLocation.translation(toLocation: artifactNode.location)
+        let testPos = SCNVector3(tr.longitudeTranslation, tr.altitudeTranslation, tr.latitudeTranslation)
+        
+        let blockNode = CubeNode(position: testPos, color: color)
+        artifactNode.addChildNode(blockNode)
+//        addCube(with: newLocation, to: artifactNode.artifactId, color: color)
+        
     }
 }

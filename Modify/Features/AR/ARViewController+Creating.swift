@@ -26,6 +26,7 @@ extension ARViewController {
     }
     
     
+    // cube node with world transform
     func saveArtifact(cubeNode: CubeNode) {
         guard let location = sceneLocationView.currentLocation(),
               let position = sceneLocationView.currentScenePosition() else { return }
@@ -56,4 +57,20 @@ extension ARViewController {
         }
     }
     
+    
+    func addCube(with location: CLLocation, to artifactId: String, color: UIColor) {
+        guard let artifact = realm.object(ofType: Artifact.self, forPrimaryKey: artifactId) else { return }
+        
+        try! realm.write {
+            let block = Block()
+            block.artifact = artifact
+            block.latitude = location.coordinate.latitude
+            block.longitude = location.coordinate.longitude
+            block.altitude = location.altitude
+            block.createdAt = Date()
+            block.hexColor = color.hexString()
+            
+            artifact.blocks.append(block)
+        }
+    }
 }

@@ -40,6 +40,8 @@
 		B635793E1F66D7590016E598 /* RealmSwift+Codable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B635793D1F66D62A0016E598 /* RealmSwift+Codable.swift */; };
 		B64F0C371F4DBA920004BA49 /* HUDViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B64F0C361F4DBA920004BA49 /* HUDViewController.swift */; };
 		B6650F971F57130C0085ABBE /* SCNScene+Lighting.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6650F961F57130C0085ABBE /* SCNScene+Lighting.swift */; };
+		B680AA981F6FE99E002F2632 /* HUDViewController+Gestures.swift in Sources */ = {isa = PBXBuildFile; fileRef = B680AA971F6FE99E002F2632 /* HUDViewController+Gestures.swift */; };
+		B680AA9A1F6FEB19002F2632 /* HUDViewController+Recording.swift in Sources */ = {isa = PBXBuildFile; fileRef = B680AA991F6FEB19002F2632 /* HUDViewController+Recording.swift */; };
 		B6DA6E871F66A4BE006EB7F7 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6DA6E861F66A4BE006EB7F7 /* Extensions.swift */; };
 		B6F97E161F6AA1AE0061CDBF /* ColorPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F97E151F6AA1AE0061CDBF /* ColorPickerView.swift */; };
 /* End PBXBuildFile section */
@@ -81,6 +83,8 @@
 		B635793D1F66D62A0016E598 /* RealmSwift+Codable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "RealmSwift+Codable.swift"; path = "Modify/Core/RealmSwift+Codable.swift"; sourceTree = SOURCE_ROOT; };
 		B64F0C361F4DBA920004BA49 /* HUDViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUDViewController.swift; sourceTree = "<group>"; };
 		B6650F961F57130C0085ABBE /* SCNScene+Lighting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SCNScene+Lighting.swift"; sourceTree = "<group>"; };
+		B680AA971F6FE99E002F2632 /* HUDViewController+Gestures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HUDViewController+Gestures.swift"; sourceTree = "<group>"; };
+		B680AA991F6FEB19002F2632 /* HUDViewController+Recording.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HUDViewController+Recording.swift"; sourceTree = "<group>"; };
 		B6DA6E861F66A4BE006EB7F7 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		B6F97E151F6AA1AE0061CDBF /* ColorPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerView.swift; sourceTree = "<group>"; };
 		FCDA4043423E1BCB46521F8B /* Pods_Modify.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Modify.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -250,7 +254,9 @@
 			isa = PBXGroup;
 			children = (
 				B64F0C361F4DBA920004BA49 /* HUDViewController.swift */,
+				B680AA971F6FE99E002F2632 /* HUDViewController+Gestures.swift */,
 				B6F97E151F6AA1AE0061CDBF /* ColorPickerView.swift */,
+				B680AA991F6FEB19002F2632 /* HUDViewController+Recording.swift */,
 			);
 			path = HUD;
 			sourceTree = "<group>";
@@ -415,7 +421,9 @@
 				8DFF39F11F50344700E55652 /* LocationManager.swift in Sources */,
 				8DFF39F21F50344700E55652 /* LocationNode.swift in Sources */,
 				829A6DE11F576C9E00FFE858 /* ARViewController+ARSessionDelegate.swift in Sources */,
+				B680AA9A1F6FEB19002F2632 /* HUDViewController+Recording.swift in Sources */,
 				8DFF39F31F50344700E55652 /* SceneLocationEstimate.swift in Sources */,
+				B680AA981F6FE99E002F2632 /* HUDViewController+Gestures.swift in Sources */,
 				829A6DE51F57706800FFE858 /* ARViewController+HUD.swift in Sources */,
 				B6F97E161F6AA1AE0061CDBF /* ColorPickerView.swift in Sources */,
 				8DFF39F41F50344700E55652 /* SceneLocationEstimate+Extensions.swift in Sources */,

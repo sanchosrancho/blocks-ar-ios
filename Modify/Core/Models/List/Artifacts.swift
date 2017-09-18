@@ -14,27 +14,20 @@ import Moya
 
 struct Artifacts {
     
-    static func getByBounds(from: CLLocationCoordinate2D, to: CLLocationCoordinate2D) -> Promise<[Artifact]> {
-        return Promise { fulfill, reject in
-            
-            guard let token = Account.shared.info.token else { throw NSError.cancelledError() }
-            let authPlugin = AccessTokenPlugin(tokenClosure: token)
-            let api = MoyaProvider<Api.Artifact>(plugins: [authPlugin, NetworkLoggerPlugin()])
-            
-            api.request(.getByBounds(from: from, to: to)) { result in
-                switch result {
-                case let .success(response):
-                    do {
-                        let data = try JSONDecoder().decode(Api.Artifact.Response.self, from: response.data)
-                        fulfill(data.result)
-                    } catch(let error) {
-                        reject(error)
-                    }
-                    
-                case let .failure(error): reject(error)
-                }
-            }
-            
+    static func getByBounds(from: CLLocationCoordinate2D, to: CLLocationCoordinate2D) throws -> Promise<[Artifact]> {
+        guard let token = Account.shared.info.token else {
+            throw NSError.cancelledError()
         }
+        
+        let authPlugin = AccessTokenPlugin(tokenClosure: token)
+        let api = MoyaProvider<Api.Artifact>(plugins: [authPlugin, NetworkLoggerPlugin()])
+        
+        return firstly {
+                api.request(target: .getByBounds(from: from, to: to))
+            }.then { (response: Moya.Response) -> Api.Artifact.Response in
+                try JSONDecoder().decode(Api.Artifact.Response.self, from: response.data)
+            }.then { (json: Api.Artifact.Response) -> [Artifact] in
+                json.result
+            }
     }
 }

@@ -26,6 +26,9 @@ extension Api.User {
     struct LoginResult: Decodable {
         let token: String
     }
+    struct UpdateResponse: Decodable {
+        let status: String
+    }
 }
 
 extension Api.User: TargetType, AccessTokenAuthorizable {

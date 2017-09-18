@@ -34,6 +34,7 @@
 		8D92B3BC1F6811C8006D0D71 /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D92B3BB1F6811C8006D0D71 /* Account.swift */; };
 		8D92B3BE1F6AE68B006D0D71 /* Blocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D92B3BD1F6AE68B006D0D71 /* Blocks.swift */; };
 		8DC026771F6FDBD9000DD121 /* Socket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC026761F6FDBD9000DD121 /* Socket.swift */; };
+		8DC026791F7019AC000DD121 /* PromiseKit+Moya.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC026781F7019AC000DD121 /* PromiseKit+Moya.swift */; };
 		8DFF39EE1F50344700E55652 /* CGPoint+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC8263E1F50335900DF7DF9 /* CGPoint+Extensions.swift */; };
 		8DFF39EF1F50344700E55652 /* CLLocation+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC826411F50335900DF7DF9 /* CLLocation+Extensions.swift */; };
 		8DFF39F01F50344700E55652 /* FloatingPoint+Radians.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC8263B1F50335900DF7DF9 /* FloatingPoint+Radians.swift */; };
@@ -79,6 +80,7 @@
 		8D92B3BB1F6811C8006D0D71 /* Account.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
 		8D92B3BD1F6AE68B006D0D71 /* Blocks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Blocks.swift; sourceTree = "<group>"; };
 		8DC026761F6FDBD9000DD121 /* Socket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Socket.swift; sourceTree = "<group>"; };
+		8DC026781F7019AC000DD121 /* PromiseKit+Moya.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PromiseKit+Moya.swift"; sourceTree = "<group>"; };
 		8DC826391F50335900DF7DF9 /* SceneLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneLocationView.swift; sourceTree = "<group>"; };
 		8DC8263A1F50335900DF7DF9 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		8DC8263B1F50335900DF7DF9 /* FloatingPoint+Radians.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FloatingPoint+Radians.swift"; sourceTree = "<group>"; };
@@ -176,6 +178,7 @@
 				829C53D21F576413006B77F9 /* Item */,
 				8D65F28F1F582A8500A6E463 /* List */,
 				82E935301F6208190066741C /* RealmSwift+Codable.swift */,
+				8DC026781F7019AC000DD121 /* PromiseKit+Moya.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -429,6 +432,7 @@
 				829A6DE31F576D9F00FFE858 /* ARViewController+SceneLocationViewDelegate.swift in Sources */,
 				82E935311F6208190066741C /* RealmSwift+Codable.swift in Sources */,
 				8DFF39EE1F50344700E55652 /* CGPoint+Extensions.swift in Sources */,
+				8DC026791F7019AC000DD121 /* PromiseKit+Moya.swift in Sources */,
 				8DC026771F6FDBD9000DD121 /* Socket.swift in Sources */,
 				8D68DCF41F6C28A000764F23 /* ApiUser.swift in Sources */,
 				8DFF39EF1F50344700E55652 /* CLLocation+Extensions.swift in Sources */,

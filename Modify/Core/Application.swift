@@ -67,32 +67,32 @@ extension Application {
     //      }
     // }
     
-    func connect() {
-        firstly {
-            establishSocketConnection()
-        }.then {
-            self.connectionStatus = .connected
-        }.catch(error: .loginNeeded) {
-            self.connectionStatus = .error(error)
-            Account.shared.login()
-                .then {
-                    self.connect()
-                }
-        }.catch { error in
-            self.connectionStatus = .error(error)
-            if error == .loginNeeded {
-                
-            }
-        }
-    }
-    
-    func establishSocketConnection() -> Promise<Void> {
-        guard let token = Account.shared.info.token, token != "" else {
-            throw ConnectionError.loginNeeded
-        }
-        let socket = Application.socket
-        socket.token = token
-        return socket.connect()
-    }
+//    func connect() {
+//        firstly {
+//            establishSocketConnection()
+//        }.then {
+//            self.connectionStatus = .connected
+////        }.catch { error: ConnectionError in
+////            self.connectionStatus = .error(error)
+////            Account.shared.login()
+////                .then {
+////                    self.connect()
+////                }
+//        }.catch { error in
+//            self.connectionStatus = .error(error)
+//            if error == .loginNeeded {
+//                
+//            }
+//        }
+//    }
+//    
+//    func establishSocketConnection() -> Promise<Void> {
+//        guard let token = Account.shared.info.token, token != "" else {
+//            throw ConnectionError.loginNeeded
+//        }
+//        let socket = Application.socket
+//        socket.token = token
+//        return socket.connect()
+//    }
     
 }

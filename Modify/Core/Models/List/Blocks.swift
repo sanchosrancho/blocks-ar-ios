@@ -12,65 +12,43 @@ import Moya
 
 struct Blocks {
     
-    func add(block: Block) -> Promise<Void> {
-        return Promise { fulfill, reject in
-            
-            guard let token = Account.shared.info.token else { throw NSError.cancelledError() }
-            let authPlugin = AccessTokenPlugin(tokenClosure: token)
-            let api = MoyaProvider<Api.Block>(plugins: [authPlugin, NetworkLoggerPlugin()])
-            
-            do {
-                let encodedBlock = try JSONEncoder().encode(block)
-//                let encoded = String(data: data, encoding: .utf8)!
-                
-                api.request(.add(data: encodedBlock)) { result in
-                    switch result {
-                    case let .success(response):
-                        do {
-                            let result = try JSONDecoder().decode(Api.Block.Response.self, from: response.data)
-                            guard result.status == "ok" else { reject(NSError.cancelledError()); return }
-                            fulfill(())
-                        } catch(let error) {
-                            reject(error)
-                        }
-                        
-                    case let .failure(error):
-                        reject(error)
-                    }
-                }
-                
-            } catch (let error) {
-                reject(error)
-            }
-            
+    func add(block: Block) throws -> Promise<Void> {
+        guard let token = Account.shared.info.token else {
+            throw Application.ConnectionError.loginNeeded
         }
+        
+        let authPlugin = AccessTokenPlugin(tokenClosure: token)
+        let api = MoyaProvider<Api.Block>(plugins: [authPlugin, NetworkLoggerPlugin()])
+        let encodedBlock = try JSONEncoder().encode(block)
+
+        return
+            firstly {
+                api.request(target: .add(data: encodedBlock))
+            }.then { (response: Moya.Response) -> Api.Block.Response in
+                try JSONDecoder().decode(Api.Block.Response.self, from: response.data)
+            }.then { (json: Api.Block.Response) -> Void in
+                guard json.status == "ok" else {
+                    throw NSError.cancelledError()
+                }
+            }
     }
     
-    func delete(blockId: String) -> Promise<Void> {
-        return Promise { fulfill, reject in
-            
-            guard let token = Account.shared.info.token else { throw NSError.cancelledError() }
-            let authPlugin = AccessTokenPlugin(tokenClosure: token)
-            let api = MoyaProvider<Api.Block>(plugins: [authPlugin, NetworkLoggerPlugin()])
-            api.request(.delete(blockId: blockId)) { result in
-                
-                switch result {
-                case let .success(response):
-                    do {
-                        let result = try JSONDecoder().decode(Api.Block.Response.self, from: response.data)
-                        guard result.status == "ok" else { reject(NSError.cancelledError()); return }
-                        fulfill(())
-                    } catch(let error) {
-                        reject(error)
-                    }
-                    
-                case let .failure(error):
-                    reject(error)
-                }
-                
-            }
-            
+    func delete(blockId: String) throws -> Promise<Void> {
+        guard let token = Account.shared.info.token else {
+            throw NSError.cancelledError()
         }
+        
+        let authPlugin = AccessTokenPlugin(tokenClosure: token)
+        let api = MoyaProvider<Api.Block>(plugins: [authPlugin, NetworkLoggerPlugin()])
+        
+        return firstly {
+                api.request(target: .delete(blockId: blockId))
+            }.then { response -> Api.Block.Response in
+                try JSONDecoder().decode(Api.Block.Response.self, from: response.data)
+            }.then { (result: Api.Block.Response) -> Void in
+                guard result.status == "ok" else {
+                    throw NSError.cancelledError()
+                }
+            }
     }
-    
 }

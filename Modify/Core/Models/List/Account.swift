@@ -70,63 +70,43 @@ public final class Account {
     }
     
     func login() -> Promise<Void> {
-        return Promise { fulfill, reject in
-            
-            fetchToken().then { token -> Void in
+        return firstly {
+                fetchToken()
+            }.then { token -> Void in
                 self.info.token = token
-                fulfill(())
-            }.catch { reject($0) }
-            
-        }
+            }
     }
     
     func fetchToken() -> Promise<String> {
-        return Promise { fulfill, reject in
-            
-            let api = MoyaProvider<Api.User>(plugins: [NetworkLoggerPlugin()])
-            api.request(.login(deviceId: self.info.deviceToken)) { result in
-                switch result {
-                case let .success(response):
-                    do {
-                        let data = try JSONDecoder().decode(Api.User.Response.self, from: response.data)
-                        fulfill(data.result.token)
-                    } catch (let error) {
-                        reject(error)
-                    }
-                    
-                case let .failure(error):
-                    reject(error)
-                }
+        let api = MoyaProvider<Api.User>(plugins: [NetworkLoggerPlugin()])
+        return firstly {
+                api.request(target: .login(deviceId: self.info.deviceToken))
+            }.then { (response: Moya.Response) -> Api.User.Response in
+                try JSONDecoder().decode(Api.User.Response.self, from: response.data)
+            }.then { (json: Api.User.Response) -> String in
+                json.result.token
             }
-            
-        }
     }
     
     func syncUserInfo() -> Promise<Void> {
-        return Promise { fulfill, reject in
-            guard let token = self.info.token else { throw NSError.cancelledError() }
-            let authPlugin = AccessTokenPlugin(tokenClosure: token)
-            let api = MoyaProvider<Api.User>(plugins: [authPlugin, NetworkLoggerPlugin()])
+        return firstly {
+                guard let token = self.info.token else { throw NSError.cancelledError() }
+                let authPlugin = AccessTokenPlugin(tokenClosure: token)
+                let api = MoyaProvider<Api.User>(plugins: [authPlugin, NetworkLoggerPlugin()])
             
-            api.request(.update(
-                locale:    self.info.locale,
-                pushToken: self.info.platform,
-                platform:  self.info.platform,
-                position:  self.info.position))
-            { result in
-                switch result {
-                case let .success(response):
-                    let data = response.data
-                    let statusCode = response.statusCode
-                    print(data, statusCode)
-                    fulfill(())
-                    
-                case let .failure(error):
-                    print(error)
-                    reject(error)
+                return api.request(target: .update(
+                    locale:    self.info.locale,
+                    pushToken: self.info.platform,
+                    platform:  self.info.platform,
+                    position:  self.info.position))
+                
+            }.then { (response: Moya.Response) -> Api.User.UpdateResponse in
+                try JSONDecoder().decode(Api.User.UpdateResponse.self, from: response.data)
+            }.then { (json: Api.User.UpdateResponse) -> Void in
+                guard json.status == "ok" else {
+                    throw NSError.cancelledError()
                 }
             }
-        }
     }
 }
 

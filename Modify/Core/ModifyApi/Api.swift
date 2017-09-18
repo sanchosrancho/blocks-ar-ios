@@ -10,6 +10,7 @@ import Foundation
 import CoreLocation
 
 struct Api {
+    static let socketURL = { URL(string: "ws://212.224.112.252/sockets")! }()
     static let baseURL = { URL(string: "http://212.224.112.252")! }()
     static let headers = ["Content-type": "application/json"]
     static let sampleData = { "{\"status\": \"ok\", \"result\": {}".utf8Encoded }()

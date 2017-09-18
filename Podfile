@@ -14,4 +14,5 @@ target 'Modify' do
   pod 'Moya', :git => 'https://github.com/Moya/Moya.git', :branch => '10.0.0-dev'
   pod 'PromiseKit', '~> 4.4'
   pod 'Locksmith'
+  pod 'Starscream'
 end

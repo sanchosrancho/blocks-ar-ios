@@ -23,8 +23,6 @@ public final class Application {
         return _shared
     }
     
-    private init() {}
-    
     var state: Application.LocationAccuracyState = .poor {
         willSet(newState) {
             guard newState != state else { return }
@@ -43,7 +41,21 @@ public final class Application {
         state = (0...10 ~= locationHorizontalAccuracy && 0...5 ~= locationVerticalAccuracy) ? .good : .poor
     }
     
+    static let socket = Socket(socketUrl: Api.socketURL, token: Account.shared.accessToken)
     
+    enum ConnectionStatus {
+        case connected
+        case error(ConnectionError)
+        case disconnected
+    }
+    
+    enum ConnectionError: Error {
+        case loginNeeded
+    }
+    
+    var connectionStatus = ConnectionStatus.disconnected
+
+    private init() {}
 }
 
 extension Application {
@@ -54,16 +66,33 @@ extension Application {
     //          retry()
     //      }
     // }
-    //
-    func establi() -> Promise<Void> {
-        return Promise { fulfill, reject in
-            
-            guard let token = Account.shared.info.token, token != "" else {
-                reject(NSError.cancelledError())
+    
+    func connect() {
+        firstly {
+            establishSocketConnection()
+        }.then {
+            self.connectionStatus = .connected
+        }.catch(error: .loginNeeded) {
+            self.connectionStatus = .error(error)
+            Account.shared.login()
+                .then {
+                    self.connect()
+                }
+        }.catch { error in
+            self.connectionStatus = .error(error)
+            if error == .loginNeeded {
+                
             }
-            
-            
-            
         }
     }
+    
+    func establishSocketConnection() -> Promise<Void> {
+        guard let token = Account.shared.info.token, token != "" else {
+            throw ConnectionError.loginNeeded
+        }
+        let socket = Application.socket
+        socket.token = token
+        return socket.connect()
+    }
+    
 }

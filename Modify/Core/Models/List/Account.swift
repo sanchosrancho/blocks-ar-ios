@@ -14,6 +14,7 @@ import Locksmith
 import CoreLocation
 
 public final class Account {
+    
     struct Info {
         let platform = "ios"
         let locale = NSLocale.current.languageCode

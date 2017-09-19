@@ -45,7 +45,7 @@ public final class Application {
     
     enum ConnectionStatus {
         case connected
-        case error(ConnectionError)
+        case error(Error)
         case disconnected
     }
     
@@ -60,39 +60,30 @@ public final class Application {
 
 extension Application {
     
-    // socketConnect()
-    // .catch {
-    //      login().then {
-    //          retry()
-    //      }
-    // }
-    
-//    func connect() {
-//        firstly {
-//            establishSocketConnection()
-//        }.then {
-//            self.connectionStatus = .connected
-////        }.catch { error: ConnectionError in
-////            self.connectionStatus = .error(error)
-////            Account.shared.login()
-////                .then {
-////                    self.connect()
-////                }
-//        }.catch { error in
-//            self.connectionStatus = .error(error)
-//            if error == .loginNeeded {
-//                
-//            }
-//        }
-//    }
-//    
-//    func establishSocketConnection() -> Promise<Void> {
-//        guard let token = Account.shared.info.token, token != "" else {
+    func connect() {
+        establishSocketConnection()
+        .then {
+            self.connectionStatus = .connected
+        }.catch { error in
+            self.connectionStatus = .error(error)
+            if case ConnectionError.loginNeeded = error {
+                Account.shared.login().then { self.connect() }
+            }
+        }
+    }
+
+    private func establishSocketConnection() -> Promise<Void> {
+        guard let token = Account.shared.info.token, token != "" else {
 //            throw ConnectionError.loginNeeded
-//        }
-//        let socket = Application.socket
-//        socket.token = token
-//        return socket.connect()
-//    }
+            return Promise<Void>()
+        }
+        let socket = Application.socket
+        socket.token = token
+        return socket.connect()
+    }
+    
+    func disconnect() {
+        Application.socket.disconnect()
+    }
     
 }

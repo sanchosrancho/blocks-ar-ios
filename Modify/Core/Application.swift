@@ -61,22 +61,29 @@ public final class Application {
 extension Application {
     
     func connect() {
-        establishSocketConnection()
-        .then {
+        firstly {
+            guard let token = Account.shared.accessToken, token != "" else {
+                throw ConnectionError.loginNeeded
+            }
+            return Promise(value: token)
+        }.recover { error -> Promise<String> in
+            guard case ConnectionError.loginNeeded = error else { throw error }
+            return Account.shared.login().then { () -> String in
+                guard let token = Account.shared.accessToken, token != "" else {
+                    throw ConnectionError.loginNeeded
+                }
+                return token
+            }
+        }.then { (token: String) in
+            try self.establishSocketConnection(withToken: token)
+        }.then {
             self.connectionStatus = .connected
         }.catch { error in
             self.connectionStatus = .error(error)
-            if case ConnectionError.loginNeeded = error {
-                Account.shared.login().then { self.connect() }
-            }
         }
     }
 
-    private func establishSocketConnection() -> Promise<Void> {
-        guard let token = Account.shared.info.token, token != "" else {
-//            throw ConnectionError.loginNeeded
-            return Promise<Void>()
-        }
+    private func establishSocketConnection(withToken token: String) throws -> Promise<Void> {
         let socket = Application.socket
         socket.token = token
         return socket.connect()

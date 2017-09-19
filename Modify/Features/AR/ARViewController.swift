@@ -35,12 +35,6 @@ class ARViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        Account.shared.login().then {
-            print("Succefully logged in")
-        }.catch {
-            print("error", $0)
-        }
-        
 //        setupScene()
 //        setupHUD()
 //        setupRealm()

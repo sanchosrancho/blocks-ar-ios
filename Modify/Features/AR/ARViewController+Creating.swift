@@ -41,14 +41,21 @@ extension ARViewController {
             artifact.eulerY = cubeNode.eulerAngles.y
             artifact.eulerZ = cubeNode.eulerAngles.z
             
+            artifact.latitude  = artifactLocation.coordinate.latitude
+            artifact.longitude = artifactLocation.coordinate.longitude
+            artifact.altitude  = artifactLocation.altitude
+            
+            artifact.horizontalAccuracy = artifactLocation.horizontalAccuracy
+            artifact.verticalAccuracy = artifactLocation.verticalAccuracy
+            artifact.groundDistance = CLLocationDistance(distanceToGround)
+            
+            
             let block = Block()
             block.artifact = artifact
             block.latitude = artifactLocation.coordinate.latitude
             block.longitude = artifactLocation.coordinate.longitude
             block.altitude = artifactLocation.altitude
-            block.horizontalAccuracy = artifactLocation.horizontalAccuracy
-            block.verticalAccuracy = artifactLocation.verticalAccuracy
-            block.groundDistance = CLLocationDistance(distanceToGround)
+            
             block.createdAt = Date()
             block.hexColor = cubeNode.hexColor
             
@@ -58,15 +65,21 @@ extension ARViewController {
     }
     
     
-    func addCube(with location: CLLocation, to artifactId: String, color: UIColor) {
+    func addCube(with location: CLLocation, toArtifact artifactId: String, color: UIColor, position: ArtifactPosition) {
         guard let artifact = realm.object(ofType: Artifact.self, forPrimaryKey: artifactId) else { return }
         
         try! realm.write {
             let block = Block()
             block.artifact = artifact
+            
+            block.x = position.x
+            block.y = position.y
+            block.z = position.z
+            
             block.latitude = location.coordinate.latitude
             block.longitude = location.coordinate.longitude
             block.altitude = location.altitude
+            
             block.createdAt = Date()
             block.hexColor = color.hexString()
             

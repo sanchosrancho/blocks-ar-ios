@@ -67,19 +67,39 @@ extension ARViewController: HUDViewControllerDelegate {
         let hitResults = sceneLocationView.hitTest(point, options: [:])
         guard let result = hitResults.first else { return }
         
-        guard let block = result.node as? CubeNode /*BlockNode*/ else { return }
-        guard let artifactNode = block.parent as? ArtifactNode else { return }
+        guard let block = result.node as? BlockNode else { return }
         guard let face = block.findFace(with: result.geometryIndex) else { return }
-        let newPos = block.newPosition(from: face)
-        let translation = LocationTranslation(latitudeTranslation: -Double(newPos.z), longitudeTranslation: -Double(newPos.x), altitudeTranslation: -Double(newPos.y))
-        let newLocation = artifactNode.location.translatedLocation(with: translation)
         
-        let tr = newLocation.translation(toLocation: artifactNode.location)
-        let testPos = SCNVector3(tr.longitudeTranslation, tr.altitudeTranslation, tr.latitudeTranslation)
+        let newPosition = block.newPosition(from: face)
+        let newLocation = block.newLocation(for: newPosition)
         
-        let blockNode = CubeNode(position: testPos, color: color)
-        artifactNode.addChildNode(blockNode)
-//        addCube(with: newLocation, to: artifactNode.artifactId, color: color)
+        ////////////////////////////////////////////////////////////////////////////////
+        let artifactNode = block.parent as! ArtifactNode
+        let prevArtifact = realm.object(ofType: Artifact.self, forPrimaryKey: artifactNode.artifactId)!
+        try! realm.write {
+            let artifact = Artifact()
+            artifact.eulerX = artifactNode.eulerAngles.x
+            artifact.eulerY = artifactNode.eulerAngles.y
+            artifact.eulerZ = artifactNode.eulerAngles.z
+            
+            artifact.latitude  = newLocation.coordinate.latitude
+            artifact.longitude = newLocation.coordinate.longitude
+            artifact.altitude  = newLocation.altitude
+            
+            artifact.horizontalAccuracy = prevArtifact.horizontalAccuracy
+            artifact.verticalAccuracy = prevArtifact.verticalAccuracy
+            artifact.groundDistance = prevArtifact.groundDistance
+            
+            let block = Block()
+            block.artifact = artifact
+            block.createdAt = Date()
+            block.hexColor = color.hexString()
+            
+            artifact.blocks.append(block)
+            realm.add(artifact)
+        }
+        ////////////////////////////////////////////////////////////////////////////////
         
+//        addCube(with: newLocation, toArtifact: block.artifactId, color: color, position: newPosition)
     }
 }

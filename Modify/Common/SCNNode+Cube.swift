@@ -20,6 +20,12 @@ class CubeNode: SCNNode {
         return self.color.hexString()
     }
     
+    convenience init(dx: Int32, dy: Int32, dz: Int32, color: UIColor) {
+        let size = CubeNode.size
+        let position = SCNVector3(size * CGFloat(dx), size * CGFloat(dy), size * CGFloat(dz))
+        self.init(position: position, color: color)
+    }
+    
     
     init(position: SCNVector3, color: UIColor) {
         self.color = color
@@ -43,22 +49,6 @@ class CubeNode: SCNNode {
         return CubeFace(rawValue: index)
     }
     
-    
-    func newPosition(from face: CubeFace) -> SCNVector3 {
-        var x = self.position.x
-        var y = self.position.y
-        var z = self.position.z
-        let size = Float(CubeNode.size)
-        switch face {
-            case .front:  z += size
-            case .back:   z -= size
-            case .left:   x -= size
-            case .right:  x += size
-            case .top:    y += size
-            case .bottom: y -= size
-        }
-        return SCNVector3(x, y, z)
-    }
     
     
     //MARK: - Private

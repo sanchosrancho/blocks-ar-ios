@@ -66,7 +66,7 @@ extension ARViewController {
         for index in indexes {
             guard index < artifacts.count, index < artifactNodes.count else { continue }
             let artifact = artifacts[index]
-            artifactNodes[index].update(with: artifact)
+            artifactNodes[index].updateBlocks(with: artifact)
         }
     }
     

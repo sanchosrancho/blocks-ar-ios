@@ -25,17 +25,7 @@ class ArtifactNode: LocationNode {
         super.init(location: CLLocation(coordinate: coord, altitude: altitude))
         self.eulerAngles = SCNVector3(artifact.eulerX, artifact.eulerY, artifact.eulerZ)
         
-        func updateBlockz(with artifact: Artifact) {
-            // test
-            guard artifact.objectId == self.artifactId else { return }
-            
-            
-            for block in artifact.blocks {
-                let blockNode = BlockNode(block: block, artifactId: artifact.objectId)
-                self.addChildNode(blockNode)
-            }
-        }
-        updateBlockz(with: artifact)
+        updateBlocks(with: artifact)
     }
     
     
@@ -45,7 +35,6 @@ class ArtifactNode: LocationNode {
         
         for node in self.childNodes { node.removeFromParentNode() }
         
-        guard artifact.blocks.count > 1 else { return }
         for block in artifact.blocks {
             let blockNode = BlockNode(block: block, artifactId: artifact.objectId)
             self.addChildNode(blockNode)
@@ -110,9 +99,9 @@ class BlockNode: CubeNode {
     
     
     func newLocation(for newPosition: ArtifactPosition) -> CLLocation {
-        let d_lat = -Double(newPosition.z - z) * Double(CubeNode.size)
-        let d_lon = -Double(newPosition.x - x) * Double(CubeNode.size)
-        let d_alt = -Double(newPosition.y - y) * Double(CubeNode.size)
+        let d_lat = Double(newPosition.z - z) * Double(CubeNode.size)
+        let d_lon = Double(newPosition.x - x) * Double(CubeNode.size)
+        let d_alt = Double(newPosition.y - y) * Double(CubeNode.size)
         let translation = LocationTranslation(latitudeTranslation: d_lat, longitudeTranslation: d_lon, altitudeTranslation: d_alt)
         
         let coord2D = CLLocationCoordinate2D(latitude: lat, longitude: lon)

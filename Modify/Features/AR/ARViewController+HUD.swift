@@ -73,33 +73,6 @@ extension ARViewController: HUDViewControllerDelegate {
         let newPosition = block.newPosition(from: face)
         let newLocation = block.newLocation(for: newPosition)
         
-        ////////////////////////////////////////////////////////////////////////////////
-        let artifactNode = block.parent as! ArtifactNode
-        let prevArtifact = realm.object(ofType: Artifact.self, forPrimaryKey: artifactNode.artifactId)!
-        try! realm.write {
-            let artifact = Artifact()
-            artifact.eulerX = artifactNode.eulerAngles.x
-            artifact.eulerY = artifactNode.eulerAngles.y
-            artifact.eulerZ = artifactNode.eulerAngles.z
-            
-            artifact.latitude  = newLocation.coordinate.latitude
-            artifact.longitude = newLocation.coordinate.longitude
-            artifact.altitude  = newLocation.altitude
-            
-            artifact.horizontalAccuracy = prevArtifact.horizontalAccuracy
-            artifact.verticalAccuracy = prevArtifact.verticalAccuracy
-            artifact.groundDistance = prevArtifact.groundDistance
-            
-            let block = Block()
-            block.artifact = artifact
-            block.createdAt = Date()
-            block.hexColor = color.hexString()
-            
-            artifact.blocks.append(block)
-            realm.add(artifact)
-        }
-        ////////////////////////////////////////////////////////////////////////////////
-        
-//        addCube(with: newLocation, toArtifact: block.artifactId, color: color, position: newPosition)
+        addCube(with: newLocation, toArtifact: block.artifactId, color: color, position: newPosition)
     }
 }

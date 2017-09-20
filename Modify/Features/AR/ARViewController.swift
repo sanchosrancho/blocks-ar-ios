@@ -110,6 +110,10 @@ class ARViewController: UIViewController {
         let path = documents + "/modify.realm"
         self.realm = try! Realm(fileURL: URL(fileURLWithPath: path))
         
+        try! realm.write {
+            realm.deleteAll()
+        }
+        
         self.artifacts = realm.objects(Artifact.self)
         self.artifactsToken = artifacts?.addNotificationBlock { changes in
             DispatchQueue.main.async { [weak self] in

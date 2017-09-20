@@ -26,7 +26,6 @@ extension ARViewController {
     }
     
     
-    // cube node with world transform
     func saveArtifact(cubeNode: CubeNode) {
         guard let location = sceneLocationView.currentLocation(),
               let position = sceneLocationView.currentScenePosition() else { return }

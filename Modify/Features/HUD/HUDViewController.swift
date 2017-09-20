@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import ReplayKit
 
 
 private class HUDButton: UIButton {}
@@ -37,12 +36,16 @@ class HUDWindow: UIWindow {
 
 
 @objc protocol HUDViewControllerDelegate: class {
-    func hudAddObjectPressed()
+    func hudAddObjectPressed(color: UIColor)
     func hudPlaceObjectPressed()
     func hudPlaceObjectCancelled()
     
     func hudPlaceChangeDistance(_ value: Float)
     func hudPlaceWillChangeDistance()
+    
+    func hudDidTap(_ gesture: UITapGestureRecognizer, color: UIColor)
+    
+    func hudDidChangeCurrentColor(_ color: UIColor)
     
     @objc optional func hudStopAdjustingNodesPosition()
     @objc optional func hudStartAdjustingNodesPosition()
@@ -61,8 +64,12 @@ class HUDViewController: UIViewController {
         setupAddButton()
         setupAdjustingNodePositionButton()
         setupPlaceButton()
+        
         setupPan()
+        setupTap()
+        
         setupLocationStatus()
+        setupColorPicker()
     }
     
     func updateLocationStatus(_ status: Application.LocationAccuracyState) {
@@ -89,8 +96,10 @@ class HUDViewController: UIViewController {
     private let addObjectButton = HUDButton(frame: CGRect(x: 20, y: 30, width: 100, height: 44))
     private let toggleAdjustingNodePositionButton = HUDButton(frame: CGRect(x: 140, y: 30, width: 200, height: 44))
     private let placeObjectButton = HUDButton(frame: CGRect(x: round((UIScreen.main.bounds.width - 80)/2), y: UIScreen.main.bounds.height - 60, width: 80, height: 44))
-    private var startYPos: CGFloat = 0
-    private let locationStatus = UILabel(frame: CGRect(x: 20, y: 10, width: (UIScreen.main.bounds.width-40), height: 20))
+    var startYPan: CGFloat = 0
+    let locationStatus = UILabel(frame: CGRect(x: 20, y: 10, width: (UIScreen.main.bounds.width-40), height: 20))
+    var colorPicker: ColorPickerView!
+    
     
     private func setupLocationStatus() {
         locationStatus.layer.opacity = 0.6
@@ -107,62 +116,6 @@ class HUDViewController: UIViewController {
         self.view.addSubview(recButton)
     }
     
-    @objc private func startRecording(sender: UIButton) {
-        guard !sender.isSelected else {
-            print("Already recording!")
-            return
-        }
-        
-        guard RPScreenRecorder.shared().isAvailable else {
-            print("Error: screen record not available")
-            return
-        }
-        
-        sender.removeTarget(self, action: #selector(startRecording(sender:)), for: .touchUpInside)
-        
-        let recorder = RPScreenRecorder.shared()
-        recorder.isMicrophoneEnabled = true
-        recorder.startRecording { error in
-            DispatchQueue.main.async {
-                guard error == nil else {
-                    print("Error start recording: \(error!)")
-                    return
-                }
-                print("Did start recording...")
-                sender.addTarget(self, action: #selector(self.stopRecording(sender:)), for: .touchUpInside)
-                sender.isSelected = true
-            }
-        }
-    }
-    
-    
-    @objc private func stopRecording(sender: UIButton) {
-        guard sender.isSelected else {
-            print("Not in recording!")
-            return
-        }
-        
-        sender.removeTarget(self, action: #selector(stopRecording(sender:)), for: .touchUpInside)
-        RPScreenRecorder.shared().stopRecording { previewController, error in
-            DispatchQueue.main.async {
-                guard error == nil else {
-                    print("Error stop recording: \(error!)")
-                    return
-                }
-                print("Did stop recording...")
-                sender.addTarget(self, action: #selector(self.startRecording(sender:)), for: .touchUpInside)
-                sender.isSelected = false
-                
-                guard let preview = previewController else {
-                    print("No preview controller")
-                    return
-                }
-                preview.previewControllerDelegate = self
-                self.present(preview, animated: true, completion: nil)
-            }
-        }
-    }
-    
     
     private func setupAddButton() {
         addObjectButton.setTitle("Add object", for: .normal)
@@ -173,7 +126,8 @@ class HUDViewController: UIViewController {
     }
     
     @objc private func addButtonPressed(_ sender: UIButton) {
-        sender.isSelected ? delegate?.hudPlaceObjectCancelled() : delegate?.hudAddObjectPressed()
+        let color = self.colorPicker.currentColor
+        sender.isSelected ? delegate?.hudPlaceObjectCancelled() : delegate?.hudAddObjectPressed(color: color)
     }
     
     private func setupAdjustingNodePositionButton() {
@@ -208,31 +162,19 @@ class HUDViewController: UIViewController {
     }
     
     
-    private func setupPan() {
-        let gesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan(_:)))
-        self.view.addGestureRecognizer(gesture)
-    }
-    
-    @objc private func handlePan(_ gesture: UIPanGestureRecognizer) {
-        let location = gesture.location(in: self.view)
-        switch gesture.state {
-        case .began:
-            self.startYPos = location.y
-            self.delegate?.hudPlaceWillChangeDistance()
-        case .changed:
-            var deltaY = (location.y - startYPos)/12
-            deltaY = CGFloat(round(100 * deltaY) / 100)
-            self.delegate?.hudPlaceChangeDistance(Float(deltaY))
-        case .ended: break
-        default: break
-        }
+    private func setupColorPicker() {
+        let pos = CGPoint(x: UIScreen.main.bounds.width - 40, y: UIScreen.main.bounds.height - 50)
+        let colorPicker = ColorPickerView(position: pos)
+        self.colorPicker = colorPicker
+        self.colorPicker.delegate = self
+        self.view.addSubview(colorPicker)
     }
 }
 
 
-extension HUDViewController: RPPreviewViewControllerDelegate {
+extension HUDViewController: ColorPickerViewDelegate {
     
-    func previewControllerDidFinish(_ previewController: RPPreviewViewController) {
-        previewController.dismiss(animated: true, completion: nil)
+    func colorPickerDidUpdate(_ color: UIColor) {
+        delegate?.hudDidChangeCurrentColor(color)
     }
 }

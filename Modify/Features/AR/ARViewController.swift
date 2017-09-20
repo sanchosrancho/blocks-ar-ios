@@ -14,12 +14,15 @@ class ARViewController: UIViewController {
     var sceneLocationView = ArtifactSceneView()
     var hudWindow: HUDWindow?
     let serialQueue = DispatchQueue(label: "com.envent.modify.serialSceneKitQueue")
-    var notificationToken: NotificationToken!
-    var realm: Realm!
-    var results: Results<Artifact>?
-    var zDistance: Float = 2
     
-    internal var placeState = PlaceState.none {
+    var artifactsToken: NotificationToken!
+    var realm: Realm!
+    var artifacts: Results<Artifact>?
+    
+    var artifactNodes = [ArtifactNode]()
+    var zDistance: Float = -0.3
+    var currentYPosition: Float = 0
+    var placeState = PlaceState.preview {
         didSet {
             var isPlacing = false
             if case .placing(_) = placeState { isPlacing = true }
@@ -30,7 +33,8 @@ class ARViewController: UIViewController {
     
     // MARK: - ViewController lifecycle
     
-    deinit { notificationToken.stop() }
+    deinit { artifactsToken.stop() }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -77,12 +81,12 @@ class ARViewController: UIViewController {
     func setupScene() {
         sceneLocationView.showsStatistics = true
         sceneLocationView.run()
-        sceneLocationView.scene.enableEnvironmentMapWithIntensity(500, queue: serialQueue)
+//        sceneLocationView.scene.enableEnvironmentMapWithIntensity(1000, queue: serialQueue)
         sceneLocationView.antialiasingMode = .multisampling4X
-        sceneLocationView.automaticallyUpdatesLighting = false
+        sceneLocationView.automaticallyUpdatesLighting = true
+        sceneLocationView.autoenablesDefaultLighting = true
         
         sceneLocationView.preferredFramesPerSecond = 60
-//        sceneLocationView.contentScaleFactor = 1.3
         if let camera = sceneLocationView.pointOfView?.camera {
             camera.wantsHDR = true
             camera.wantsExposureAdaptation = true
@@ -102,29 +106,26 @@ class ARViewController: UIViewController {
     }
     
     func setupRealm() {
-        SyncUser.logIn(with: .usernamePassword(username: "sanchosrancho@gmail.com", password: "(Zotto123123)"), server: URL(string: "http://212.224.112.252:9080")!) { user, error in
-            guard let user = user else { print(error ?? "Unknown sync error"); return }
-            
-            DispatchQueue.main.async {
-                // Open Realm
-                let configuration = Realm.Configuration(
-                    syncConfiguration: SyncConfiguration(user: user, realmURL: URL(string: "realm://212.224.112.252:9080/~/artifacts")!)
-                )
-                self.realm = try! Realm(configuration: configuration)
-                
-                // Show initial artifacts
-                func updateList() {
-                    if self.results?.realm == nil {
-                        self.results = self.realm.objects(Artifact.self)
-                    }
-                    self.updateArtifacts()
-                }
-                updateList()
-                
-                // Notify us when Realm changes
-                self.notificationToken = self.realm.addNotificationBlock { _, _  in
-                    print("update results")
-                    updateList()
+        let documents = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
+        let path = documents + "/modify.realm"
+        self.realm = try! Realm(fileURL: URL(fileURLWithPath: path))
+        
+        try! realm.write {
+            realm.deleteAll()
+        }
+        
+        self.artifacts = realm.objects(Artifact.self)
+        self.artifactsToken = artifacts?.addNotificationBlock { changes in
+            DispatchQueue.main.async { [weak self] in
+                switch changes {
+                case .initial:
+                    self?.loadAllArtifacts()
+                case .update(_, let deletions, let insertions, let modifications):
+                    self?.deleteArtifacts(indexes: deletions)
+                    self?.insertArtifacts(indexes: insertions)
+                    self?.updateArtifacts(indexes: modifications)
+                case .error(let error):
+                    print("Updating artifacts error: \(error)")
                 }
             }
         }

@@ -12,49 +12,77 @@ import CoreLocation
 
 extension ARViewController {
     
-    func updateArtifacts() {
-        guard let results = self.results else { return }
+    func loadAllArtifacts() {
+        guard let artifacts = self.artifacts else { return }
+        print("Loading all artifacts (\(artifacts.count))...")
         
-        let actual = Set( results.map { $0.objectId } )
-        print("Location nodes: ", sceneLocationView.locationNodes)
-        let onScene = Set( sceneLocationView.locationNodes.map { ($0 as! ArtifactLocationNode).artifactId } )
+        let location = sceneLocationView.currentLocation()
+        let position = sceneLocationView.currentScenePosition()
         
-        var shouldBeRemoved = Set(onScene)
-        shouldBeRemoved.subtract(actual)
-        
-        var shouldBeAdded = Set(actual)
-        shouldBeAdded.subtract(onScene)
-        
-        print("\(shouldBeRemoved.count) artifacts should be removed")
-        print("\(shouldBeAdded.count) artifacts should be added")
-        print("\(results.count) artifacts should be placed on scene")
-        
-        shouldBeRemoved.forEach {
-            guard let node = sceneLocationView.findNode(byId: $0) else { return }
-            sceneLocationView.removeLocationNode(locationNode: node)
-        }
-        
-        for artifact in results {
-            guard shouldBeAdded.contains(artifact.objectId) else { continue }
-            placeArtifact(artifact)
+        for artifact in artifacts {
+            guard let artifactNode = ArtifactNode(artifact, currentLocation: location, currentPosition: position) else { continue }
+            sceneLocationView.addLocationNodeWithConfirmedLocation(locationNode: artifactNode)
+            artifactNodes.append(artifactNode)
         }
     }
     
-    func placeArtifact(_ artifact: Artifact) {
-        guard
-            let currentLocation = sceneLocationView.currentLocation(),
-            let currentPosition = sceneLocationView.currentScenePosition()
-            else {
-                return
-        }
+    
+    func deleteArtifacts(indexes: [Int]) {
+        print("deleting artefacts at: \(indexes)")
         
-//        let altitude = currentLocation.altitude - Double(currentPosition.y) + artifact.groundDistance
-//        let coord = CLLocationCoordinate2D(latitude: artifact.lat, longitude: artifact.lon)
-//        let location = CLLocation(coordinate: coord, altitude: altitude)
-//        
-//        guard let locationNode = ArtifactLocationNode(artifact: artifact, location: location) else { return }
-//        
-//        sceneLocationView.addLocationNodeWithConfirmedLocation(locationNode: locationNode)
+        for index in indexes {
+            guard index < artifactNodes.count else { continue }
+            let artifactNode = artifactNodes[index]
+            sceneLocationView.removeLocationNode(locationNode: artifactNode)
+            artifactNodes.remove(object: artifactNode)
+        }
     }
     
+    
+    func insertArtifacts(indexes: [Int]) {
+        guard let artifacts = self.artifacts else { return }
+        print("inserting artefacts at: \(indexes)")
+        
+        let location = sceneLocationView.currentLocation()
+        let position = sceneLocationView.currentScenePosition()
+        
+        for index in indexes {
+            guard index < artifacts.count else { continue }
+            guard let artifact = ArtifactNode(artifacts[index], currentLocation: location, currentPosition: position) else { continue }
+            sceneLocationView.addLocationNodeWithConfirmedLocation(locationNode: artifact)
+            if index < artifactNodes.count {
+                artifactNodes.insert(artifact, at: index)
+            } else {
+                artifactNodes.append(artifact)
+            }
+        }
+    }
+    
+    
+    func updateArtifacts(indexes: [Int]) {
+        guard let artifacts = self.artifacts else { return }
+        print("updating artefacts at: \(indexes)")
+        
+        for index in indexes {
+            guard index < artifacts.count, index < artifactNodes.count else { continue }
+            let artifact = artifacts[index]
+            artifactNodes[index].updateBlocks(with: artifact)
+        }
+    }
+    
+}
+
+
+extension ARViewController {
+    
+    override func motionEnded(_ motion: UIEventSubtype, with event: UIEvent?) {
+        if motion == .motionShake {
+            guard let obj = self.artifacts?.first else { return }
+            print("remove first object!")
+            let realm = self.realm
+            try! realm?.write {
+                realm?.delete(obj)
+            }
+        }
+    }
 }

@@ -38,10 +38,10 @@ class ARViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-//        setupScene()
-//        setupHUD()
-//        setupRealm()
+        sceneLocationView.shouldUpdateLocationEstimate = false // test
+        setupScene()
+        setupHUD()
+        setupRealm()
 //        setupLocationAccuracyStatus()
     }
     
@@ -109,10 +109,6 @@ class ARViewController: UIViewController {
         let documents = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
         let path = documents + "/modify.realm"
         self.realm = try! Realm(fileURL: URL(fileURLWithPath: path))
-        
-        try! realm.write {
-            realm.deleteAll()
-        }
         
         self.artifacts = realm.objects(Artifact.self)
         self.artifactsToken = artifacts?.addNotificationBlock { changes in

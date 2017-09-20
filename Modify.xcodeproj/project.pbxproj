@@ -14,7 +14,6 @@
 		826A73581F4CCB8A00204DC7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 826A73571F4CCB8A00204DC7 /* Assets.xcassets */; };
 		826A735B1F4CCB8A00204DC7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 826A73591F4CCB8A00204DC7 /* LaunchScreen.storyboard */; };
 		829A6DD81F57678700FFE858 /* ARViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829A6DD71F57678700FFE858 /* ARViewController.swift */; };
-		829A6DD91F5767AC00FFE858 /* Artifact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829A6DD51F5764D200FFE858 /* Artifact.swift */; };
 		829A6DDB1F57688F00FFE858 /* ArtifactNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829A6DDA1F57688F00FFE858 /* ArtifactNode.swift */; };
 		829A6DDD1F5768CE00FFE858 /* ArtifactSceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829A6DDC1F5768CE00FFE858 /* ArtifactSceneView.swift */; };
 		829A6DDF1F576A1000FFE858 /* ARViewController+Creating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829A6DDE1F576A1000FFE858 /* ARViewController+Creating.swift */; };
@@ -22,16 +21,6 @@
 		829A6DE31F576D9F00FFE858 /* ARViewController+SceneLocationViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829A6DE21F576D9F00FFE858 /* ARViewController+SceneLocationViewDelegate.swift */; };
 		829A6DE51F57706800FFE858 /* ARViewController+HUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829A6DE41F57706800FFE858 /* ARViewController+HUD.swift */; };
 		829A6DE71F5770E500FFE858 /* ARViewController+Artifacts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829A6DE61F5770E500FFE858 /* ARViewController+Artifacts.swift */; };
-		8D65F2911F582AA800A6E463 /* Application.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D65F2901F582AA800A6E463 /* Application.swift */; };
-		8D68DCF41F6C28A000764F23 /* ApiUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D68DCF31F6C28A000764F23 /* ApiUser.swift */; };
-		8D68DCF61F6C2A0700764F23 /* ApiArtifact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D68DCF51F6C2A0700764F23 /* ApiArtifact.swift */; };
-		8D68DCF81F6C2A4700764F23 /* ApiBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D68DCF71F6C2A4700764F23 /* ApiBlock.swift */; };
-		8D92B3B51F62C115006D0D71 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D92B3B41F62C115006D0D71 /* User.swift */; };
-		8D92B3BA1F63005D006D0D71 /* Api.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D92B3B91F63005D006D0D71 /* Api.swift */; };
-		8D92B3BC1F6811C8006D0D71 /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D92B3BB1F6811C8006D0D71 /* Account.swift */; };
-		8D92B3BE1F6AE68B006D0D71 /* Blocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D92B3BD1F6AE68B006D0D71 /* Blocks.swift */; };
-		8DC026771F6FDBD9000DD121 /* Socket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC026761F6FDBD9000DD121 /* Socket.swift */; };
-		8DC026791F7019AC000DD121 /* PromiseKit+Moya.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC026781F7019AC000DD121 /* PromiseKit+Moya.swift */; };
 		8DFF39EE1F50344700E55652 /* CGPoint+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC8263E1F50335900DF7DF9 /* CGPoint+Extensions.swift */; };
 		8DFF39EF1F50344700E55652 /* CLLocation+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC826411F50335900DF7DF9 /* CLLocation+Extensions.swift */; };
 		8DFF39F01F50344700E55652 /* FloatingPoint+Radians.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC8263B1F50335900DF7DF9 /* FloatingPoint+Radians.swift */; };
@@ -43,11 +32,21 @@
 		8DFF39F61F50344700E55652 /* SCNNode+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC8263D1F50335900DF7DF9 /* SCNNode+Extensions.swift */; };
 		8DFF39F71F50344700E55652 /* SCNVector3+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC826401F50335900DF7DF9 /* SCNVector3+Extensions.swift */; };
 		B606BC121F5EB77E002555A2 /* SCNNode+Cube.swift in Sources */ = {isa = PBXBuildFile; fileRef = B606BC111F5EB77E002555A2 /* SCNNode+Cube.swift */; };
-		B63579391F66D6130016E598 /* Block.swift in Sources */ = {isa = PBXBuildFile; fileRef = B63579371F66D6130016E598 /* Block.swift */; };
-		B635793A1F66D6130016E598 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = B63579381F66D6130016E598 /* User.swift */; };
-		B635793C1F66D6210016E598 /* Artifacts.swift in Sources */ = {isa = PBXBuildFile; fileRef = B635793B1F66D6210016E598 /* Artifacts.swift */; };
-		B635793E1F66D7590016E598 /* RealmSwift+Codable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B635793D1F66D62A0016E598 /* RealmSwift+Codable.swift */; };
 		B64F0C371F4DBA920004BA49 /* HUDViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B64F0C361F4DBA920004BA49 /* HUDViewController.swift */; };
+		B653B1761F72C52700C43946 /* Api.swift in Sources */ = {isa = PBXBuildFile; fileRef = B653B1721F72C4DE00C43946 /* Api.swift */; };
+		B653B1771F72C52700C43946 /* ApiArtifact.swift in Sources */ = {isa = PBXBuildFile; fileRef = B653B1751F72C4DE00C43946 /* ApiArtifact.swift */; };
+		B653B1781F72C52700C43946 /* ApiBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = B653B1741F72C4DE00C43946 /* ApiBlock.swift */; };
+		B653B1791F72C52700C43946 /* ApiUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B653B1731F72C4DE00C43946 /* ApiUser.swift */; };
+		B653B17A1F72C52700C43946 /* PromiseKit+Moya.swift in Sources */ = {isa = PBXBuildFile; fileRef = B653B1651F72C41000C43946 /* PromiseKit+Moya.swift */; };
+		B653B17B1F72C52700C43946 /* RealmSwift+Codable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B653B1661F72C41100C43946 /* RealmSwift+Codable.swift */; };
+		B653B17C1F72C52700C43946 /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = B653B1691F72C41A00C43946 /* Account.swift */; };
+		B653B17D1F72C52700C43946 /* Artifacts.swift in Sources */ = {isa = PBXBuildFile; fileRef = B653B1671F72C41A00C43946 /* Artifacts.swift */; };
+		B653B17E1F72C52700C43946 /* Blocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = B653B1681F72C41A00C43946 /* Blocks.swift */; };
+		B653B17F1F72C52700C43946 /* Artifact.swift in Sources */ = {isa = PBXBuildFile; fileRef = B653B16A1F72C42200C43946 /* Artifact.swift */; };
+		B653B1801F72C52700C43946 /* Block.swift in Sources */ = {isa = PBXBuildFile; fileRef = B653B16B1F72C42200C43946 /* Block.swift */; };
+		B653B1811F72C52700C43946 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = B653B16C1F72C42200C43946 /* User.swift */; };
+		B653B1821F72C52700C43946 /* Application.swift in Sources */ = {isa = PBXBuildFile; fileRef = B653B15E1F72C39200C43946 /* Application.swift */; };
+		B653B1831F72C52700C43946 /* Socket.swift in Sources */ = {isa = PBXBuildFile; fileRef = B653B15F1F72C39200C43946 /* Socket.swift */; };
 		B6650F971F57130C0085ABBE /* SCNScene+Lighting.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6650F961F57130C0085ABBE /* SCNScene+Lighting.swift */; };
 		B680AA981F6FE99E002F2632 /* HUDViewController+Gestures.swift in Sources */ = {isa = PBXBuildFile; fileRef = B680AA971F6FE99E002F2632 /* HUDViewController+Gestures.swift */; };
 		B680AA9A1F6FEB19002F2632 /* HUDViewController+Recording.swift in Sources */ = {isa = PBXBuildFile; fileRef = B680AA991F6FEB19002F2632 /* HUDViewController+Recording.swift */; };
@@ -65,7 +64,6 @@
 		826A73571F4CCB8A00204DC7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		826A735A1F4CCB8A00204DC7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		826A735C1F4CCB8A00204DC7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		829A6DD51F5764D200FFE858 /* Artifact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Artifact.swift; sourceTree = "<group>"; };
 		829A6DD71F57678700FFE858 /* ARViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARViewController.swift; sourceTree = "<group>"; };
 		829A6DDA1F57688F00FFE858 /* ArtifactNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtifactNode.swift; sourceTree = "<group>"; };
 		829A6DDC1F5768CE00FFE858 /* ArtifactSceneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtifactSceneView.swift; sourceTree = "<group>"; };
@@ -74,16 +72,10 @@
 		829A6DE21F576D9F00FFE858 /* ARViewController+SceneLocationViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ARViewController+SceneLocationViewDelegate.swift"; sourceTree = "<group>"; };
 		829A6DE41F57706800FFE858 /* ARViewController+HUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ARViewController+HUD.swift"; sourceTree = "<group>"; };
 		829A6DE61F5770E500FFE858 /* ARViewController+Artifacts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ARViewController+Artifacts.swift"; sourceTree = "<group>"; };
-		8D65F2901F582AA800A6E463 /* Application.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Application.swift; sourceTree = "<group>"; };
 		8D68DCF31F6C28A000764F23 /* ApiUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiUser.swift; sourceTree = "<group>"; };
 		8D68DCF51F6C2A0700764F23 /* ApiArtifact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiArtifact.swift; sourceTree = "<group>"; };
 		8D68DCF71F6C2A4700764F23 /* ApiBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiBlock.swift; sourceTree = "<group>"; };
-		8D92B3B41F62C115006D0D71 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		8D92B3B91F63005D006D0D71 /* Api.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Api.swift; sourceTree = "<group>"; };
-		8D92B3BB1F6811C8006D0D71 /* Account.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
-		8D92B3BD1F6AE68B006D0D71 /* Blocks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Blocks.swift; sourceTree = "<group>"; };
-		8DC026761F6FDBD9000DD121 /* Socket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Socket.swift; sourceTree = "<group>"; };
-		8DC026781F7019AC000DD121 /* PromiseKit+Moya.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PromiseKit+Moya.swift"; sourceTree = "<group>"; };
 		8DC826391F50335900DF7DF9 /* SceneLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneLocationView.swift; sourceTree = "<group>"; };
 		8DC8263A1F50335900DF7DF9 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		8DC8263B1F50335900DF7DF9 /* FloatingPoint+Radians.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FloatingPoint+Radians.swift"; sourceTree = "<group>"; };
@@ -95,11 +87,22 @@
 		8DC826411F50335900DF7DF9 /* CLLocation+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CLLocation+Extensions.swift"; sourceTree = "<group>"; };
 		8DC826421F50335900DF7DF9 /* LocationNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationNode.swift; sourceTree = "<group>"; };
 		B606BC111F5EB77E002555A2 /* SCNNode+Cube.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SCNNode+Cube.swift"; sourceTree = "<group>"; };
-		B63579371F66D6130016E598 /* Block.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Block.swift; sourceTree = "<group>"; };
-		B63579381F66D6130016E598 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		B635793B1F66D6210016E598 /* Artifacts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Artifacts.swift; sourceTree = "<group>"; };
-		B635793D1F66D62A0016E598 /* RealmSwift+Codable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "RealmSwift+Codable.swift"; path = "Modify/Core/RealmSwift+Codable.swift"; sourceTree = SOURCE_ROOT; };
 		B64F0C361F4DBA920004BA49 /* HUDViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUDViewController.swift; sourceTree = "<group>"; };
+		B653B15E1F72C39200C43946 /* Application.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Application.swift; path = Modify/Core/Application.swift; sourceTree = SOURCE_ROOT; };
+		B653B15F1F72C39200C43946 /* Socket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Socket.swift; path = Modify/Core/Socket.swift; sourceTree = SOURCE_ROOT; };
+		B653B1651F72C41000C43946 /* PromiseKit+Moya.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "PromiseKit+Moya.swift"; path = "Modify/Core/Models/PromiseKit+Moya.swift"; sourceTree = SOURCE_ROOT; };
+		B653B1661F72C41100C43946 /* RealmSwift+Codable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "RealmSwift+Codable.swift"; path = "Modify/Core/Models/RealmSwift+Codable.swift"; sourceTree = SOURCE_ROOT; };
+		B653B1671F72C41A00C43946 /* Artifacts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Artifacts.swift; path = Modify/Core/Models/List/Artifacts.swift; sourceTree = SOURCE_ROOT; };
+		B653B1681F72C41A00C43946 /* Blocks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Blocks.swift; path = Modify/Core/Models/List/Blocks.swift; sourceTree = SOURCE_ROOT; };
+		B653B1691F72C41A00C43946 /* Account.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Account.swift; path = Modify/Core/Models/List/Account.swift; sourceTree = SOURCE_ROOT; };
+		B653B16A1F72C42200C43946 /* Artifact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Artifact.swift; path = Modify/Core/Models/Item/Artifact.swift; sourceTree = SOURCE_ROOT; };
+		B653B16B1F72C42200C43946 /* Block.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Block.swift; path = Modify/Core/Models/Item/Block.swift; sourceTree = SOURCE_ROOT; };
+		B653B16C1F72C42200C43946 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = User.swift; path = Modify/Core/Models/Item/User.swift; sourceTree = SOURCE_ROOT; };
+		B653B1721F72C4DE00C43946 /* Api.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Api.swift; path = Modify/Core/ModifyApi/Api.swift; sourceTree = SOURCE_ROOT; };
+		B653B1731F72C4DE00C43946 /* ApiUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ApiUser.swift; path = Modify/Core/ModifyApi/ApiUser.swift; sourceTree = SOURCE_ROOT; };
+		B653B1741F72C4DE00C43946 /* ApiBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ApiBlock.swift; path = Modify/Core/ModifyApi/ApiBlock.swift; sourceTree = SOURCE_ROOT; };
+		B653B1751F72C4DE00C43946 /* ApiArtifact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ApiArtifact.swift; path = Modify/Core/ModifyApi/ApiArtifact.swift; sourceTree = SOURCE_ROOT; };
 		B6650F961F57130C0085ABBE /* SCNScene+Lighting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SCNScene+Lighting.swift"; sourceTree = "<group>"; };
 		B680AA971F6FE99E002F2632 /* HUDViewController+Gestures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HUDViewController+Gestures.swift"; sourceTree = "<group>"; };
 		B680AA991F6FEB19002F2632 /* HUDViewController+Recording.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HUDViewController+Recording.swift"; sourceTree = "<group>"; };
@@ -136,6 +139,7 @@
 				826A734C1F4CCB8A00204DC7 /* Products */,
 				19F506BAAFBCB0E3482247DA /* Pods */,
 				C4ACF2DD39F51896192AF86B /* Frameworks */,
+				B66CA2301F72C15200B181F4 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -150,7 +154,7 @@
 		826A734D1F4CCB8A00204DC7 /* Modify */ = {
 			isa = PBXGroup;
 			children = (
-				B69843941F4F2FFE002B0EE4 /* Core */,
+				B653B15D1F72C37D00C43946 /* Core */,
 				8DF7BD831F502EF00033EE3B /* Library */,
 				B6650F951F5712F60085ABBE /* Common */,
 				829C53D01F576350006B77F9 /* Features */,
@@ -184,49 +188,6 @@
 			path = Features;
 			sourceTree = "<group>";
 		};
-		829C53D11F5763FB006B77F9 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				B635793D1F66D62A0016E598 /* RealmSwift+Codable.swift */,
-				829C53D21F576413006B77F9 /* Item */,
-				8D65F28F1F582A8500A6E463 /* List */,
-				82E935301F6208190066741C /* RealmSwift+Codable.swift */,
-				8DC026781F7019AC000DD121 /* PromiseKit+Moya.swift */,
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
-		829C53D21F576413006B77F9 /* Item */ = {
-			isa = PBXGroup;
-			children = (
-				B63579371F66D6130016E598 /* Block.swift */,
-				B63579381F66D6130016E598 /* User.swift */,
-				829A6DD51F5764D200FFE858 /* Artifact.swift */,
-			);
-			path = Item;
-			sourceTree = "<group>";
-		};
-		8D65F28F1F582A8500A6E463 /* List */ = {
-			isa = PBXGroup;
-			children = (
-				8D92B3BB1F6811C8006D0D71 /* Account.swift */,
-				82E9352E1F61F0C00066741C /* Artifacts.swift */,
-				8D92B3BD1F6AE68B006D0D71 /* Blocks.swift */,
-			);
-			path = List;
-			sourceTree = "<group>";
-		};
-		8D92B3B81F63005D006D0D71 /* ModifyApi */ = {
-			isa = PBXGroup;
-			children = (
-				8D92B3B91F63005D006D0D71 /* Api.swift */,
-				8D68DCF31F6C28A000764F23 /* ApiUser.swift */,
-				8D68DCF51F6C2A0700764F23 /* ApiArtifact.swift */,
-				8D68DCF71F6C2A4700764F23 /* ApiBlock.swift */,
-			);
-			path = ModifyApi;
-			sourceTree = "<group>";
-		};
 		8DC826381F50331000DF7DF9 /* ARKit+CoreLocation */ = {
 			isa = PBXGroup;
 			children = (
@@ -252,6 +213,60 @@
 			path = Library;
 			sourceTree = "<group>";
 		};
+		B653B15D1F72C37D00C43946 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				B653B16D1F72C42C00C43946 /* ModifyApi */,
+				B653B1601F72C39A00C43946 /* Models */,
+				B653B15E1F72C39200C43946 /* Application.swift */,
+				B653B15F1F72C39200C43946 /* Socket.swift */,
+			);
+			name = Core;
+			path = "New Group";
+			sourceTree = "<group>";
+		};
+		B653B1601F72C39A00C43946 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B653B1651F72C41000C43946 /* PromiseKit+Moya.swift */,
+				B653B1661F72C41100C43946 /* RealmSwift+Codable.swift */,
+				B653B1621F72C3A700C43946 /* List */,
+				B653B1611F72C3A100C43946 /* Item */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		B653B1611F72C3A100C43946 /* Item */ = {
+			isa = PBXGroup;
+			children = (
+				B653B16A1F72C42200C43946 /* Artifact.swift */,
+				B653B16B1F72C42200C43946 /* Block.swift */,
+				B653B16C1F72C42200C43946 /* User.swift */,
+			);
+			path = Item;
+			sourceTree = "<group>";
+		};
+		B653B1621F72C3A700C43946 /* List */ = {
+			isa = PBXGroup;
+			children = (
+				B653B1691F72C41A00C43946 /* Account.swift */,
+				B653B1671F72C41A00C43946 /* Artifacts.swift */,
+				B653B1681F72C41A00C43946 /* Blocks.swift */,
+			);
+			path = List;
+			sourceTree = "<group>";
+		};
+		B653B16D1F72C42C00C43946 /* ModifyApi */ = {
+			isa = PBXGroup;
+			children = (
+				B653B1721F72C4DE00C43946 /* Api.swift */,
+				B653B1751F72C4DE00C43946 /* ApiArtifact.swift */,
+				B653B1741F72C4DE00C43946 /* ApiBlock.swift */,
+				B653B1731F72C4DE00C43946 /* ApiUser.swift */,
+			);
+			path = ModifyApi;
+			sourceTree = "<group>";
+		};
 		B6650F951F5712F60085ABBE /* Common */ = {
 			isa = PBXGroup;
 			children = (
@@ -262,14 +277,16 @@
 			path = Common;
 			sourceTree = "<group>";
 		};
-		B69843941F4F2FFE002B0EE4 /* Core */ = {
+		B66CA2301F72C15200B181F4 /* Recovered References */ = {
 			isa = PBXGroup;
 			children = (
-				829C53D11F5763FB006B77F9 /* Models */,
-				8D65F2901F582AA800A6E463 /* Application.swift */,
-				8DC026761F6FDBD9000DD121 /* Socket.swift */,
+				B635793B1F66D6210016E598 /* Artifacts.swift */,
+				8D68DCF31F6C28A000764F23 /* ApiUser.swift */,
+				8D92B3B91F63005D006D0D71 /* Api.swift */,
+				8D68DCF51F6C2A0700764F23 /* ApiArtifact.swift */,
+				8D68DCF71F6C2A4700764F23 /* ApiBlock.swift */,
 			);
-			path = Core;
+			name = "Recovered References";
 			sourceTree = "<group>";
 		};
 		B6A89CAF1F4DC25100E76984 /* Supporting Files */ = {
@@ -447,21 +464,27 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B635793E1F66D7590016E598 /* RealmSwift+Codable.swift in Sources */,
-				829A6DD91F5767AC00FFE858 /* Artifact.swift in Sources */,
+				B653B1761F72C52700C43946 /* Api.swift in Sources */,
+				B653B1771F72C52700C43946 /* ApiArtifact.swift in Sources */,
+				B653B1781F72C52700C43946 /* ApiBlock.swift in Sources */,
+				B653B1791F72C52700C43946 /* ApiUser.swift in Sources */,
+				B653B17A1F72C52700C43946 /* PromiseKit+Moya.swift in Sources */,
+				B653B17B1F72C52700C43946 /* RealmSwift+Codable.swift in Sources */,
+				B653B17C1F72C52700C43946 /* Account.swift in Sources */,
+				B653B17D1F72C52700C43946 /* Artifacts.swift in Sources */,
+				B653B17E1F72C52700C43946 /* Blocks.swift in Sources */,
+				B653B17F1F72C52700C43946 /* Artifact.swift in Sources */,
+				B653B1801F72C52700C43946 /* Block.swift in Sources */,
+				B653B1811F72C52700C43946 /* User.swift in Sources */,
+				B653B1821F72C52700C43946 /* Application.swift in Sources */,
+				B653B1831F72C52700C43946 /* Socket.swift in Sources */,
 				B606BC121F5EB77E002555A2 /* SCNNode+Cube.swift in Sources */,
 				829A6DE31F576D9F00FFE858 /* ARViewController+SceneLocationViewDelegate.swift in Sources */,
-				B635793C1F66D6210016E598 /* Artifacts.swift in Sources */,
 				8DFF39EE1F50344700E55652 /* CGPoint+Extensions.swift in Sources */,
-				8DC026791F7019AC000DD121 /* PromiseKit+Moya.swift in Sources */,
-				8DC026771F6FDBD9000DD121 /* Socket.swift in Sources */,
-				8D68DCF41F6C28A000764F23 /* ApiUser.swift in Sources */,
 				8DFF39EF1F50344700E55652 /* CLLocation+Extensions.swift in Sources */,
-				B635793A1F66D6130016E598 /* User.swift in Sources */,
 				8DFF39F01F50344700E55652 /* FloatingPoint+Radians.swift in Sources */,
 				8DFF39F11F50344700E55652 /* LocationManager.swift in Sources */,
 				8DFF39F21F50344700E55652 /* LocationNode.swift in Sources */,
-				8D92B3BC1F6811C8006D0D71 /* Account.swift in Sources */,
 				829A6DE11F576C9E00FFE858 /* ARViewController+ARSessionDelegate.swift in Sources */,
 				B680AA9A1F6FEB19002F2632 /* HUDViewController+Recording.swift in Sources */,
 				8DFF39F31F50344700E55652 /* SceneLocationEstimate.swift in Sources */,
@@ -470,11 +493,7 @@
 				B6F97E161F6AA1AE0061CDBF /* ColorPickerView.swift in Sources */,
 				8DFF39F41F50344700E55652 /* SceneLocationEstimate+Extensions.swift in Sources */,
 				8DFF39F51F50344700E55652 /* SceneLocationView.swift in Sources */,
-				8D92B3BA1F63005D006D0D71 /* Api.swift in Sources */,
 				829A6DDF1F576A1000FFE858 /* ARViewController+Creating.swift in Sources */,
-				8D68DCF61F6C2A0700764F23 /* ApiArtifact.swift in Sources */,
-				8D65F2911F582AA800A6E463 /* Application.swift in Sources */,
-				B63579391F66D6130016E598 /* Block.swift in Sources */,
 				8DFF39F61F50344700E55652 /* SCNNode+Extensions.swift in Sources */,
 				829A6DDB1F57688F00FFE858 /* ArtifactNode.swift in Sources */,
 				829A6DD81F57678700FFE858 /* ARViewController.swift in Sources */,
@@ -483,9 +502,7 @@
 				B6DA6E871F66A4BE006EB7F7 /* Extensions.swift in Sources */,
 				B6650F971F57130C0085ABBE /* SCNScene+Lighting.swift in Sources */,
 				B64F0C371F4DBA920004BA49 /* HUDViewController.swift in Sources */,
-				8D92B3BE1F6AE68B006D0D71 /* Blocks.swift in Sources */,
 				826A734F1F4CCB8A00204DC7 /* AppDelegate.swift in Sources */,
-				8D68DCF81F6C2A4700764F23 /* ApiBlock.swift in Sources */,
 				829A6DE71F5770E500FFE858 /* ARViewController+Artifacts.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

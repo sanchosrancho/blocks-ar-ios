@@ -54,12 +54,9 @@ public final class Application {
     }
     
     var connectionStatus = ConnectionStatus.disconnected
-
-    private init() {}
 }
 
 extension Application {
-    
     func connect() {
         firstly {
             guard let token = Account.shared.accessToken, token != "" else {
@@ -75,11 +72,15 @@ extension Application {
                 return token
             }
         }.then { (token: String) in
-            try self.establishSocketConnection(withToken: token)
+            try self.establishSocketConnection(withToken: token+"11")
         }.then {
             self.connectionStatus = .connected
         }.catch { error in
-            self.connectionStatus = .error(error)
+            if (error as NSError).code == 401 {
+                self.connectionStatus = .error(ConnectionError.loginNeeded)
+            } else {
+                self.connectionStatus = .error(error)
+            }
         }
     }
 
@@ -92,5 +93,20 @@ extension Application {
     func disconnect() {
         Application.socket.disconnect()
     }
+}
+
+
+
+class Network {
     
+    var timer: Timer?
+    let interval: TimeInterval = 10
+    
+    func restart() {
+        self.timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true, block: timerReleased)
+    }
+    
+    func timerReleased(timer: Timer) {
+        
+    }
 }

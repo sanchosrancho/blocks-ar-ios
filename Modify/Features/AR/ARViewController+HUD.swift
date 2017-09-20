@@ -75,4 +75,10 @@ extension ARViewController: HUDViewControllerDelegate {
         
         addCube(with: newLocation, toArtifact: block.artifactId, color: color, position: newPosition)
     }
+    
+    
+    func hudDidChangeCurrentColor(_ color: UIColor) {
+        guard case .placing(let cube) = placeState else { return }
+        cube.updateColor(color)
+    }
 }

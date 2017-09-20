@@ -9,6 +9,11 @@
 import UIKit
 
 
+protocol ColorPickerViewDelegate: class {
+    func colorPickerDidUpdate(_ color: UIColor)
+}
+
+
 private enum ColorPickerState {
     case open
     case closed
@@ -19,6 +24,7 @@ class ColorPickerView: UIView {
     var currentColor: UIColor {
         return UIColor.fromHex(colorData[selectedView.index])
     }
+    weak var delegate: ColorPickerViewDelegate?
     
 
     init(position: CGPoint) {
@@ -41,9 +47,12 @@ class ColorPickerView: UIView {
     private let itemsPadding: CGFloat = 2
     
     private var state = ColorPickerState.closed
-    private var selectedView: ColorView!
     private var borderView: UIView!
     private var colorViews = [ColorView]()
+    private var selectedView: ColorView! {
+        didSet { delegate?.colorPickerDidUpdate(currentColor) }
+    }
+
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

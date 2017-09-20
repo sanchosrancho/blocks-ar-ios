@@ -50,6 +50,11 @@ class CubeNode: SCNNode {
     }
     
     
+    func updateColor(_ color: UIColor) {
+        guard let materials = geometry?.materials, materials.count > 0 else { return }
+        materials.forEach { $0.diffuse.contents = color }
+    }
+    
     
     //MARK: - Private
     

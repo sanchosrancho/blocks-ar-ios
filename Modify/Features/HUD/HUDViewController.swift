@@ -45,6 +45,8 @@ class HUDWindow: UIWindow {
     
     func hudDidTap(_ gesture: UITapGestureRecognizer, color: UIColor)
     
+    func hudDidChangeCurrentColor(_ color: UIColor)
+    
     @objc optional func hudStopAdjustingNodesPosition()
     @objc optional func hudStartAdjustingNodesPosition()
 }
@@ -164,6 +166,15 @@ class HUDViewController: UIViewController {
         let pos = CGPoint(x: UIScreen.main.bounds.width - 40, y: UIScreen.main.bounds.height - 50)
         let colorPicker = ColorPickerView(position: pos)
         self.colorPicker = colorPicker
+        self.colorPicker.delegate = self
         self.view.addSubview(colorPicker)
+    }
+}
+
+
+extension HUDViewController: ColorPickerViewDelegate {
+    
+    func colorPickerDidUpdate(_ color: UIColor) {
+        delegate?.hudDidChangeCurrentColor(color)
     }
 }

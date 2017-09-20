@@ -30,12 +30,26 @@ class ArtifactNode: LocationNode {
     
     
     func updateBlocks(with artifact: Artifact) {
-        // test
         guard artifact.objectId == self.artifactId else { return }
+        guard let nodes = self.childNodes as? [BlockNode] else { return }
         
-        for node in self.childNodes { node.removeFromParentNode() }
+        var presentedBlockIds = [String]()
         
+        // delete
+        var nodesToRemove = [BlockNode]()
+        let blockIds = artifact.blocks.map { $0.objectId }
+        for node in nodes {
+            if !blockIds.contains(node.blockId) {
+                nodesToRemove.append(node)
+            } else {
+                presentedBlockIds.append(node.blockId)
+            }
+        }
+        nodesToRemove.forEach { $0.removeFromParentNode() }
+        
+        // insert
         for block in artifact.blocks {
+            guard !presentedBlockIds.contains(block.objectId) else { continue }
             let blockNode = BlockNode(block: block, artifactId: artifact.objectId)
             self.addChildNode(blockNode)
         }
@@ -55,6 +69,7 @@ typealias ArtifactPosition = (x: Int32, y: Int32, z: Int32)
 
 class BlockNode: CubeNode {
     let artifactId: String
+    let blockId: String
     
     var lat: Double
     var lon: Double
@@ -75,6 +90,7 @@ class BlockNode: CubeNode {
         self.z = block.z
         
         self.artifactId = artifactId
+        self.blockId = block.objectId
         
         let size = BlockNode.size
         let position = SCNVector3(size * CGFloat(block.x), size * CGFloat(block.y), size * CGFloat(block.z))

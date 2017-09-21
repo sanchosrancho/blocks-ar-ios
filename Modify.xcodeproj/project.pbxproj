@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		131DA9D72052669805CDADFC /* Pods_Modify.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCDA4043423E1BCB46521F8B /* Pods_Modify.framework */; };
+		82645FB71F746AB2000447DC /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82645FB61F746AB2000447DC /* Database.swift */; };
 		826A734F1F4CCB8A00204DC7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826A734E1F4CCB8A00204DC7 /* AppDelegate.swift */; };
 		826A73511F4CCB8A00204DC7 /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 826A73501F4CCB8A00204DC7 /* art.scnassets */; };
 		826A73561F4CCB8A00204DC7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 826A73541F4CCB8A00204DC7 /* Main.storyboard */; };
@@ -21,7 +22,7 @@
 		829A6DE31F576D9F00FFE858 /* ARViewController+SceneLocationViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829A6DE21F576D9F00FFE858 /* ARViewController+SceneLocationViewDelegate.swift */; };
 		829A6DE51F57706800FFE858 /* ARViewController+HUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829A6DE41F57706800FFE858 /* ARViewController+HUD.swift */; };
 		829A6DE71F5770E500FFE858 /* ARViewController+Artifacts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829A6DE61F5770E500FFE858 /* ARViewController+Artifacts.swift */; };
-		8D0BD0121F7410D200CEE05B /* AccountInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D0BD0111F7410D200CEE05B /* AccountInfo.swift */; };
+		8D0BD0121F7410D200CEE05B /* AccountUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D0BD0111F7410D200CEE05B /* AccountUser.swift */; };
 		8DFF39EE1F50344700E55652 /* CGPoint+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC8263E1F50335900DF7DF9 /* CGPoint+Extensions.swift */; };
 		8DFF39EF1F50344700E55652 /* CLLocation+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC826411F50335900DF7DF9 /* CLLocation+Extensions.swift */; };
 		8DFF39F01F50344700E55652 /* FloatingPoint+Radians.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC8263B1F50335900DF7DF9 /* FloatingPoint+Radians.swift */; };
@@ -59,6 +60,7 @@
 /* Begin PBXFileReference section */
 		210909720452535616B550CB /* Pods-Modify.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Modify.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Modify/Pods-Modify.debug.xcconfig"; sourceTree = "<group>"; };
 		28F14B050ED07137CB15BF8E /* Pods-Modify.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Modify.release.xcconfig"; path = "Pods/Target Support Files/Pods-Modify/Pods-Modify.release.xcconfig"; sourceTree = "<group>"; };
+		82645FB61F746AB2000447DC /* Database.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Database.swift; path = Modify/Core/Database.swift; sourceTree = SOURCE_ROOT; };
 		826A734B1F4CCB8A00204DC7 /* Modify.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Modify.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		826A734E1F4CCB8A00204DC7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		826A73501F4CCB8A00204DC7 /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
@@ -74,7 +76,7 @@
 		829A6DE21F576D9F00FFE858 /* ARViewController+SceneLocationViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ARViewController+SceneLocationViewDelegate.swift"; sourceTree = "<group>"; };
 		829A6DE41F57706800FFE858 /* ARViewController+HUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ARViewController+HUD.swift"; sourceTree = "<group>"; };
 		829A6DE61F5770E500FFE858 /* ARViewController+Artifacts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ARViewController+Artifacts.swift"; sourceTree = "<group>"; };
-		8D0BD0111F7410D200CEE05B /* AccountInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AccountInfo.swift; path = Modify/Core/Models/Item/AccountInfo.swift; sourceTree = SOURCE_ROOT; };
+		8D0BD0111F7410D200CEE05B /* AccountUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AccountUser.swift; path = Modify/Core/Models/Item/AccountUser.swift; sourceTree = SOURCE_ROOT; };
 		8D68DCF31F6C28A000764F23 /* ApiUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiUser.swift; sourceTree = "<group>"; };
 		8D68DCF51F6C2A0700764F23 /* ApiArtifact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiArtifact.swift; sourceTree = "<group>"; };
 		8D68DCF71F6C2A4700764F23 /* ApiBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiBlock.swift; sourceTree = "<group>"; };
@@ -225,6 +227,7 @@
 				B653B1601F72C39A00C43946 /* Models */,
 				B653B15E1F72C39200C43946 /* Application.swift */,
 				B653B15F1F72C39200C43946 /* Socket.swift */,
+				82645FB61F746AB2000447DC /* Database.swift */,
 			);
 			name = Core;
 			path = "New Group";
@@ -247,7 +250,7 @@
 				B653B16A1F72C42200C43946 /* Artifact.swift */,
 				B653B16B1F72C42200C43946 /* Block.swift */,
 				B653B16C1F72C42200C43946 /* User.swift */,
-				8D0BD0111F7410D200CEE05B /* AccountInfo.swift */,
+				8D0BD0111F7410D200CEE05B /* AccountUser.swift */,
 			);
 			path = Item;
 			sourceTree = "<group>";
@@ -481,7 +484,7 @@
 				B653B17E1F72C52700C43946 /* Blocks.swift in Sources */,
 				B653B17F1F72C52700C43946 /* Artifact.swift in Sources */,
 				B653B1801F72C52700C43946 /* Block.swift in Sources */,
-				8D0BD0121F7410D200CEE05B /* AccountInfo.swift in Sources */,
+				8D0BD0121F7410D200CEE05B /* AccountUser.swift in Sources */,
 				B653B1811F72C52700C43946 /* User.swift in Sources */,
 				B653B1821F72C52700C43946 /* Application.swift in Sources */,
 				B653B1831F72C52700C43946 /* Socket.swift in Sources */,
@@ -495,6 +498,7 @@
 				829A6DE11F576C9E00FFE858 /* ARViewController+ARSessionDelegate.swift in Sources */,
 				B680AA9A1F6FEB19002F2632 /* HUDViewController+Recording.swift in Sources */,
 				8DFF39F31F50344700E55652 /* SceneLocationEstimate.swift in Sources */,
+				82645FB71F746AB2000447DC /* Database.swift in Sources */,
 				B680AA981F6FE99E002F2632 /* HUDViewController+Gestures.swift in Sources */,
 				829A6DE51F57706800FFE858 /* ARViewController+HUD.swift in Sources */,
 				B6F97E161F6AA1AE0061CDBF /* ColorPickerView.swift in Sources */,

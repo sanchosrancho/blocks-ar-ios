@@ -19,6 +19,7 @@ extension Api {
 extension Api.Block {
     struct Response:Decodable {
         let status: String
+        let result: Block
     }
 }
 

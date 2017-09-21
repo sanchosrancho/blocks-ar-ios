@@ -12,7 +12,7 @@ import Moya
 
 struct Blocks {
     
-    func add(block: Block) throws -> Promise<Void> {
+    static func add(block: Block) throws -> Promise<Void> {
         guard let token = Account.shared.info.token else {
             throw Application.ConnectionError.loginNeeded
         }
@@ -33,7 +33,7 @@ struct Blocks {
             }
     }
     
-    func delete(blockId: String) throws -> Promise<Void> {
+    static func delete(blockId: String) throws -> Promise<Void> {
         guard let token = Account.shared.info.token else {
             throw NSError.cancelledError()
         }

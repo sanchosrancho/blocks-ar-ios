@@ -51,6 +51,7 @@ class CubeNode: SCNNode {
     
     
     func updateColor(_ color: UIColor) {
+        self.color = color
         guard let materials = geometry?.materials, materials.count > 0 else { return }
         materials.forEach { $0.diffuse.contents = color }
     }
@@ -61,7 +62,7 @@ class CubeNode: SCNNode {
     private static let chamfer: CGFloat = 0.002
     private static let chamfersCount = 2
     
-    private let color: UIColor
+    private var color: UIColor
     
     
     required init?(coder aDecoder: NSCoder) {

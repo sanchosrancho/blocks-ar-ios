@@ -36,8 +36,8 @@ struct Artifacts {
         return
             firstly {
                 createUploading(location: location, eulerX: eulerX, eulerY: eulerY, eulerZ: eulerZ, distanceToGround: distanceToGround, color: color)
-            }.then { (artifact: Artifact) -> Void in
-                try upload(artifact: artifact)
+            }.then {
+                try upload(artifact: $0)
             }
     }
     
@@ -49,9 +49,15 @@ struct Artifacts {
         let authPlugin = AccessTokenPlugin(tokenClosure: token)
         let api = MoyaProvider<Api.Block>(plugins: [authPlugin, NetworkLoggerPlugin()])
         
-        let artifactData: Data
+        guard let block = artifact.blocks.first else {
+            print("Couldn't find initial block in the artifact");
+            throw NSError.cancelledError()
+        }
+        let blockData = try JSONEncoder().encode(block)
+//        let artifactData: Data =
+        
         return firstly {
-                api.request(target: .add(data: artifactData))
+                api.request(target: .add(data: blockData))
             }.then { (response: Moya.Response) -> Api.Block.Response in
                 try JSONDecoder().decode(Api.Block.Response.self, from: response.data)
             }.then { (json: Api.Block.Response) -> Void in

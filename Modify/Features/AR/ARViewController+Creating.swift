@@ -32,35 +32,13 @@ extension ARViewController {
         
         let locationEstimate = SceneLocationEstimate(location: location, position: position)
         let artifactLocation = locationEstimate.translatedLocation(to: cubeNode.position)
-        let distanceToGround = cubeNode.position.y
         
-        try! realm.write {
-            let artifact = Artifact()
-            artifact.eulerX = cubeNode.eulerAngles.x
-            artifact.eulerY = cubeNode.eulerAngles.y
-            artifact.eulerZ = cubeNode.eulerAngles.z
-            
-            artifact.latitude  = artifactLocation.coordinate.latitude
-            artifact.longitude = artifactLocation.coordinate.longitude
-            artifact.altitude  = artifactLocation.altitude
-            
-            artifact.horizontalAccuracy = artifactLocation.horizontalAccuracy
-            artifact.verticalAccuracy = artifactLocation.verticalAccuracy
-            artifact.groundDistance = CLLocationDistance(distanceToGround)
-            
-            
-            let block = Block()
-            block.artifact = artifact
-            block.latitude = artifactLocation.coordinate.latitude
-            block.longitude = artifactLocation.coordinate.longitude
-            block.altitude = artifactLocation.altitude
-            
-            block.createdAt = Date()
-            block.hexColor = cubeNode.hexColor
-            
-            artifact.blocks.append(block)
-            realm.add(artifact)
-        }
+        Artifacts.create(location: artifactLocation,
+            eulerX: cubeNode.eulerAngles.x,
+            eulerY: cubeNode.eulerAngles.y,
+            eulerZ: cubeNode.eulerAngles.z,
+            distanceToGround: CLLocationDistance(cubeNode.position.y),
+            color: cubeNode.hexColor)
     }
     
     

@@ -48,6 +48,7 @@
 		B653B1811F72C52700C43946 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = B653B16C1F72C42200C43946 /* User.swift */; };
 		B653B1821F72C52700C43946 /* Application.swift in Sources */ = {isa = PBXBuildFile; fileRef = B653B15E1F72C39200C43946 /* Application.swift */; };
 		B653B1831F72C52700C43946 /* Socket.swift in Sources */ = {isa = PBXBuildFile; fileRef = B653B15F1F72C39200C43946 /* Socket.swift */; };
+		B653B1871F74002C00C43946 /* BlockNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = B653B1861F74002C00C43946 /* BlockNode.swift */; };
 		B6650F971F57130C0085ABBE /* SCNScene+Lighting.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6650F961F57130C0085ABBE /* SCNScene+Lighting.swift */; };
 		B680AA981F6FE99E002F2632 /* HUDViewController+Gestures.swift in Sources */ = {isa = PBXBuildFile; fileRef = B680AA971F6FE99E002F2632 /* HUDViewController+Gestures.swift */; };
 		B680AA9A1F6FEB19002F2632 /* HUDViewController+Recording.swift in Sources */ = {isa = PBXBuildFile; fileRef = B680AA991F6FEB19002F2632 /* HUDViewController+Recording.swift */; };
@@ -105,6 +106,7 @@
 		B653B1731F72C4DE00C43946 /* ApiUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ApiUser.swift; path = Modify/Core/ModifyApi/ApiUser.swift; sourceTree = SOURCE_ROOT; };
 		B653B1741F72C4DE00C43946 /* ApiBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ApiBlock.swift; path = Modify/Core/ModifyApi/ApiBlock.swift; sourceTree = SOURCE_ROOT; };
 		B653B1751F72C4DE00C43946 /* ApiArtifact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ApiArtifact.swift; path = Modify/Core/ModifyApi/ApiArtifact.swift; sourceTree = SOURCE_ROOT; };
+		B653B1861F74002C00C43946 /* BlockNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockNode.swift; sourceTree = "<group>"; };
 		B6650F961F57130C0085ABBE /* SCNScene+Lighting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SCNScene+Lighting.swift"; sourceTree = "<group>"; };
 		B680AA971F6FE99E002F2632 /* HUDViewController+Gestures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HUDViewController+Gestures.swift"; sourceTree = "<group>"; };
 		B680AA991F6FEB19002F2632 /* HUDViewController+Recording.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HUDViewController+Recording.swift"; sourceTree = "<group>"; };
@@ -175,8 +177,9 @@
 				829A6DE41F57706800FFE858 /* ARViewController+HUD.swift */,
 				829A6DE01F576C9E00FFE858 /* ARViewController+ARSessionDelegate.swift */,
 				829A6DE21F576D9F00FFE858 /* ARViewController+SceneLocationViewDelegate.swift */,
-				829A6DDA1F57688F00FFE858 /* ArtifactNode.swift */,
 				829A6DDC1F5768CE00FFE858 /* ArtifactSceneView.swift */,
+				829A6DDA1F57688F00FFE858 /* ArtifactNode.swift */,
+				B653B1861F74002C00C43946 /* BlockNode.swift */,
 			);
 			path = AR;
 			sourceTree = "<group>";
@@ -506,6 +509,7 @@
 				B6DA6E871F66A4BE006EB7F7 /* Extensions.swift in Sources */,
 				B6650F971F57130C0085ABBE /* SCNScene+Lighting.swift in Sources */,
 				B64F0C371F4DBA920004BA49 /* HUDViewController.swift in Sources */,
+				B653B1871F74002C00C43946 /* BlockNode.swift in Sources */,
 				826A734F1F4CCB8A00204DC7 /* AppDelegate.swift in Sources */,
 				829A6DE71F5770E500FFE858 /* ARViewController+Artifacts.swift in Sources */,
 			);

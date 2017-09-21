@@ -33,7 +33,6 @@ class Artifact: RealmSwift.Object, Codable {
 
 
 extension Artifact {
-    
     var locationCoordinate2D: CLLocationCoordinate2D {
         return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
     }

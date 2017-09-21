@@ -39,9 +39,9 @@ class ARViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         sceneLocationView.shouldUpdateLocationEstimate = false // test
-        setupScene()
-        setupHUD()
-        setupRealm()
+//        setupScene()
+//        setupHUD()
+//        setupRealm()
 //        setupLocationAccuracyStatus()
     }
     

@@ -32,7 +32,6 @@ class Block: RealmSwift.Object, Codable {
 
 
 extension Block {
-    
     var color: UIColor {
         return UIColor.fromHex(hexColor)
     }

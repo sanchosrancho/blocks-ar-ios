@@ -12,7 +12,7 @@ import CoreLocation
 class Artifact: RealmSwift.Object, Codable {
     @objc dynamic var objectId: String = NSUUID().uuidString
     
-    @objc dynamic var id: String?
+    @objc dynamic var id: Int = 0
     
     @objc dynamic var eulerX: Float = 0
     @objc dynamic var eulerY: Float = 0

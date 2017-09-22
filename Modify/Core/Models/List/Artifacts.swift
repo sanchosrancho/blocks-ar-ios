@@ -58,15 +58,14 @@ struct Artifacts {
         
         return firstly {
                 api.request(target: .add(data: blockData))
-            }.then { (response: Moya.Response) -> Api.Block.Response in
-                try JSONDecoder().decode(Api.Block.Response.self, from: response.data)
-            }.then { (json: Api.Block.Response) -> Void in
-                guard let id = json.result.artifact?.id else {
-                    print("Couldn't find artifact_id in block's response");
-                    throw NSError.cancelledError()
-                }
+            }.then { (response: Moya.Response) -> Api.Block.Response.Add in
+                try JSONDecoder().decode(Api.Block.Response.Add.self, from: response.data)
+            }.then { (json: Api.Block.Response.Add) -> Void in
+                let blockId = json.result.id
+                let artifactId = json.result.artifact
                 try! Database.realmMain.write {
-                    artifact.id = id
+                    artifact.id = artifactId
+                    block.id = blockId
                 }
             }
     }

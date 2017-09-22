@@ -24,9 +24,9 @@ struct Blocks {
         return
             firstly {
                 api.request(target: .add(data: encodedBlock))
-            }.then { (response: Moya.Response) -> Api.Block.Response in
-                try JSONDecoder().decode(Api.Block.Response.self, from: response.data)
-            }.then { (json: Api.Block.Response) -> Void in
+            }.then { (response: Moya.Response) -> Api.Block.Response.Add in
+                try JSONDecoder().decode(Api.Block.Response.Add.self, from: response.data)
+            }.then { (json: Api.Block.Response.Add) -> Void in
                 guard json.status == "ok" else {
                     throw NSError.cancelledError()
                 }
@@ -43,9 +43,9 @@ struct Blocks {
         
         return firstly {
                 api.request(target: .delete(blockId: blockId))
-            }.then { response -> Api.Block.Response in
-                try JSONDecoder().decode(Api.Block.Response.self, from: response.data)
-            }.then { (result: Api.Block.Response) -> Void in
+            }.then { response -> Api.Block.Response.Delete in
+                try JSONDecoder().decode(Api.Block.Response.Delete.self, from: response.data)
+            }.then { (result: Api.Block.Response.Delete) -> Void in
                 guard result.status == "ok" else {
                     throw NSError.cancelledError()
                 }

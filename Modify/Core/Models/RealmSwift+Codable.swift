@@ -77,6 +77,7 @@ extension List : Decodable /* where Element : Decodable */ {
         self.init()
         assertTypeIsDecodable(T.self, in: type(of: self))
         
+        return
         let metaType = (T.self as! Decodable.Type) // swiftlint:disable:this force_cast
         var container = try decoder.unkeyedContainer()
         while !container.isAtEnd {
@@ -90,6 +91,7 @@ extension List : Encodable /* where Element : Decodable */ {
     public func encode(to encoder: Encoder) throws {
         assertTypeIsEncodable(T.self, in: type(of: self))
         
+        return
         var container = encoder.unkeyedContainer()
         for element in self {
             // superEncoder appends an empty element and wraps an Encoder around it.

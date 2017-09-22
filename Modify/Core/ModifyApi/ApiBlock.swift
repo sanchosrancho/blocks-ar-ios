@@ -17,9 +17,20 @@ extension Api {
 }
 
 extension Api.Block {
-    struct Response:Decodable {
-        let status: String
-        let result: Block
+    struct Response {
+        struct Delete: Decodable {
+            let status: String
+        }
+        
+        struct Add:Decodable {
+            let status: String
+            let result: Block
+            
+            struct Block: Decodable {
+                let artifact: Int
+                let id: Int
+            }
+        }
     }
 }
 
@@ -39,7 +50,7 @@ extension Api.Block: TargetType, AccessTokenAuthorizable {
     
     var task: Task {
         switch self {
-        case .add(let data):       return .requestParameters(parameters: ["block": data],       encoding: JSONEncoding.default)
+        case .add(let data):       return .requestData(data) //.requestParameters(parameters: ["block": String.init(data: data, encoding: .utf8)!],       encoding: JSONEncoding.default)
         case .delete(let blockId): return .requestParameters(parameters: ["block_id": blockId], encoding: JSONEncoding.default)
         }
     }

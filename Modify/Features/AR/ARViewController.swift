@@ -38,11 +38,10 @@ class ARViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        sceneLocationView.shouldUpdateLocationEstimate = false // test
         setupScene()
         setupHUD()
         setupRealm()
-//        setupLocationAccuracyStatus()
+        setupLocationAccuracyStatus()
     }
     
     override func viewDidLayoutSubviews() {
@@ -67,14 +66,14 @@ class ARViewController: UIViewController {
     func setupLocationAccuracyStatus() {
         self.hudWindow?.hudController.updateLocationStatus(Application.shared.state)
         
-        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "ApplicationLocationAccuracyDidChange"), object: nil, queue: nil) {
+        NotificationCenter.default.addObserver(forName: .locationAccuracyChanged, object: nil, queue: nil) {
             guard let currentAccuracy = $0.userInfo?["current"] as? Application.LocationAccuracyState else { return }
+            self.hudWindow?.hudController.updateLocationStatus(currentAccuracy)
             
             if case Application.LocationAccuracyState.good = currentAccuracy {
                 self.sceneLocationView.shouldUpdateLocationEstimate = false
+                self.setupRealmResults()
             }
-            
-            self.hudWindow?.hudController.updateLocationStatus(currentAccuracy)
         }
     }
     
@@ -109,7 +108,10 @@ class ARViewController: UIViewController {
         let documents = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
         let path = documents + "/modify.realm"
         self.realm = try! Realm(fileURL: URL(fileURLWithPath: path))
-        
+    }
+    
+    
+    func setupRealmResults() {
         self.artifacts = realm.objects(Artifact.self)
         self.artifactsToken = artifacts?.addNotificationBlock { changes in
             DispatchQueue.main.async { [weak self] in

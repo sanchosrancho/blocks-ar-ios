@@ -27,8 +27,9 @@ public final class Application {
         willSet(newState) {
             guard newState != state else { return }
             switch newState {
-            case .poor: NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: "ApplicationLocationAccuracyDidChange"), object: nil, userInfo: ["current": Application.LocationAccuracyState.poor]))
-            case .good: NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: "ApplicationLocationAccuracyDidChange"), object: nil, userInfo: ["current": Application.LocationAccuracyState.good]))
+            case .poor:
+                NotificationCenter.default.post(name: .locationAccuracyChanged, object: nil, userInfo: ["current": Application.LocationAccuracyState.poor])
+            case .good: NotificationCenter.default.post(name: .locationAccuracyChanged, object: nil, userInfo: ["current": Application.LocationAccuracyState.good])
             }
         }
     }
@@ -38,7 +39,8 @@ public final class Application {
     var locationVerticalAccuracy:   CLLocationAccuracy = -1 { didSet { adjustifyLocationAccuracyState() } }
     
     private func adjustifyLocationAccuracyState() {
-        state = (0...10 ~= locationHorizontalAccuracy && 0...5 ~= locationVerticalAccuracy) ? .good : .poor
+        // state = (0...10 ~= locationHorizontalAccuracy && 0...5 ~= locationVerticalAccuracy) ? .good : .poor
+        state = (0...70 ~= locationHorizontalAccuracy && 0...12 ~= locationVerticalAccuracy) ? .good : .poor
     }
     
     static let socket = Socket(socketUrl: Api.socketURL, token: Account.shared.accessToken)
@@ -91,7 +93,7 @@ extension Application {
     }
     
     func disconnect() {
-        Application.socket.disconnect()
+        let _ = Application.socket.disconnect()
     }
 }
 

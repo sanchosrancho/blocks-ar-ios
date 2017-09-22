@@ -70,7 +70,7 @@ extension ARViewController: HUDViewControllerDelegate {
         guard let block = result.node as? BlockNode else { return }
         guard let face = block.findFace(with: result.geometryIndex) else { return }
         
-        let newPosition = block.newPosition(from: face)
+        guard let newPosition = block.newPosition(from: face) else { return }
         let newLocation = block.newLocation(for: newPosition)
         
         addCube(with: newLocation, toArtifact: block.artifactId, color: color, position: newPosition)

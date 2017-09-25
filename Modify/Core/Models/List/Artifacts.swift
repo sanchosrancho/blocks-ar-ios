@@ -42,22 +42,15 @@ struct Artifacts {
     }
     
     static private func upload(artifact: Artifact) throws -> Promise<Void> {
-        guard let token = Account.shared.info.token else {
-            throw Application.ConnectionError.loginNeeded
-        }
-        
-        let authPlugin = AccessTokenPlugin(tokenClosure: token)
-        let api = MoyaProvider<Api.Block>(plugins: [authPlugin, NetworkLoggerPlugin()])
-        
         guard let block = artifact.blocks.first else {
             print("Couldn't find initial block in the artifact");
             throw NSError.cancelledError()
         }
         let blockData = try JSONEncoder().encode(block)
-//        let artifactData: Data =
+        
         
         return firstly {
-                api.request(target: .add(data: blockData))
+                try Api.exec(Api.Block.add(data: blockData))
             }.then { (response: Moya.Response) -> Api.Block.Response.Add in
                 try JSONDecoder().decode(Api.Block.Response.Add.self, from: response.data)
             }.then { (json: Api.Block.Response.Add) -> Void in

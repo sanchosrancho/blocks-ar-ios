@@ -15,4 +15,5 @@ target 'Modify' do
   pod 'PromiseKit', '~> 4.4'
   pod 'Locksmith'
   pod 'Starscream'
+  pod 'SwiftyJSON'
 end

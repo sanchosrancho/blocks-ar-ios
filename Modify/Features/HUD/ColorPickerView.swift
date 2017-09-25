@@ -21,6 +21,8 @@ private enum ColorPickerState {
 
 class ColorPickerView: UIView {
     
+    static let itemSize: CGFloat = 46
+    
     var currentColor: UIColor {
         return UIColor.fromHex(colorData[selectedView.index])
     }
@@ -28,7 +30,7 @@ class ColorPickerView: UIView {
     
 
     init(position: CGPoint) {
-        let frame = CGRect(x: 0, y: 0, width: itemSize , height: itemSize)
+        let frame = CGRect(x: 0, y: 0, width: ColorPickerView.itemSize , height: ColorPickerView.itemSize)
         super.init(frame: frame)
         self.center = position
         self.clipsToBounds = false
@@ -43,7 +45,6 @@ class ColorPickerView: UIView {
     //MARK: - Private
     
     private let colorData = ["8ab432", "50a9b3", "ffa900", "fc5000", "1773bd"]
-    private let itemSize: CGFloat = 46
     private let itemsPadding: CGFloat = 2
     
     private var state = ColorPickerState.closed
@@ -61,7 +62,7 @@ class ColorPickerView: UIView {
     
     private func createColorViews() {
         for i in 0..<colorData.count {
-            let frame = CGRect(x: 0, y: 0, width: itemSize, height: itemSize)
+            let frame = CGRect(x: 0, y: 0, width: ColorPickerView.itemSize, height: ColorPickerView.itemSize)
             let colorView = ColorView(frame: frame, index: i, hex: colorData[i])
             colorViews.append(colorView)
             self.addSubview(colorView)
@@ -101,7 +102,7 @@ class ColorPickerView: UIView {
     
     
     private func showAllViews() {
-        let newHeight = CGFloat(colorData.count) * itemSize + CGFloat(colorData.count - 1) * itemsPadding
+        let newHeight = CGFloat(colorData.count) * ColorPickerView.itemSize + CGFloat(colorData.count - 1) * itemsPadding
         let deltaY = newHeight - self.bounds.height
         var frame = self.frame
         frame.origin.y -= deltaY
@@ -120,17 +121,17 @@ class ColorPickerView: UIView {
                 var frame = colorView.frame
                 frame.origin.y = offset
                 colorView.frame = frame
-                offset += self.itemSize + self.itemsPadding
+                offset += ColorPickerView.itemSize + self.itemsPadding
             }
         }, completion: nil)
     }
     
     
     private func hideAllViews() {
-        let deltaY = itemSize - self.bounds.height
+        let deltaY = ColorPickerView.itemSize - self.bounds.height
         var frame = self.frame
         frame.origin.y -= deltaY
-        frame.size.height = itemSize
+        frame.size.height = ColorPickerView.itemSize
         self.frame = frame
         for view in self.subviews {
             var fr = view.frame

@@ -9,32 +9,6 @@
 import UIKit
 
 
-private class HUDButton: UIButton {}
-
-class HUDWindow: UIWindow {
-    
-    var hudController: HUDViewController {
-        return self.rootViewController as! HUDViewController
-    }
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        self.rootViewController = HUDViewController()
-        self.backgroundColor = .clear
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    /*override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-        guard let hitView = super.hitTest(point, with: event) else { return nil }
-        if hitView is HUDButton { return hitView }
-        return nil
-    }*/
-}
-
-
 @objc protocol HUDViewControllerDelegate: class {
     func hudAddObjectPressed(color: UIColor)
     func hudPlaceObjectPressed()
@@ -55,6 +29,9 @@ class HUDWindow: UIWindow {
 class HUDViewController: UIViewController {
 
     weak var delegate: HUDViewControllerDelegate?
+    var placeState = PlaceState.preview {
+        didSet { updateStateAppearance() }
+    }
     
     
     override func viewDidLoad() {
@@ -62,74 +39,139 @@ class HUDViewController: UIViewController {
         
         setupRecButton()
         setupAddButton()
-        setupAdjustingNodePositionButton()
-        setupPlaceButton()
+        setupCancelAddButton()
+        setupEditModeView()
         
         setupPan()
         setupTap()
         
-        setupLocationStatus()
+        setupLocationStatusLabel()
         setupColorPicker()
+        
+        updateStateAppearance()
+        
+        /* test */
+        self.addObjectButton?.isHidden = true
     }
+    
     
     func updateLocationStatus(_ status: Application.LocationAccuracyState) {
         switch status {
-        case .poor: locationStatus.text = "Bad location accuracy"
-        case .good: locationStatus.text = "Good location accuracy"
+            case .poor: locationStatusLabel?.text = "Bad location accuracy"
+            case .good: locationStatusLabel?.text = "Good location accuracy"
         }
     }
     
+    
     func cameraReady(_ ready: Bool) {
-        self.addObjectButton.setTitleColor(ready ? .green : .lightGray, for: .normal)
+        // self.addObjectButton.setTitleColor(ready ? .green : .lightGray, for: .normal)
     }
     
     
-    func updateState(isPlacing: Bool) {
-        addObjectButton.isSelected = isPlacing
-        placeObjectButton.isHidden = !isPlacing
+    private func updateStateAppearance() {
+        switch placeState {
+        case .preview:
+            addObjectButton?.isSelected = false
+            addObjectButton?.isHidden = false
+            cancelAddButton?.isHidden = true
+            colorPicker.isHidden = true
+        case .placing(_):
+            addObjectButton?.isSelected = true
+            addObjectButton?.isHidden = false
+            cancelAddButton?.isHidden = false
+            colorPicker.isHidden = false
+        case .editing(_):
+            addObjectButton?.isHidden = true
+            addObjectButton?.isSelected = false
+            cancelAddButton?.isHidden = true
+            colorPicker.isHidden = false
+        }
     }
     
     
     //MARK: - Private
     
-    private let recButton = HUDButton(frame: CGRect(x: 20, y: 140, width: 60, height: 60))
-    private let addObjectButton = HUDButton(frame: CGRect(x: 20, y: 30, width: 100, height: 44))
-    private let toggleAdjustingNodePositionButton = HUDButton(frame: CGRect(x: 140, y: 30, width: 200, height: 44))
-    private let placeObjectButton = HUDButton(frame: CGRect(x: round((UIScreen.main.bounds.width - 80)/2), y: UIScreen.main.bounds.height - 60, width: 80, height: 44))
     var startYPan: CGFloat = 0
-    let locationStatus = UILabel(frame: CGRect(x: 20, y: 10, width: (UIScreen.main.bounds.width-40), height: 20))
+    var locationStatusLabel: UILabel?
+    var addObjectButton: UIButton?
+    var cancelAddButton: UIButton?
+    var editModeView: EditModeView?
     var colorPicker: ColorPickerView!
+    let bottomBaseYPosition: CGFloat = 54
+    let baseXPadding: CGFloat = 15
     
     
-    private func setupLocationStatus() {
-        locationStatus.layer.opacity = 0.6
-        locationStatus.backgroundColor = UIColor.black.withAlphaComponent(0.8)
-        locationStatus.textColor = UIColor.white
-        locationStatus.textAlignment = .center
-        self.view.addSubview(locationStatus)
+    private func setupLocationStatusLabel() {
+        let frame = CGRect(x: 0, y: 20, width: UIScreen.main.bounds.width, height: 20)
+        let label = UILabel(frame: frame)
+        label.layer.opacity = 0.6
+        label.backgroundColor = UIColor.black.withAlphaComponent(0.8)
+        label.textColor = UIColor.white
+        label.textAlignment = .center
+        self.view.addSubview(label)
+        self.locationStatusLabel = label
     }
     
+    
     private func setupRecButton() {
+        /*
         recButton.setImage(UIImage(named: "rec_start"), for: .normal)
         recButton.setImage(UIImage(named: "rec_stop"), for: .selected)
         recButton.addTarget(self, action: #selector(startRecording(sender:)), for: .touchUpInside)
         self.view.addSubview(recButton)
+        */
     }
     
     
     private func setupAddButton() {
-        addObjectButton.setTitle("Add object", for: .normal)
-        addObjectButton.setTitle("Cancel", for: .selected)
-        addObjectButton.backgroundColor = UIColor.black.withAlphaComponent(0.3)
-        addObjectButton.addTarget(self, action: #selector(addButtonPressed), for: .touchUpInside)
-        self.view.addSubview(addObjectButton)
+        let screenSize = UIScreen.main.bounds.size
+        let size: CGFloat = 76
+        let yPos = screenSize.height - bottomBaseYPosition - size/2
+        
+        let frame = CGRect(x: round((screenSize.width - size)/2), y: yPos, width: size, height: size)
+        let button = UIButton(frame: frame)
+        button.setImage(UIImage(named: "btn_add_obj"), for: .normal)
+        button.setImage(UIImage(named: "btn_place_obj"), for: .selected)
+        button.backgroundColor = .white
+        button.tintColor = .innerGray
+        button.layer.cornerRadius = size/2
+        button.addTarget(self, action: #selector(addObjectButtonPressed(_:)), for: .touchUpInside)
+        
+        self.view.addSubview(button)
+        self.addObjectButton = button
     }
     
-    @objc private func addButtonPressed(_ sender: UIButton) {
-        let color = self.colorPicker.currentColor
-        sender.isSelected ? delegate?.hudPlaceObjectCancelled() : delegate?.hudAddObjectPressed(color: color)
+    @objc private func addObjectButtonPressed(_ sender: UIButton) {
+        if sender.isSelected {
+            delegate?.hudPlaceObjectPressed()
+        }
+        else {
+            delegate?.hudAddObjectPressed(color: colorPicker.currentColor)
+        }
     }
     
+    
+    private func setupCancelAddButton() {
+        let size: CGFloat = 46
+        let yPos = UIScreen.main.bounds.size.height - bottomBaseYPosition - size/2
+        
+        let frame = CGRect(x: baseXPadding, y: yPos, width: size, height: size)
+        let button = UIButton(frame: frame)
+        button.setImage(UIImage(named: "btn_cancel_add"), for: .normal)
+        button.backgroundColor = .white
+        button.tintColor = .innerGray
+        button.layer.cornerRadius = size/2
+        button.addTarget(self, action: #selector(cancelAddButtonPressed), for: .touchUpInside)
+        
+        self.view.addSubview(button)
+        self.cancelAddButton = button
+    }
+    
+    @objc private func cancelAddButtonPressed() {
+        delegate?.hudPlaceObjectCancelled()
+    }
+    
+    /*
     private func setupAdjustingNodePositionButton() {
         toggleAdjustingNodePositionButton.setTitle("Stop adjusting", for: .normal)
         toggleAdjustingNodePositionButton.setTitle("Start adjusting", for: .selected)
@@ -146,8 +188,9 @@ class HUDViewController: UIViewController {
         }
         sender.isSelected = !sender.isSelected
     }
+    */
     
-    
+    /*
     private func setupPlaceButton() {
         placeObjectButton.setTitleColor(.white, for: .normal)
         placeObjectButton.setTitle("Place", for: .normal)
@@ -156,18 +199,28 @@ class HUDViewController: UIViewController {
         placeObjectButton.isHidden = true
         self.view.addSubview(placeObjectButton)
     }
-    
+ 
     @objc private func placeButtonPressed() {
         self.delegate?.hudPlaceObjectPressed()
     }
-    
+    */
     
     private func setupColorPicker() {
-        let pos = CGPoint(x: UIScreen.main.bounds.width - 40, y: UIScreen.main.bounds.height - 50)
+        let xPos = UIScreen.main.bounds.width - baseXPadding - round(ColorPickerView.itemSize/2)
+        let pos = CGPoint(x: xPos, y: UIScreen.main.bounds.height - bottomBaseYPosition)
         let colorPicker = ColorPickerView(position: pos)
         self.colorPicker = colorPicker
         self.colorPicker.delegate = self
         self.view.addSubview(colorPicker)
+    }
+    
+    
+    private func setupEditModeView() {
+        let screenSize = UIScreen.main.bounds.size
+        let position = CGPoint(x: round(screenSize.width/2), y: screenSize.height - bottomBaseYPosition)
+        let editView = EditModeView(position: position)
+        self.view.addSubview(editView)
+        self.editModeView = editView
     }
 }
 

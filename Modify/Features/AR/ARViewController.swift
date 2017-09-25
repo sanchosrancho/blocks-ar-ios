@@ -23,11 +23,7 @@ class ARViewController: UIViewController {
     var zDistance: Float = -0.3
     var currentYPosition: Float = 0
     var placeState = PlaceState.preview {
-        didSet {
-            var isPlacing = false
-            if case .placing(_) = placeState { isPlacing = true }
-            hudWindow?.hudController.updateState(isPlacing: isPlacing)
-        }
+        didSet { hudWindow?.hudController.placeState = self.placeState }
     }
     
     
@@ -78,7 +74,7 @@ class ARViewController: UIViewController {
     }
     
     func setupScene() {
-        sceneLocationView.showsStatistics = true
+        sceneLocationView.showsStatistics = false
         sceneLocationView.run()
 //        sceneLocationView.scene.enableEnvironmentMapWithIntensity(1000, queue: serialQueue)
         sceneLocationView.antialiasingMode = .multisampling4X

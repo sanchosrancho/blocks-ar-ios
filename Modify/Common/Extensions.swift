@@ -51,6 +51,9 @@ extension UIColor {
         
         return String(format: "%02X%02X%02X", Int(r * 0xff), Int(g * 0xff), Int(b * 0xff)).lowercased()
     }
+    
+    
+    class var innerGray: UIColor { return UIColor.fromRGB(r: 76, g: 76, b: 76) }
 }
 
 

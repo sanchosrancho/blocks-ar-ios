@@ -26,7 +26,7 @@ struct Api {
 }
 
 extension Api {
-    static func exec<T>(_ method: T) throws -> Promise<Moya.Response> where T: TargetType & AccessTokenAuthorizable {
+    static func run<T>(_ method: T) throws -> Promise<Moya.Response> where T: TargetType & AccessTokenAuthorizable {
         if method.authorizationType == .none {
             return MoyaProvider<T>(plugins: [NetworkLoggerPlugin()]).request(target: method)
         }

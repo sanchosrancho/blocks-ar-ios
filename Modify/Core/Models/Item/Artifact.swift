@@ -9,8 +9,10 @@
 import RealmSwift
 import CoreLocation
 
-class Artifact: RealmSwift.Object, Decodable {
-    @objc dynamic var objectId: String = NSUUID().uuidString
+typealias ArtifactObjectIdentifier = String
+
+class Artifact: RealmSwift.Object {
+    @objc dynamic var objectId: ArtifactObjectIdentifier = NSUUID().uuidString
     
     @objc dynamic var id: Int = 0
     
@@ -39,12 +41,6 @@ extension Artifact {
         return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
     }
 }
-
-//extension Artifact {
-//    func export() -> [String: Any] {
-//        return [:]
-//    }
-//}
 
 extension Artifact: Encodable {
     

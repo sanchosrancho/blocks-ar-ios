@@ -9,8 +9,10 @@
 import RealmSwift
 import CoreLocation
 
-class Block: RealmSwift.Object, Codable {
-    @objc dynamic var objectId: String = NSUUID().uuidString
+typealias BlockObjectIdentifier = String
+
+class Block: RealmSwift.Object {
+    @objc dynamic var objectId: BlockObjectIdentifier = NSUUID().uuidString
     
     @objc dynamic var id: Int = 0
     @objc dynamic var author: User?

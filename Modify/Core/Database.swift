@@ -9,6 +9,9 @@
 import Foundation
 import RealmSwift
 
+
+typealias DB = Database
+
 struct Database {
     
     static private let documents = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
@@ -16,10 +19,26 @@ struct Database {
     static private let queue = DispatchQueue(label: "com.modify.database.queue")
     
     static let realmMain: Realm = {
-        return try! Realm(fileURL: URL(fileURLWithPath: Database.path))
+        return try! realmInCurrentContext()
     }()
     
-    static public func doAndSave(realm: Realm, operation: () -> Void) {
+    static func realmInCurrentContext() throws -> Realm {
+        return try Realm(fileURL: URL(fileURLWithPath: Database.path))
+    }
+    
+    static func run(_ operation: (Realm) -> Void) {
+        do {
+            operation(try realmInCurrentContext())
+        } catch let error {
+            print(error)
+        }
+    }
+    
+    static func runAsync(_ operation: @escaping (Realm) -> Void) {
+        queue.async { run(operation) }
+    }
+    
+    static func save(realm: Realm, operation: () -> Void) {
         guard realm.isInWriteTransaction != true else {
             operation()
             return
@@ -29,21 +48,6 @@ struct Database {
             try realm.write { operation() }
         } catch (let error) {
             print(error)
-        }
-    }
-    
-    static func doInCurrentThread(_ operation: (Realm) -> Void) {
-        do {
-            let realm = try Realm(fileURL: URL(fileURLWithPath: Database.path))
-            operation(realm)
-        } catch let error {
-            print(error)
-        }
-    }
-    
-    static func doInBackground(operation: @escaping (Realm) -> Void) {
-        self.queue.async {
-            self.doInCurrentThread(operation)
         }
     }
 }

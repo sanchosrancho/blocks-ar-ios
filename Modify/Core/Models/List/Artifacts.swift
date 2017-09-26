@@ -12,6 +12,11 @@ import RealmSwift
 import PromiseKit
 import Moya
 
+enum ArtifactsError: Error {
+    case artifactNotFound
+    case blockNotFound
+}
+
 struct Artifacts {
     
     static func getByBounds(from: CLLocationCoordinate2D, to: CLLocationCoordinate2D) throws -> Promise<[Artifact]> {
@@ -31,40 +36,49 @@ struct Artifacts {
             }
     }
     
+    static func find(id: ArtifactObjectIdentifier, realm: Realm) -> Artifact? {
+        return realm.object(ofType: Artifact.self, forPrimaryKey: id)
+    }
+    
     static func create(location: CLLocation, eulerX: Float, eulerY: Float, eulerZ: Float, distanceToGround: CLLocationDistance, color: String) -> Promise<Void> {
-        
         return
             firstly {
                 createUploading(location: location, eulerX: eulerX, eulerY: eulerY, eulerZ: eulerZ, distanceToGround: distanceToGround, color: color)
-            }.then {
-                try upload(artifact: $0)
+            }.then { artifactId in
+                try upload(artifactId: artifactId)
             }
     }
     
-    static private func upload(artifact: Artifact) throws -> Promise<Void> {
-        guard let block = artifact.blocks.first else {
-            print("Couldn't find initial block in the artifact");
-            throw NSError.cancelledError()
+    static private func upload(artifactId: ArtifactObjectIdentifier) throws -> Promise<Void> {
+        let realm = try DB.realmInCurrentContext()
+        guard let artifact = find(id: artifactId, realm: realm) else {
+            throw ArtifactsError.artifactNotFound
         }
-        let blockData = try JSONEncoder().encode(block)
-        
+        let artifactData = try JSONEncoder().encode(artifact)
         
         return firstly {
-                try Api.exec(Api.Block.add(data: blockData))
-            }.then { (response: Moya.Response) -> Api.Block.Response.Add in
-                try JSONDecoder().decode(Api.Block.Response.Add.self, from: response.data)
-            }.then { (json: Api.Block.Response.Add) -> Void in
-                let blockId = json.result.id
-                let artifactId = json.result.artifact
-                try! Database.realmMain.write {
-                    artifact.id = artifactId
-                    block.id = blockId
+                try Api.run(Api.Block.add(data: artifactData))
+            }.then { (response: Moya.Response) -> Void in
+                let json = try JSONDecoder().decode(Api.Block.Response.Add.self, from: response.data)
+                
+                let apiBlockId = json.result.id
+                let apiArtifactId = json.result.artifact
+                
+                let realm = try DB.realmInCurrentContext()
+                guard let artifact = find(id: artifactId, realm: realm) else {
+                    throw ArtifactsError.artifactNotFound
+                }
+                guard let block = artifact.blocks.first else {
+                    throw ArtifactsError.blockNotFound
+                }
+                DB.save(realm: realm) {
+                    artifact.id = apiArtifactId
+                    block.id = apiBlockId
                 }
             }
     }
     
-    static private func createUploading(location: CLLocation, eulerX: Float, eulerY: Float, eulerZ: Float, distanceToGround: CLLocationDistance, color: String) -> Promise<Artifact> {
-        
+    static private func createUploading(location: CLLocation, eulerX: Float, eulerY: Float, eulerZ: Float, distanceToGround: CLLocationDistance, color: String) -> Promise<ArtifactObjectIdentifier> {
         return Promise { fulfill, reject in
             let realm = Database.realmMain
             try! realm.write {
@@ -93,7 +107,7 @@ struct Artifacts {
                 artifact.blocks.append(block)
                 realm.add(artifact)
                 
-                fulfill(artifact)
+                fulfill(artifact.objectId)
             }
         }
     }

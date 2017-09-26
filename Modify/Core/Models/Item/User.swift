@@ -10,8 +10,10 @@ import Foundation
 import RealmSwift
 import CoreLocation
 
-class User: RealmSwift.Object, Codable {
-    @objc dynamic var objectId: String = NSUUID().uuidString
+typealias UserObjectIdentifier = String
+
+class User: RealmSwift.Object {
+    @objc dynamic var objectId: UserObjectIdentifier = NSUUID().uuidString
     
     @objc dynamic var deviceId:  String?
     @objc dynamic var locale:    String?

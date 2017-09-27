@@ -72,7 +72,7 @@ extension Application {
                 return token
             }
         }.then { (token: String) in
-            try self.establishSocketConnection(withToken: token+"11")
+            try self.establishSocketConnection(withToken: token)
         }.then {
             self.connectionStatus = .connected
         }.catch { error in

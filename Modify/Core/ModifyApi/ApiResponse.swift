@@ -15,8 +15,8 @@ extension Api {
     }
     
     struct ResponseError: Decodable {
-        let code: [Int]
-        let description: [String]
+        let code: Int
+        let description: String
     }
     
     struct NoReply: Decodable {}

@@ -106,10 +106,6 @@ class ARViewController: UIViewController {
     }
     
     func setupRealm() {
-//        let documents = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
-//        let path = documents + "/modify.realm"
-//        self.realm = try! Realm(fileURL: URL(fileURLWithPath: path))
-        
         self.realm = Database.realmMain
         
         self.artifacts = realm.objects(Artifact.self)

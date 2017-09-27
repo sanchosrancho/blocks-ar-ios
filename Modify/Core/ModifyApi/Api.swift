@@ -11,7 +11,7 @@ import CoreLocation
 import Moya
 import PromiseKit
 
-struct Api {
+class Api {
 //    static let socketURL = { URL(string: "ws://192.168.1.130:1323/sockets/")! }()
 //    static let baseURL = { URL(string: "http://192.168.1.130:1323")! }()
     static let socketURL = { URL(string: "ws://212.224.112.252/sockets/")! }()

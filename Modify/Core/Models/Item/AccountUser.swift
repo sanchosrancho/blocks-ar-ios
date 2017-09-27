@@ -16,19 +16,21 @@ struct AccountUser {
     let locale = NSLocale.current.languageCode
     let deviceToken = UIDevice.current.identifierForVendor?.uuidString ?? ""
     
-    var userId:    UserObjectIdentifier? { didSet { try? self.createInSecureStore() } }
-    var pushToken: String? { didSet { try? self.createInSecureStore() } }
-    var token:     String? { didSet { try? self.createInSecureStore() } }
+    var userId:    UserObjectIdentifier? { didSet { updateStore() } }
+    var pushToken: String? { didSet { updateStore() } }
+    var token:     String? {
+        didSet {
+            updateStore()
+            Api.shared.token = self.token
+        }
+    }
     
     var latitude:  CLLocationDegrees?
     var longitude: CLLocationDegrees?
     
     var position: CLLocationCoordinate2D? {
-        get {
-            guard let lat = latitude, let lon = longitude else { return nil }
-            return CLLocationCoordinate2D(latitude: lat, longitude: lon)
-        }
-//            didSet { try? self.createInSecureStore() }
+        guard let lat = latitude, let lon = longitude else { return nil }
+        return CLLocationCoordinate2D(latitude: lat, longitude: lon)
     }
     
     var user: User? {
@@ -43,6 +45,14 @@ struct AccountUser {
 }
 
 extension AccountUser: GenericPasswordSecureStorable, CreateableSecureStorable, ReadableSecureStorable, DeleteableSecureStorable {
+    func updateStore() {
+        do {
+            try self.createInSecureStore()
+        } catch (let error) {
+            print(error)
+        }
+    }
+    
     mutating func readFromStore() {
         guard let stored = self.readFromSecureStore()?.data else { return }
         self.userId    = stored["userId"]    as? UserObjectIdentifier

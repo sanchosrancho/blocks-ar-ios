@@ -44,12 +44,19 @@ extension Artifact {
 
 extension Artifact: Encodable {
     
+    enum MainCodingKeys: String, CodingKey {
+        case block
+    }
+    
     enum CodingKeys: String, CodingKey {
-        case id, eulerX, latitude, longitude, altitude, horizontalAccuracy, verticalAccuracy, groundDistance, color
+        case id, eulerX, latitude, longitude, altitude, horizontalAccuracy, verticalAccuracy, groundDistance, color,
+            deltaX, deltaY, deltaZ, size
     }
     
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var mainContainer = encoder.container(keyedBy: MainCodingKeys.self)
+        var container = mainContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: .block)
+//        var container = encoder.container(keyedBy: CodingKeys.self)
         
         if id != 0 {
             try container.encode(id, forKey: .id)
@@ -66,5 +73,10 @@ extension Artifact: Encodable {
         try container.encode(horizontalAccuracy, forKey: .horizontalAccuracy)
         try container.encode(verticalAccuracy, forKey: .verticalAccuracy)
         try container.encode(groundDistance, forKey: .groundDistance)
+        
+        try container.encode(1, forKey: .deltaX)
+        try container.encode(1, forKey: .deltaY)
+        try container.encode(1, forKey: .deltaZ)
+        try container.encode(1, forKey: .size)
     }
 }

@@ -38,10 +38,10 @@ public final class Account {
     
     func login() -> Promise<Void> {
         return firstly {
-            fetchToken()
+                fetchToken()
             }.then { token -> Void in
                 self.info.token = token
-        }
+            }
     }
     
     func fetchToken() -> Promise<String> {

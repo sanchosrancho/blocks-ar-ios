@@ -61,6 +61,7 @@ struct Artifacts {
         let realm = try Database.realmInCurrentContext()
         guard let artifact = find(id: artifactId, realm: realm) else { throw ArtifactsError.artifactNotFound }
         let artifactData = try JSONEncoder().encode(artifact)
+        print(String(data: artifactData, encoding: .utf8))
         
         return firstly {
                 try Api.run(Api.Block.add(data: artifactData))
@@ -80,6 +81,8 @@ struct Artifacts {
                     artifact.id = blockInfo.artifact
                     block.id = blockInfo.id
                 }
+            }.catch { error in
+                print(error)
             }
     }
     

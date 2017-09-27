@@ -9,46 +9,97 @@
 import Foundation
 import PromiseKit
 import Moya
+import RealmSwift
+import CoreLocation
 
 struct Blocks {
     
-    static func add(block: Block) throws -> Promise<Void> {
-        guard let token = Account.shared.info.token else {
-            throw Application.ConnectionError.loginNeeded
-        }
-        
-        let authPlugin = AccessTokenPlugin(tokenClosure: token)
-        let api = MoyaProvider<Api.Block>(plugins: [authPlugin, NetworkLoggerPlugin()])
-        let encodedBlock = try JSONEncoder().encode(block)
-
+    static func find(id: BlockObjectIdentifier, realm: Realm) -> Block? {
+        return realm.object(ofType: Block.self, forPrimaryKey: id)
+    }
+    
+    static func create(artifactId: ArtifactObjectIdentifier, location: CLLocation, color: UIColor, position: ArtifactPosition) -> Promise<Void> {
         return
             firstly {
-                api.request(target: .add(data: encodedBlock))
-            }.then { (response: Moya.Response) -> Api.Block.Response.Add in
-                try JSONDecoder().decode(Api.Block.Response.Add.self, from: response.data)
-            }.then { (json: Api.Block.Response.Add) -> Void in
-                guard json.status == "ok" else {
-                    throw NSError.cancelledError()
+                createUploading(artifactId: artifactId, location: location, color: color, position: position)
+            }.then { blockId in
+                try upload(blockId: blockId)
+            }
+    }
+    
+    static func delete(blockId: BlockObjectIdentifier) throws -> Promise<Void> {
+        return firstly {
+                try Api.run(Api.Block.delete(blockId: blockId))
+            }.then { response -> Api.Response<Api.NoReply> in
+                try JSONDecoder().decode(Api.Response<Api.NoReply>.self, from: response.data)
+            }.then { (json: Api.Response<Api.NoReply>) -> Void in
+                guard case .success = json else {
+                    if case .error(let errorInfo) = json { throw ArtifactsError.responseError(errorInfo) }
+                    else { throw ArtifactsError.responseError(nil) }
+                }
+                
+                let realm = try Database.realmInCurrentContext()
+                guard let block = find(id: blockId, realm: realm) else { throw ArtifactsError.blockNotFound }
+                
+                Database.save(realm: realm) {
+                    if let artifact = block.artifact, artifact.blocks.count <= 1 {
+                        realm.delete(artifact)
+                    }
+                    realm.delete(block)
                 }
             }
     }
     
-    static func delete(blockId: String) throws -> Promise<Void> {
-        guard let token = Account.shared.info.token else {
-            throw NSError.cancelledError()
+    
+    static private func upload(blockId: BlockObjectIdentifier) throws -> Promise<Void> {
+        let realm = try Database.realmInCurrentContext()
+        guard let block = find(id: blockId, realm: realm) else { throw ArtifactsError.blockNotFound }
+        let encodedBlock = try JSONEncoder().encode(block)
+        
+        return
+            firstly {
+                try Api.run(Api.Block.add(data: encodedBlock))
+                }.then { (response: Moya.Response) -> Api.Response<Api.Block.Response> in
+                    try JSONDecoder().decode(Api.Response<Api.Block.Response>.self, from: response.data)
+                }.then { (json: Api.Response<Api.Block.Response>) -> Void in
+                    
+                    guard case .success(let blockInfo) = json else {
+                        if case .error(let errorInfo) = json { throw ArtifactsError.responseError(errorInfo) }
+                        else { throw ArtifactsError.responseError(nil) }
+                    }
+                    
+                    let realm = try Database.realmInCurrentContext()
+                    guard let block = find(id: blockId, realm: realm) else { throw ArtifactsError.blockNotFound }
+                    
+                    Database.save(realm: realm) {
+                        block.id = blockInfo.id
+                    }
         }
-        
-        let authPlugin = AccessTokenPlugin(tokenClosure: token)
-        let api = MoyaProvider<Api.Block>(plugins: [authPlugin, NetworkLoggerPlugin()])
-        
-        return firstly {
-                api.request(target: .delete(blockId: blockId))
-            }.then { response -> Api.Block.Response.Delete in
-                try JSONDecoder().decode(Api.Block.Response.Delete.self, from: response.data)
-            }.then { (result: Api.Block.Response.Delete) -> Void in
-                guard result.status == "ok" else {
-                    throw NSError.cancelledError()
-                }
+    }
+    
+    static private func createUploading(artifactId: ArtifactObjectIdentifier, location: CLLocation, color: UIColor, position: ArtifactPosition) -> Promise<BlockObjectIdentifier> {
+        return Promise { fulfill, reject in
+            let realm = try Database.realmInCurrentContext()
+            guard let artifact = Artifacts.find(id: artifactId, realm: realm) else { throw ArtifactsError.artifactNotFound }
+            Database.save(realm: realm) {
+                let block = Block()
+                block.artifact = artifact
+                
+                block.x = position.x
+                block.y = position.y
+                block.z = position.z
+                
+                block.latitude = location.coordinate.latitude
+                block.longitude = location.coordinate.longitude
+                block.altitude = location.altitude
+                
+                block.createdAt = Date()
+                block.color = color
+                
+                artifact.blocks.append(block)
+                
+                fulfill(block.objectId)
             }
+        }
     }
 }

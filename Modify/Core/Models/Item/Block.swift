@@ -37,7 +37,31 @@ class Block: RealmSwift.Object {
 
 extension Block {
     var color: UIColor {
-        return UIColor.fromHex(hexColor)
+        get { return UIColor.fromHex(hexColor) }
+        set(color) { hexColor = color.hexString() }
     }
 }
 
+extension Block: Encodable {
+    
+    enum CodingKeys: String, CodingKey {
+        case id, artifact, latitude, longitude, altitude, x, y, z, color
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        
+        if id != 0 {
+            try container.encode(id, forKey: .id)
+        }
+        try container.encodeIfPresent(self.artifact?.id, forKey: .artifact)
+        
+        try container.encode(latitude,  forKey: .latitude)
+        try container.encode(longitude, forKey: .longitude)
+        try container.encode(altitude,  forKey: .altitude)
+        try container.encode(x, forKey: .x)
+        try container.encode(y, forKey: .y)
+        try container.encode(z, forKey: .z)
+        try container.encodeIfPresent(hexColor, forKey: .color)
+    }
+}

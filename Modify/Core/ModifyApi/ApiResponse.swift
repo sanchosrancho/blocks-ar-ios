@@ -9,7 +9,7 @@
 import Foundation
 
 extension Api {
-    enum ResponseStatus: String, Decodable {
+    private enum ResponseStatus: String, Decodable {
         case ok
         case error
     }
@@ -18,6 +18,8 @@ extension Api {
         let code: [Int]
         let description: [String]
     }
+    
+    struct NoReply: Decodable {}
     
     enum Response<T: Decodable>: Decodable {
         case error(ResponseError)

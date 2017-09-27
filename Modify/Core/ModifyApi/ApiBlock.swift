@@ -17,20 +17,9 @@ extension Api {
 }
 
 extension Api.Block {
-    struct Response {
-        struct Delete: Decodable {
-            let status: String
-        }
-        
-        struct Add:Decodable {
-            let status: String
-            let result: Block
-            
-            struct Block: Decodable {
-                let artifact: Int
-                let id: Int
-            }
-        }
+    struct Response: Decodable {
+        let artifact: Int
+        let id: Int
     }
 }
 

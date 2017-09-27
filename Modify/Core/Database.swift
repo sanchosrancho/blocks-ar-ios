@@ -9,9 +9,6 @@
 import Foundation
 import RealmSwift
 
-
-typealias DB = Database
-
 struct Database {
     
     static private let documents = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]

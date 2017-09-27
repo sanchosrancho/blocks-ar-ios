@@ -34,33 +34,26 @@ extension ARViewController {
         let artifactLocation = locationEstimate.translatedLocation(to: cubeNode.position)
         
         Artifacts.create(location: artifactLocation,
-            eulerX: cubeNode.eulerAngles.x,
-            eulerY: cubeNode.eulerAngles.y,
-            eulerZ: cubeNode.eulerAngles.z,
-            distanceToGround: CLLocationDistance(cubeNode.position.y),
-            color: cubeNode.hexColor)
+                eulerX: cubeNode.eulerAngles.x,
+                eulerY: cubeNode.eulerAngles.y,
+                eulerZ: cubeNode.eulerAngles.z,
+                distanceToGround: CLLocationDistance(cubeNode.position.y),
+                color: cubeNode.hexColor)
+            .then {
+                print("Artifact was added")
+            }.catch { error in
+                print("Artifact couldn't be added because some error occured: ", error)
+            }
+        
     }
     
     
-    func addCube(with location: CLLocation, toArtifact artifactId: String, color: UIColor, position: ArtifactPosition) {
-        guard let artifact = realm.object(ofType: Artifact.self, forPrimaryKey: artifactId) else { return }
-        
-        try! realm.write {
-            let block = Block()
-            block.artifact = artifact
-            
-            block.x = position.x
-            block.y = position.y
-            block.z = position.z
-            
-            block.latitude = location.coordinate.latitude
-            block.longitude = location.coordinate.longitude
-            block.altitude = location.altitude
-            
-            block.createdAt = Date()
-            block.hexColor = color.hexString()
-            
-            artifact.blocks.append(block)
-        }
+    func addCube(with location: CLLocation, toArtifact artifactId: ArtifactObjectIdentifier, color: UIColor, position: ArtifactPosition) {
+        Blocks.create(artifactId: artifactId, location: location, color: color, position: position)
+            .then {
+                print("Block was added")
+            }.catch { error in
+                print("Block couldn't be added because some error occured: ", error)
+            }
     }
 }

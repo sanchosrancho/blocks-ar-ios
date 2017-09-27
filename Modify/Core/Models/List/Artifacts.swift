@@ -28,31 +28,24 @@ enum ArtifactsError: Error {
 
 struct Artifacts {
     
+    static func find(id: ArtifactObjectIdentifier, realm: Realm) -> Artifact? {
+        return realm.object(ofType: Artifact.self, forPrimaryKey: id)
+    }
+    
     static func getByBounds(from: CLLocationCoordinate2D, to: CLLocationCoordinate2D) throws -> Promise<[Artifact]> {
-        guard let token = Account.shared.info.token else {
-            throw Application.ConnectionError.loginNeeded
-        }
-        
-        let authPlugin = AccessTokenPlugin(tokenClosure: token)
-        let api = MoyaProvider<Api.Artifact>(plugins: [authPlugin, NetworkLoggerPlugin()])
-        
         return firstly {
-                api.request(target: .getByBounds(from: from, to: to))
+                try Api.run(Api.Artifact.getByBounds(from: from, to: to))
             }.then { (response: Moya.Response) -> Api.Response<[Artifact]> in
                 try JSONDecoder().decode(Api.Response<[Artifact]>.self, from: response.data)
             }.then { (json: Api.Response<[Artifact]>) -> [Artifact] in
                 guard case .success(let data) = json  else {
-                    guard case .error(let errorInfo) = json else { throw ArtifactsError.responseError(nil) }
-                    throw ArtifactsError.responseError(errorInfo)
+                    if case .error(let errorInfo) = json { throw ArtifactsError.responseError(errorInfo) }
+                    else { throw ArtifactsError.responseError(nil) }
                 }
                 return data
             }.catch { error in
-                print(error.localizedDescription)
+                print("getByBounds error: ", error.localizedDescription)
             }
-    }
-    
-    static func find(id: ArtifactObjectIdentifier, realm: Realm) -> Artifact? {
-        return realm.object(ofType: Artifact.self, forPrimaryKey: id)
     }
     
     static func create(location: CLLocation, eulerX: Float, eulerY: Float, eulerZ: Float, distanceToGround: CLLocationDistance, color: String) -> Promise<Void> {
@@ -65,38 +58,35 @@ struct Artifacts {
     }
     
     static private func upload(artifactId: ArtifactObjectIdentifier) throws -> Promise<Void> {
-        let realm = try DB.realmInCurrentContext()
-        guard let artifact = find(id: artifactId, realm: realm) else {
-            throw ArtifactsError.artifactNotFound
-        }
+        let realm = try Database.realmInCurrentContext()
+        guard let artifact = find(id: artifactId, realm: realm) else { throw ArtifactsError.artifactNotFound }
         let artifactData = try JSONEncoder().encode(artifact)
         
         return firstly {
                 try Api.run(Api.Block.add(data: artifactData))
-            }.then { (response: Moya.Response) -> Void in
-                let json = try JSONDecoder().decode(Api.Block.Response.Add.self, from: response.data)
-                
-                let apiBlockId = json.result.id
-                let apiArtifactId = json.result.artifact
-                
-                let realm = try DB.realmInCurrentContext()
-                guard let artifact = find(id: artifactId, realm: realm) else {
-                    throw ArtifactsError.artifactNotFound
+            }.then { (response: Moya.Response) -> Api.Response<Api.Block.Response> in
+                try JSONDecoder().decode(Api.Response<Api.Block.Response>.self, from: response.data)
+            }.then { (json: Api.Response<Api.Block.Response>) -> Void in
+                guard case .success(let blockInfo) = json else {
+                    if case .error(let errorInfo) = json { throw ArtifactsError.responseError(errorInfo) }
+                    else { throw ArtifactsError.responseError(nil) }
                 }
-                guard let block = artifact.blocks.first else {
-                    throw ArtifactsError.blockNotFound
-                }
-                DB.save(realm: realm) {
-                    artifact.id = apiArtifactId
-                    block.id = apiBlockId
+                
+                let realm = try Database.realmInCurrentContext()
+                guard let artifact = find(id: artifactId, realm: realm) else { throw ArtifactsError.artifactNotFound }
+                guard let block = artifact.blocks.first else { throw ArtifactsError.blockNotFound }
+                
+                Database.save(realm: realm) {
+                    artifact.id = blockInfo.artifact
+                    block.id = blockInfo.id
                 }
             }
     }
     
     static private func createUploading(location: CLLocation, eulerX: Float, eulerY: Float, eulerZ: Float, distanceToGround: CLLocationDistance, color: String) -> Promise<ArtifactObjectIdentifier> {
         return Promise { fulfill, reject in
-            let realm = Database.realmMain
-            try! realm.write {
+            let realm = try Database.realmInCurrentContext()
+            Database.save(realm: realm) {
                 let artifact = Artifact()
                 artifact.eulerX = eulerX
                 artifact.eulerY = eulerY

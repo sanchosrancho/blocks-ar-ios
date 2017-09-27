@@ -45,17 +45,8 @@ extension Artifact {
 extension Artifact: Encodable {
     
     enum CodingKeys: String, CodingKey {
-        case id
-        case eulerX
-        case latitude
-        case longitude
-        case altitude
-        case horizontalAccuracy
-        case verticalAccuracy
-        case groundDistance
-        case color
+        case id, eulerX, latitude, longitude, altitude, horizontalAccuracy, verticalAccuracy, groundDistance, color
     }
-    
     
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)

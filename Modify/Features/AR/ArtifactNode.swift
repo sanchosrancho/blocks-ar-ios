@@ -19,10 +19,10 @@ class ArtifactNode: LocationNode {
 
         self.artifactId = artifact.objectId
         
-        let altitude = location.altitude - Double(position.y) + artifact.groundDistance
+        let altitude = Float(location.altitude) - Float(position.y) + artifact.groundDistance
         let coord = artifact.locationCoordinate2D
         
-        super.init(location: CLLocation(coordinate: coord, altitude: altitude))
+        super.init(location: CLLocation(coordinate: coord, altitude: Double(altitude)))
         self.eulerAngles = SCNVector3(artifact.eulerX, artifact.eulerY, artifact.eulerZ)
         
         updateBlocks(with: artifact)

@@ -20,13 +20,13 @@ class Artifact: RealmSwift.Object {
     @objc dynamic var eulerY: Float = 0
     @objc dynamic var eulerZ: Float = 0
     
-    @objc dynamic var latitude:  CLLocationDegrees  = 0
-    @objc dynamic var longitude: CLLocationDegrees  = 0
-    @objc dynamic var altitude:  CLLocationDistance = 0
+    @objc dynamic var latitude:  Float = 0 //CLLocationDegrees  = 0
+    @objc dynamic var longitude: Float = 0 //CLLocationDegrees  = 0
+    @objc dynamic var altitude:  Float = 0 //CLLocationDistance = 0
     
-    @objc dynamic var horizontalAccuracy: CLLocationAccuracy = -2
-    @objc dynamic var verticalAccuracy:   CLLocationAccuracy = -2
-    @objc dynamic var groundDistance:     CLLocationDistance = 0
+    @objc dynamic var horizontalAccuracy: Float = -2 //CLLocationAccuracy = -2
+    @objc dynamic var verticalAccuracy:   Float = -2 //CLLocationAccuracy = -2
+    @objc dynamic var groundDistance:     Float = 0  //CLLocationDistance = 0
     
     let blocks = List<Block>()
     
@@ -38,7 +38,7 @@ class Artifact: RealmSwift.Object {
 
 extension Artifact {
     var locationCoordinate2D: CLLocationCoordinate2D {
-        return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        return CLLocationCoordinate2D(latitude: Double(latitude), longitude: Double(longitude))
     }
 }
 

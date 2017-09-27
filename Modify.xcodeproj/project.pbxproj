@@ -23,6 +23,7 @@
 		829A6DE51F57706800FFE858 /* ARViewController+HUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829A6DE41F57706800FFE858 /* ARViewController+HUD.swift */; };
 		829A6DE71F5770E500FFE858 /* ARViewController+Artifacts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829A6DE61F5770E500FFE858 /* ARViewController+Artifacts.swift */; };
 		8D0BD0121F7410D200CEE05B /* AccountUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D0BD0111F7410D200CEE05B /* AccountUser.swift */; };
+		8D46978F1F7BDA7E0089EE86 /* ApiResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D46978E1F7BDA7D0089EE86 /* ApiResponse.swift */; };
 		8DFF39EE1F50344700E55652 /* CGPoint+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC8263E1F50335900DF7DF9 /* CGPoint+Extensions.swift */; };
 		8DFF39EF1F50344700E55652 /* CLLocation+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC826411F50335900DF7DF9 /* CLLocation+Extensions.swift */; };
 		8DFF39F01F50344700E55652 /* FloatingPoint+Radians.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC8263B1F50335900DF7DF9 /* FloatingPoint+Radians.swift */; };
@@ -77,6 +78,7 @@
 		829A6DE41F57706800FFE858 /* ARViewController+HUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ARViewController+HUD.swift"; sourceTree = "<group>"; };
 		829A6DE61F5770E500FFE858 /* ARViewController+Artifacts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ARViewController+Artifacts.swift"; sourceTree = "<group>"; };
 		8D0BD0111F7410D200CEE05B /* AccountUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AccountUser.swift; path = Modify/Core/Models/Item/AccountUser.swift; sourceTree = SOURCE_ROOT; };
+		8D46978E1F7BDA7D0089EE86 /* ApiResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ApiResponse.swift; path = Modify/Core/ModifyApi/ApiResponse.swift; sourceTree = SOURCE_ROOT; };
 		8D68DCF31F6C28A000764F23 /* ApiUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiUser.swift; sourceTree = "<group>"; };
 		8D68DCF51F6C2A0700764F23 /* ApiArtifact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiArtifact.swift; sourceTree = "<group>"; };
 		8D68DCF71F6C2A4700764F23 /* ApiBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiBlock.swift; sourceTree = "<group>"; };
@@ -269,6 +271,7 @@
 			isa = PBXGroup;
 			children = (
 				B653B1721F72C4DE00C43946 /* Api.swift */,
+				8D46978E1F7BDA7D0089EE86 /* ApiResponse.swift */,
 				B653B1751F72C4DE00C43946 /* ApiArtifact.swift */,
 				B653B1741F72C4DE00C43946 /* ApiBlock.swift */,
 				B653B1731F72C4DE00C43946 /* ApiUser.swift */,
@@ -506,6 +509,7 @@
 				8DFF39F51F50344700E55652 /* SceneLocationView.swift in Sources */,
 				829A6DDF1F576A1000FFE858 /* ARViewController+Creating.swift in Sources */,
 				8DFF39F61F50344700E55652 /* SCNNode+Extensions.swift in Sources */,
+				8D46978F1F7BDA7E0089EE86 /* ApiResponse.swift in Sources */,
 				829A6DDB1F57688F00FFE858 /* ArtifactNode.swift in Sources */,
 				829A6DD81F57678700FFE858 /* ARViewController.swift in Sources */,
 				8DFF39F71F50344700E55652 /* SCNVector3+Extensions.swift in Sources */,

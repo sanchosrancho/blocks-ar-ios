@@ -16,12 +16,13 @@ extension Api {
     }
 }
 
-extension Api.Artifact {
-    struct Response: Decodable {
-        let status: String
-        let result: [Artifact]
-    }
-}
+//extension Api.Artifact {
+//    struct Response: Decodable {
+//        let status: Api.ResponseStatus
+//        let result: [Artifact]
+//        let result: Result
+//    }
+//}
 
 extension Api.Artifact: TargetType, AccessTokenAuthorizable {
     var baseURL: URL { return Api.baseURL }

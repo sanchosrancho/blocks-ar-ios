@@ -15,6 +15,15 @@ import Moya
 enum ArtifactsError: Error {
     case artifactNotFound
     case blockNotFound
+    case responseError(Api.ResponseError?)
+    
+    var localizedDescription: String {
+        switch self {
+        case .artifactNotFound: return "Artifact not found"
+        case .blockNotFound:    return "Block not found"
+        case .responseError(let errorInfo): return "Response error: " + errorInfo.debugDescription
+        }
+    }
 }
 
 struct Artifacts {
@@ -29,10 +38,16 @@ struct Artifacts {
         
         return firstly {
                 api.request(target: .getByBounds(from: from, to: to))
-            }.then { (response: Moya.Response) -> Api.Artifact.Response in
-                try JSONDecoder().decode(Api.Artifact.Response.self, from: response.data)
-            }.then { (json: Api.Artifact.Response) -> [Artifact] in
-                json.result
+            }.then { (response: Moya.Response) -> Api.Response<[Artifact]> in
+                try JSONDecoder().decode(Api.Response<[Artifact]>.self, from: response.data)
+            }.then { (json: Api.Response<[Artifact]>) -> [Artifact] in
+                guard case .success(let data) = json  else {
+                    guard case .error(let errorInfo) = json else { throw ArtifactsError.responseError(nil) }
+                    throw ArtifactsError.responseError(errorInfo)
+                }
+                return data
+            }.catch { error in
+                print(error.localizedDescription)
             }
     }
     

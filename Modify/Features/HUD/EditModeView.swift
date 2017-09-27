@@ -17,9 +17,9 @@ enum EditModeType {
 
 class EditModeView: UIView {
 
-    var editMode = EditModeType.append
+    var editMode: EditModeType = .append
     
-
+    
     init(position: CGPoint) {
         let frame = CGRect(x: 0, y: 0, width: width, height: height)
         
@@ -59,16 +59,18 @@ class EditModeView: UIView {
         let closure = {
             switch self.editMode {
             case .append:
+                self.indicatorView?.center = CGPoint(x: self.xMovePositions[1], y: self.height/2)
                 self.iconImageViews[0].tintColor = .innerGray
                 self.iconImageViews[1].tintColor = .white
             case .delete:
+                self.indicatorView?.center = CGPoint(x: self.xMovePositions[0], y: self.height/2)
                 self.iconImageViews[0].tintColor = .white
                 self.iconImageViews[1].tintColor = .innerGray
             }
         }
         
         if animated {
-            
+            UIView.animate(withDuration: 0.25, delay: 0, usingSpringWithDamping: 0.65, initialSpringVelocity: 0, options: .curveEaseInOut, animations: closure, completion: nil)
         }
         else {
             closure()
@@ -82,8 +84,15 @@ class EditModeView: UIView {
         xMovePositions.append(width - padding - itemSize/2)
     }
     
+    
     @objc private func handleTap(_ gesture: UITapGestureRecognizer) {
-        print("tap on edit mode view")
+        let x = gesture.location(in: self).x
+        let mode: EditModeType = x < self.bounds.width/2 ? .delete : .append
+        
+        guard mode != self.editMode else { return }
+        
+        self.editMode = mode
+        updateAppearance(animated: true)
     }
     
     

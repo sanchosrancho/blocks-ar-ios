@@ -9,7 +9,7 @@
 import UIKit
 
 
-@objc protocol HUDViewControllerDelegate: class {
+protocol HUDViewControllerDelegate: class {
     func hudAddObjectPressed(color: UIColor)
     func hudPlaceObjectPressed()
     func hudPlaceObjectCancelled()
@@ -17,12 +17,10 @@ import UIKit
     func hudPlaceChangeDistance(_ value: Float)
     func hudPlaceWillChangeDistance()
     
-    func hudDidTap(_ gesture: UITapGestureRecognizer, color: UIColor)
+    func hudDidTapInPreview(gesture: UITapGestureRecognizer)
+    func hudDidTapInEditing(gesture: UITapGestureRecognizer, color: UIColor, editMode: EditModeType)
     
     func hudDidChangeCurrentColor(_ color: UIColor)
-    
-    @objc optional func hudStopAdjustingNodesPosition()
-    @objc optional func hudStartAdjustingNodesPosition()
 }
 
 
@@ -41,6 +39,7 @@ class HUDViewController: UIViewController {
         setupAddButton()
         setupCancelAddButton()
         setupEditModeView()
+        setupEditDoneButton()
         
         setupPan()
         setupTap()
@@ -49,9 +48,6 @@ class HUDViewController: UIViewController {
         setupColorPicker()
         
         updateStateAppearance()
-        
-        /* test */
-        self.addObjectButton?.isHidden = true
     }
     
     
@@ -71,20 +67,23 @@ class HUDViewController: UIViewController {
     private func updateStateAppearance() {
         switch placeState {
         case .preview:
-            addObjectButton?.isSelected = false
-            addObjectButton?.isHidden = false
-            cancelAddButton?.isHidden = true
+            addObjectButton.isSelected = false
+            addObjectButton.isHidden = false
+            cancelAddButton.isHidden = true
             colorPicker.isHidden = true
+            editModeView.isHidden = true
         case .placing(_):
-            addObjectButton?.isSelected = true
-            addObjectButton?.isHidden = false
-            cancelAddButton?.isHidden = false
+            addObjectButton.isSelected = true
+            addObjectButton.isHidden = false
+            cancelAddButton.isHidden = false
             colorPicker.isHidden = false
+            editModeView.isHidden = true
         case .editing(_):
-            addObjectButton?.isHidden = true
-            addObjectButton?.isSelected = false
-            cancelAddButton?.isHidden = true
+            addObjectButton.isHidden = true
+            addObjectButton.isSelected = false
+            cancelAddButton.isHidden = true
             colorPicker.isHidden = false
+            editModeView.isHidden = false
         }
     }
     
@@ -93,9 +92,10 @@ class HUDViewController: UIViewController {
     
     var startYPan: CGFloat = 0
     var locationStatusLabel: UILabel?
-    var addObjectButton: UIButton?
-    var cancelAddButton: UIButton?
-    var editModeView: EditModeView?
+    var addObjectButton: UIButton!
+    var cancelAddButton: UIButton!
+    var editDoneButton: UIButton!
+    var editModeView: EditModeView!
     var colorPicker: ColorPickerView!
     let bottomBaseYPosition: CGFloat = 54
     let baseXPadding: CGFloat = 15
@@ -171,39 +171,6 @@ class HUDViewController: UIViewController {
         delegate?.hudPlaceObjectCancelled()
     }
     
-    /*
-    private func setupAdjustingNodePositionButton() {
-        toggleAdjustingNodePositionButton.setTitle("Stop adjusting", for: .normal)
-        toggleAdjustingNodePositionButton.setTitle("Start adjusting", for: .selected)
-        toggleAdjustingNodePositionButton.backgroundColor = UIColor.black.withAlphaComponent(0.3)
-        toggleAdjustingNodePositionButton.addTarget(self, action: #selector(toggleAdjustingNodePosition(sender:)), for: .touchUpInside)
-        self.view.addSubview(toggleAdjustingNodePositionButton)
-    }
-    
-    @objc private func toggleAdjustingNodePosition(sender: UIButton) {
-        if sender.isSelected {
-            self.delegate?.hudStartAdjustingNodesPosition?()
-        } else {
-            self.delegate?.hudStopAdjustingNodesPosition?()
-        }
-        sender.isSelected = !sender.isSelected
-    }
-    */
-    
-    /*
-    private func setupPlaceButton() {
-        placeObjectButton.setTitleColor(.white, for: .normal)
-        placeObjectButton.setTitle("Place", for: .normal)
-        placeObjectButton.backgroundColor = UIColor.yellow.withAlphaComponent(0.7)
-        placeObjectButton.addTarget(self, action: #selector(placeButtonPressed), for: .touchUpInside)
-        placeObjectButton.isHidden = true
-        self.view.addSubview(placeObjectButton)
-    }
- 
-    @objc private func placeButtonPressed() {
-        self.delegate?.hudPlaceObjectPressed()
-    }
-    */
     
     private func setupColorPicker() {
         let xPos = UIScreen.main.bounds.width - baseXPadding - round(ColorPickerView.itemSize/2)
@@ -221,6 +188,27 @@ class HUDViewController: UIViewController {
         let editView = EditModeView(position: position)
         self.view.addSubview(editView)
         self.editModeView = editView
+    }
+    
+    
+    private func setupEditDoneButton() {
+        let size: CGFloat = 46
+        let yPos = UIScreen.main.bounds.size.height - bottomBaseYPosition - size/2
+        
+        let frame = CGRect(x: baseXPadding, y: yPos, width: size, height: size)
+        let button = UIButton(frame: frame)
+        button.setImage(UIImage(named: "btn_edit_done"), for: .normal)
+        button.backgroundColor = .white
+        button.tintColor = .innerGray
+        button.layer.cornerRadius = size/2
+        button.addTarget(self, action: #selector(editDoneButtonPressed), for: .touchUpInside)
+        
+        self.view.addSubview(button)
+        self.editDoneButton = button
+        
+    }
+    
+    @objc private func editDoneButtonPressed() {
     }
 }
 

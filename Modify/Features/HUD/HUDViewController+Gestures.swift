@@ -16,7 +16,14 @@ extension HUDViewController {
     }
     
     @objc private func handleTap(_ gesture: UITapGestureRecognizer) {
-        self.delegate?.hudDidTap(gesture, color: self.colorPicker.currentColor)
+        switch placeState {
+        case .placing:
+            break
+        case .preview:
+            delegate?.hudDidTapInPreview(gesture: gesture)
+        case .editing:
+            delegate?.hudDidTapInEditing(gesture: gesture, color: colorPicker.currentColor, editMode: editModeView.editMode)
+        }
     }
     
     

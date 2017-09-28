@@ -44,12 +44,18 @@ extension Block {
 
 extension Block: Encodable {
     
+    enum MainCodingKeys: String, CodingKey {
+        case block
+    }
+    
     enum CodingKeys: String, CodingKey {
-        case id, artifact, latitude, longitude, altitude, x, y, z, color
+        case id, artifact, latitude, longitude, altitude, x, y, z, color, size
     }
     
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var mainContainer = encoder.container(keyedBy: MainCodingKeys.self)
+        var container = mainContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: .block)
+//        var container = encoder.container(keyedBy: CodingKeys.self)
         
         if id != 0 {
             try container.encode(id, forKey: .id)
@@ -62,6 +68,7 @@ extension Block: Encodable {
         try container.encode(x, forKey: .x)
         try container.encode(y, forKey: .y)
         try container.encode(z, forKey: .z)
+        try container.encode(1, forKey: .size)
         try container.encodeIfPresent(hexColor, forKey: .color)
     }
 }

@@ -53,32 +53,44 @@ extension ARViewController: HUDViewControllerDelegate {
     }
     
     
-    func hudStopAdjustingNodesPosition() {
-        sceneLocationView.shouldUpdateLocationEstimate = false
-    }
-    
-    func hudStartAdjustingNodesPosition() {
-        sceneLocationView.shouldUpdateLocationEstimate = true
-    }
-    
-    
-    func hudDidTap(_ gesture: UITapGestureRecognizer, color: UIColor) {
-        let point = gesture.location(in: sceneLocationView)
-        let hitResults = sceneLocationView.hitTest(point, options: [:])
-        guard let result = hitResults.first else { return }
-        
+    func hudDidTapInPreview(gesture: UITapGestureRecognizer) {
+        guard let result = hitResultFrom(tapGesture: gesture) else { return }
         guard let block = result.node as? BlockNode else { return }
-        guard let face = block.findFace(with: result.geometryIndex) else { return }
+        guard let artifactNode = block.parent as? ArtifactNode else { return }
         
-        let newPosition = block.newPosition(from: face)
-        let newLocation = block.newLocation(for: newPosition)
+        self.placeState = .editing(artifactNode)
+    }
+    
+    
+    func hudDidTapInEditing(gesture: UITapGestureRecognizer, color: UIColor, editMode: EditModeType) {
+        guard let result = hitResultFrom(tapGesture: gesture) else { return }
+        guard let block = result.node as? BlockNode else { return }
         
-        addCube(with: newLocation, toArtifact: block.artifactId, color: color, position: newPosition)
+        guard case .editing(let artifactNode) = self.placeState else { return }
+        guard artifactNode.artifactId == block.artifactId else { return }
+        
+        switch editMode {
+        case .append:
+            guard let face = block.findFace(with: result.geometryIndex) else { return }
+            guard let newPosition = block.newPosition(from: face) else { return }
+            let newLocation = block.newLocation(for: newPosition)
+            addCube(with: newLocation, toArtifact: block.artifactId, color: color, position: newPosition)
+        case .delete:
+            break
+        }
     }
     
     
     func hudDidChangeCurrentColor(_ color: UIColor) {
         guard case .placing(let cube) = placeState else { return }
         cube.updateColor(color)
+    }
+    
+    
+    private func hitResultFrom(tapGesture: UITapGestureRecognizer) -> SCNHitTestResult? {
+        let point = tapGesture.location(in: sceneLocationView)
+        let hitResults = sceneLocationView.hitTest(point, options: [:])
+        guard let result = hitResults.first else { return nil }
+        return result
     }
 }

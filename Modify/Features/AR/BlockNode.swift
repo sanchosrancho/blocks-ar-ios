@@ -43,17 +43,29 @@ class BlockNode: CubeNode {
     }
     
     
-    func newPosition(from face: CubeFace) -> ArtifactPosition {
+    func newPosition(from face: CubeFace) -> ArtifactPosition? {
         var x = self.x
         var y = self.y
         var z = self.z
         switch face {
-            case .front:  z += 1
-            case .back:   z -= 1
-            case .left:   x -= 1
-            case .right:  x += 1
-            case .top:    y += 1
-            case .bottom: y -= 1
+            case .front:
+                guard z < Int32.max else { return nil }
+                z += 1
+            case .back:
+                guard z > Int32.min else { return nil }
+                z -= 1
+            case .left:
+                guard x > Int32.min else { return nil }
+                x -= 1
+            case .right:
+                guard x < Int32.max else { return nil }
+                x += 1
+            case .top:
+                guard y < Int32.max else { return nil }
+                y += 1
+            case .bottom:
+                guard y > Int32.min else { return nil }
+                y -= 1
         }
         return (x, y, z)
     }

@@ -23,11 +23,7 @@ class ARViewController: UIViewController {
     var zDistance: Float = -0.3
     var currentYPosition: Float = 0
     var placeState = PlaceState.preview {
-        didSet {
-            var isPlacing = false
-            if case .placing(_) = placeState { isPlacing = true }
-            hudWindow?.hudController.updateState(isPlacing: isPlacing)
-        }
+        didSet { hudWindow?.hudController.placeState = self.placeState }
     }
     
     
@@ -38,7 +34,6 @@ class ARViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        sceneLocationView.shouldUpdateLocationEstimate = false // test
         setupScene()
         setupHUD()
         setupRealm()
@@ -67,19 +62,19 @@ class ARViewController: UIViewController {
     func setupLocationAccuracyStatus() {
         self.hudWindow?.hudController.updateLocationStatus(Application.shared.state)
         
-        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "ApplicationLocationAccuracyDidChange"), object: nil, queue: nil) {
+        NotificationCenter.default.addObserver(forName: .locationAccuracyChanged, object: nil, queue: nil) {
             guard let currentAccuracy = $0.userInfo?["current"] as? Application.LocationAccuracyState else { return }
+            self.hudWindow?.hudController.updateLocationStatus(currentAccuracy)
             
             if case Application.LocationAccuracyState.good = currentAccuracy {
                 self.sceneLocationView.shouldUpdateLocationEstimate = false
+                self.setupRealmResults()
             }
-            
-            self.hudWindow?.hudController.updateLocationStatus(currentAccuracy)
         }
     }
     
     func setupScene() {
-        sceneLocationView.showsStatistics = true
+        sceneLocationView.showsStatistics = false
         sceneLocationView.run()
 //        sceneLocationView.scene.enableEnvironmentMapWithIntensity(1000, queue: serialQueue)
         sceneLocationView.antialiasingMode = .multisampling4X

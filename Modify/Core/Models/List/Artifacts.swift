@@ -35,7 +35,7 @@ struct Artifacts {
     static func getByBounds(from: CLLocationCoordinate2D, to: CLLocationCoordinate2D) throws -> Promise<[Artifact]> {
         return firstly {
                 try Api.run(Api.Artifact.getByBounds(from: from, to: to))
-            }.then { (response: Moya.Response) -> Api.Response<[Artifact]> in
+            }.then { response in
                 try JSONDecoder().decode(Api.Response<[Artifact]>.self, from: response.data)
             }.then { (json: Api.Response<[Artifact]>) -> [Artifact] in
                 guard case .success(let data) = json  else {
@@ -65,7 +65,7 @@ struct Artifacts {
         
         return firstly {
                 try Api.run(Api.Block.add(data: artifactData))
-            }.then { (response: Moya.Response) -> Api.Response<Api.Block.Response> in
+            }.then { response in
                 try JSONDecoder().decode(Api.Response<Api.Block.Response>.self, from: response.data)
             }.then { (json: Api.Response<Api.Block.Response>) -> Void in
                 guard case .success(let blockInfo) = json else {

@@ -24,6 +24,7 @@
 		829A6DE71F5770E500FFE858 /* ARViewController+Artifacts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829A6DE61F5770E500FFE858 /* ARViewController+Artifacts.swift */; };
 		8D0BD0121F7410D200CEE05B /* AccountUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D0BD0111F7410D200CEE05B /* AccountUser.swift */; };
 		8D46978F1F7BDA7E0089EE86 /* ApiResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D46978E1F7BDA7D0089EE86 /* ApiResponse.swift */; };
+		8DFBC5391F7D23220048C7AD /* Users.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DFBC5381F7D23220048C7AD /* Users.swift */; };
 		8DFF39EE1F50344700E55652 /* CGPoint+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC8263E1F50335900DF7DF9 /* CGPoint+Extensions.swift */; };
 		8DFF39EF1F50344700E55652 /* CLLocation+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC826411F50335900DF7DF9 /* CLLocation+Extensions.swift */; };
 		8DFF39F01F50344700E55652 /* FloatingPoint+Radians.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC8263B1F50335900DF7DF9 /* FloatingPoint+Radians.swift */; };
@@ -93,6 +94,7 @@
 		8DC826401F50335900DF7DF9 /* SCNVector3+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SCNVector3+Extensions.swift"; sourceTree = "<group>"; };
 		8DC826411F50335900DF7DF9 /* CLLocation+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CLLocation+Extensions.swift"; sourceTree = "<group>"; };
 		8DC826421F50335900DF7DF9 /* LocationNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationNode.swift; sourceTree = "<group>"; };
+		8DFBC5381F7D23220048C7AD /* Users.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Users.swift; path = Modify/Core/Models/List/Users.swift; sourceTree = SOURCE_ROOT; };
 		B606BC111F5EB77E002555A2 /* SCNNode+Cube.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SCNNode+Cube.swift"; sourceTree = "<group>"; };
 		B635793B1F66D6210016E598 /* Artifacts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Artifacts.swift; sourceTree = "<group>"; };
 		B64F0C361F4DBA920004BA49 /* HUDViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUDViewController.swift; sourceTree = "<group>"; };
@@ -263,6 +265,7 @@
 				B653B1691F72C41A00C43946 /* Account.swift */,
 				B653B1671F72C41A00C43946 /* Artifacts.swift */,
 				B653B1681F72C41A00C43946 /* Blocks.swift */,
+				8DFBC5381F7D23220048C7AD /* Users.swift */,
 			);
 			path = List;
 			sourceTree = "<group>";
@@ -513,6 +516,7 @@
 				829A6DDB1F57688F00FFE858 /* ArtifactNode.swift in Sources */,
 				829A6DD81F57678700FFE858 /* ARViewController.swift in Sources */,
 				8DFF39F71F50344700E55652 /* SCNVector3+Extensions.swift in Sources */,
+				8DFBC5391F7D23220048C7AD /* Users.swift in Sources */,
 				829A6DDD1F5768CE00FFE858 /* ArtifactSceneView.swift in Sources */,
 				B6DA6E871F66A4BE006EB7F7 /* Extensions.swift in Sources */,
 				B6650F971F57130C0085ABBE /* SCNScene+Lighting.swift in Sources */,

@@ -34,9 +34,10 @@ struct AccountUser {
     }
     
     var user: User? {
-        guard userId != "" else { return nil }
-        let realm = try! Realm()
-        return realm.object(ofType: User.self, forPrimaryKey: userId)
+        guard let id = userId, id != "" else { return nil }
+        
+        let realm = Database.realmMain
+        return Users.find(id: id, realm: realm)
     }
     
     init() {

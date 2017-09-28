@@ -20,14 +20,7 @@ extension Api {
 
 extension Api.User {
     struct Response: Decodable {
-        let status: String
-        let result: LoginResult
-    }
-    struct LoginResult: Decodable {
         let token: String
-    }
-    struct UpdateResponse: Decodable {
-        let status: String
     }
 }
 

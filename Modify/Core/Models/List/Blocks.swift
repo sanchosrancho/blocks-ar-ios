@@ -19,18 +19,19 @@ struct Blocks {
     }
     
     static func create(artifactId: ArtifactObjectIdentifier, location: CLLocation, color: UIColor, position: ArtifactPosition) -> Promise<Void> {
-        return
-            firstly {
+        return firstly {
                 createUploading(artifactId: artifactId, location: location, color: color, position: position)
             }.then { blockId in
                 try upload(blockId: blockId)
+            }.catch { error in
+                print(error)
             }
     }
     
     static func delete(blockId: BlockObjectIdentifier) throws -> Promise<Void> {
         return firstly {
                 try Api.run(Api.Block.delete(blockId: blockId))
-            }.then { response -> Api.Response<Api.NoReply> in
+            }.then { response in
                 try JSONDecoder().decode(Api.Response<Api.NoReply>.self, from: response.data)
             }.then { (json: Api.Response<Api.NoReply>) -> Void in
                 guard case .success = json else {
@@ -47,6 +48,8 @@ struct Blocks {
                     }
                     realm.delete(block)
                 }
+            }.catch { error in
+                print(error)
             }
     }
     
@@ -56,25 +59,25 @@ struct Blocks {
         guard let block = find(id: blockId, realm: realm) else { throw ArtifactsError.blockNotFound }
         let encodedBlock = try JSONEncoder().encode(block)
         
-        return
-            firstly {
+        return firstly {
                 try Api.run(Api.Block.add(data: encodedBlock))
-                }.then { (response: Moya.Response) -> Api.Response<Api.Block.Response> in
-                    try JSONDecoder().decode(Api.Response<Api.Block.Response>.self, from: response.data)
-                }.then { (json: Api.Response<Api.Block.Response>) -> Void in
-                    
-                    guard case .success(let blockInfo) = json else {
-                        if case .error(let errorInfo) = json { throw ArtifactsError.responseError(errorInfo) }
-                        else { throw ArtifactsError.responseError(nil) }
-                    }
-                    
-                    let realm = try Database.realmInCurrentContext()
-                    guard let block = find(id: blockId, realm: realm) else { throw ArtifactsError.blockNotFound }
-                    
-                    Database.save(realm: realm) {
-                        block.id = blockInfo.id
-                    }
-        }
+            }.then { response in
+                try JSONDecoder().decode(Api.Response<Api.Block.Response>.self, from: response.data)
+            }.then { (json: Api.Response<Api.Block.Response>) -> Void in
+                guard case .success(let blockInfo) = json else {
+                    if case .error(let errorInfo) = json { throw ArtifactsError.responseError(errorInfo) }
+                    else { throw ArtifactsError.responseError(nil) }
+                }
+                
+                let realm = try Database.realmInCurrentContext()
+                guard let block = find(id: blockId, realm: realm) else { throw ArtifactsError.blockNotFound }
+                
+                Database.save(realm: realm) {
+                    block.id = blockInfo.id
+                }
+            }.catch { error in
+                print(error)
+            }
     }
     
     static private func createUploading(artifactId: ArtifactObjectIdentifier, location: CLLocation, color: UIColor, position: ArtifactPosition) -> Promise<BlockObjectIdentifier> {

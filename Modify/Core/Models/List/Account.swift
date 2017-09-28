@@ -11,6 +11,9 @@ import RealmSwift
 import PromiseKit
 import Moya
 
+enum AccountError: Error {
+    case responseError(Api.ResponseError?)
+}
 
 public final class Account {
     
@@ -45,34 +48,33 @@ public final class Account {
     }
     
     func fetchToken() -> Promise<String> {
-        let api = MoyaProvider<Api.User>(plugins: [NetworkLoggerPlugin()])
         return firstly {
-                api.request(target: .login(deviceId: self.info.deviceToken))
-            }.then { (response: Moya.Response) -> Api.User.Response in
-                try JSONDecoder().decode(Api.User.Response.self, from: response.data)
-            }.then { (json: Api.User.Response) -> String in
-                json.result.token
-        }
+                try Api.run(Api.User.login(deviceId: self.info.deviceToken))
+            }.then { response in
+                try JSONDecoder().decode(Api.Response<Api.User.Response>.self, from: response.data)
+            }.then { (json: Api.Response<Api.User.Response>) -> String in
+                guard case .success(let data) = json  else {
+                    if case .error(let errorInfo) = json { throw AccountError.responseError(errorInfo) }
+                    else { throw AccountError.responseError(nil) }
+                }
+                return data.token
+            }.catch { error in
+                print("Fetching token error: ", error.localizedDescription)
+            }
     }
     
     func syncUserInfo() -> Promise<Void> {
         return firstly {
-                guard let token = self.info.token else { throw NSError.cancelledError() }
-                let authPlugin = AccessTokenPlugin(tokenClosure: token)
-                let api = MoyaProvider<Api.User>(plugins: [authPlugin, NetworkLoggerPlugin()])
-            
-                return api.request(target: .update(
-                    locale:    self.info.locale,
-                    pushToken: self.info.platform,
-                    platform:  self.info.platform,
-                    position:  self.info.position))
-            
-            }.then { (response: Moya.Response) -> Api.User.UpdateResponse in
-                try JSONDecoder().decode(Api.User.UpdateResponse.self, from: response.data)
-            }.then { (json: Api.User.UpdateResponse) -> Void in
-                guard json.status == "ok" else {
-                    throw NSError.cancelledError()
+                try Api.run(Api.User.update(locale: self.info.locale, pushToken: self.info.platform, platform: self.info.platform, position: self.info.position))
+            }.then { response in
+                try JSONDecoder().decode(Api.Response<Api.NoReply>.self, from: response.data)
+            }.then { (json: Api.Response<Api.NoReply>) -> Void in
+                guard case .success = json  else {
+                    if case .error(let errorInfo) = json { throw AccountError.responseError(errorInfo) }
+                    else { throw AccountError.responseError(nil) }
                 }
-        }
+            }.catch { error in
+                print("syncUserInfo error: ", error.localizedDescription)
+            }
     }
 }

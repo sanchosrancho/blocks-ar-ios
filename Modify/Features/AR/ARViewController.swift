@@ -102,7 +102,10 @@ class ARViewController: UIViewController {
     
     func setupRealm() {
         self.realm = Database.realmMain
-        
+    }
+    
+    
+    func setupRealmResults() {
         self.artifacts = realm.objects(Artifact.self)
         self.artifactsToken = artifacts?.addNotificationBlock { changes in
             DispatchQueue.main.async { [weak self] in

@@ -71,3 +71,4 @@ extension Notification.Name {
     
     static let locationAccuracyChanged = Notification.Name("ApplicationLocationAccuracyDidChange")
 }
+

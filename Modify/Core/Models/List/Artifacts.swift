@@ -95,13 +95,13 @@ struct Artifacts {
                 artifact.eulerY = eulerY
                 artifact.eulerZ = eulerZ
                 
-                artifact.latitude  = location.coordinate.latitude
-                artifact.longitude = location.coordinate.longitude
-                artifact.altitude  = location.altitude
+                artifact.latitude  = Float(location.coordinate.latitude)
+                artifact.longitude = Float(location.coordinate.longitude)
+                artifact.altitude  = Float(location.altitude)
                 
-                artifact.horizontalAccuracy = location.horizontalAccuracy
-                artifact.verticalAccuracy   = location.verticalAccuracy
-                artifact.groundDistance = CLLocationDistance(distanceToGround)
+                artifact.horizontalAccuracy = Float(location.horizontalAccuracy)
+                artifact.verticalAccuracy   = Float(location.verticalAccuracy)
+                artifact.groundDistance = Float(distanceToGround)
                 
                 let block = Block()
                 block.artifact = artifact

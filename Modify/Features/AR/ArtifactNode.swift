@@ -19,7 +19,7 @@ class ArtifactNode: LocationNode {
 
         self.artifactId = artifact.objectId
         
-        let altitude = Float(location.altitude) - Float(position.y) + artifact.groundDistance
+        let altitude = location.altitude - Double(position.y) + Double(artifact.groundDistance)
         let coord = artifact.locationCoordinate2D
         
         super.init(location: CLLocation(coordinate: coord, altitude: Double(altitude)))

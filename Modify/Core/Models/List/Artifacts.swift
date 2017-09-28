@@ -61,7 +61,7 @@ struct Artifacts {
         let realm = try Database.realmInCurrentContext()
         guard let artifact = find(id: artifactId, realm: realm) else { throw ArtifactsError.artifactNotFound }
         let artifactData = try JSONEncoder().encode(artifact)
-        print(String(data: artifactData, encoding: .utf8))
+//        print(String(data: artifactData, encoding: .utf8) ?? "")
         
         return firstly {
                 try Api.run(Api.Block.add(data: artifactData))
@@ -95,14 +95,14 @@ struct Artifacts {
                 artifact.eulerY = eulerY
                 artifact.eulerZ = eulerZ
                 
-                artifact.latitude  = Float(location.coordinate.latitude)
-                artifact.longitude = Float(location.coordinate.longitude)
-                artifact.altitude  = Float(location.altitude)
+                artifact.latitude  = location.coordinate.latitude
+                artifact.longitude = location.coordinate.longitude
+                artifact.altitude  = location.altitude
                 
                 artifact.horizontalAccuracy = Float(location.horizontalAccuracy)
                 artifact.verticalAccuracy   = Float(location.verticalAccuracy)
-                artifact.groundDistance = Float(distanceToGround)
-                
+                artifact.groundDistance     = Float(distanceToGround)
+
                 let block = Block()
                 block.artifact = artifact
                 block.latitude = location.coordinate.latitude

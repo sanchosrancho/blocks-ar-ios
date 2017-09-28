@@ -20,13 +20,13 @@ class Artifact: RealmSwift.Object {
     @objc dynamic var eulerY: Float = 0
     @objc dynamic var eulerZ: Float = 0
     
-    @objc dynamic var latitude:  Float = 0 //CLLocationDegrees  = 0
-    @objc dynamic var longitude: Float = 0 //CLLocationDegrees  = 0
-    @objc dynamic var altitude:  Float = 0 //CLLocationDistance = 0
+    @objc dynamic var latitude:  CLLocationDegrees  = 0
+    @objc dynamic var longitude: CLLocationDegrees  = 0
+    @objc dynamic var altitude:  CLLocationDistance = 0
     
-    @objc dynamic var horizontalAccuracy: Float = -2 //CLLocationAccuracy = -2
-    @objc dynamic var verticalAccuracy:   Float = -2 //CLLocationAccuracy = -2
-    @objc dynamic var groundDistance:     Float = 0  //CLLocationDistance = 0
+    @objc dynamic var horizontalAccuracy: Float = -2
+    @objc dynamic var verticalAccuracy:   Float = -2
+    @objc dynamic var groundDistance:     Float = 0
     
     let blocks = List<Block>()
     
@@ -38,7 +38,7 @@ class Artifact: RealmSwift.Object {
 
 extension Artifact {
     var locationCoordinate2D: CLLocationCoordinate2D {
-        return CLLocationCoordinate2D(latitude: Double(latitude), longitude: Double(longitude))
+        return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
     }
 }
 
@@ -62,8 +62,12 @@ extension Artifact: Encodable {
             try container.encode(id, forKey: .id)
         }
         
-        if let color = blocks.first?.hexColor {
-            try container.encode(color, forKey: .color)
+        if let block = blocks.first {
+            try container.encodeIfPresent(block.hexColor, forKey: .color)
+            try container.encode(block.x, forKey: .deltaX)
+            try container.encode(block.y, forKey: .deltaY)
+            try container.encode(block.z, forKey: .deltaZ)
+            try container.encode(1, forKey: .size)
         }
         
         try container.encode(eulerX, forKey: .eulerX)
@@ -73,10 +77,5 @@ extension Artifact: Encodable {
         try container.encode(horizontalAccuracy, forKey: .horizontalAccuracy)
         try container.encode(verticalAccuracy, forKey: .verticalAccuracy)
         try container.encode(groundDistance, forKey: .groundDistance)
-        
-        try container.encode(1, forKey: .deltaX)
-        try container.encode(1, forKey: .deltaY)
-        try container.encode(1, forKey: .deltaZ)
-        try container.encode(1, forKey: .size)
     }
 }

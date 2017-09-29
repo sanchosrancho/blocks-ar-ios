@@ -16,6 +16,8 @@ class Artifact: RealmSwift.Object {
     
     @objc dynamic var id: Int = 0
     
+    @objc dynamic var size: Float = 0
+    
     @objc dynamic var eulerX: Float = 0
     @objc dynamic var eulerY: Float = 0
     @objc dynamic var eulerZ: Float = 0
@@ -67,9 +69,9 @@ extension Artifact: Encodable {
             try container.encode(block.x, forKey: .deltaX)
             try container.encode(block.y, forKey: .deltaY)
             try container.encode(block.z, forKey: .deltaZ)
-            try container.encode(1, forKey: .size)
         }
         
+        try container.encode(size, forKey: .size)
         try container.encode(eulerX, forKey: .eulerX)
         try container.encode(latitude, forKey: .latitude)
         try container.encode(longitude, forKey: .longitude)

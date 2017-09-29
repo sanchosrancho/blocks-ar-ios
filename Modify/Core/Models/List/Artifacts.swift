@@ -32,17 +32,39 @@ struct Artifacts {
         return realm.object(ofType: Artifact.self, forPrimaryKey: id)
     }
     
-    static func getByBounds(from: CLLocationCoordinate2D, to: CLLocationCoordinate2D) throws -> Promise<[Artifact]> {
+    static func getByPosition(position: CLLocationCoordinate2D) -> Promise<Void> {
         return firstly {
-                try Api.run(Api.Artifact.getByBounds(from: from, to: to))
+                try Api.run(Api.Artifact.getByPosition(position))
             }.then { response in
-                try JSONDecoder().decode(Api.Response<[Artifact]>.self, from: response.data)
-            }.then { (json: Api.Response<[Artifact]>) -> [Artifact] in
+                try JSONDecoder().decode(Api.Response<[Api.Artifact.Response]>.self, from: response.data)
+            }.then { (json: Api.Response<[Api.Artifact.Response]>) -> [Api.Artifact.Response] in
                 guard case .success(let data) = json  else {
                     if case .error(let errorInfo) = json { throw ArtifactsError.responseError(errorInfo) }
                     else { throw ArtifactsError.responseError(nil) }
                 }
                 return data
+            }.then { artifactsResponse in
+                try parseAndSave(response: artifactsResponse)
+            }.catch { error in
+                print("getByPosition error: ", error.localizedDescription)
+            }
+    }
+    
+    
+    
+    static func getByBounds(from: CLLocationCoordinate2D, to: CLLocationCoordinate2D) throws -> Promise<Void> {
+        return firstly {
+                try Api.run(Api.Artifact.getByBounds(from: from, to: to))
+            }.then { response in
+                try JSONDecoder().decode(Api.Response<[Api.Artifact.Response]>.self, from: response.data)
+            }.then { (json: Api.Response<[Api.Artifact.Response]>) -> [Api.Artifact.Response] in
+                guard case .success(let data) = json  else {
+                    if case .error(let errorInfo) = json { throw ArtifactsError.responseError(errorInfo) }
+                    else { throw ArtifactsError.responseError(nil) }
+                }
+                return data
+            }.then { artifactsResponse in
+                try parseAndSave(response: artifactsResponse)
             }.catch { error in
                 print("getByBounds error: ", error.localizedDescription)
             }
@@ -116,6 +138,42 @@ struct Artifacts {
                 realm.add(artifact)
                 
                 fulfill(artifact.objectId)
+            }
+        }
+    }
+    
+    static private func parseAndSave(response: [Api.Artifact.Response]) throws {
+        let realm = try Database.realmInCurrentContext()
+        for artifactResp in response {
+            Database.save(realm: realm) {
+                
+                let artifact = Artifact()
+                
+                artifact.id = artifactResp.id
+                artifact.size = artifactResp.size
+                
+                artifact.latitude = artifactResp.latitude
+                artifact.longitude = artifactResp.longitude
+                artifact.altitude = artifactResp.altitude
+                
+                artifact.horizontalAccuracy = artifactResp.horizontalAccuracy
+                artifact.verticalAccuracy = artifactResp.verticalAccuracy
+                artifact.groundDistance = artifactResp.groundDistance
+                
+                for blockResp in artifactResp.blocks {
+                    let block = Block()
+                    block.id = blockResp.id
+                    block.hexColor = blockResp.color
+                    block.x = blockResp.deltaX
+                    block.y = blockResp.deltaY
+                    block.z = blockResp.deltaZ
+                    block.latitude = blockResp.latitude
+                    block.longitude = blockResp.longitude
+                    block.altitude = blockResp.altitude
+                    artifact.blocks.append(block)
+                }
+                
+                realm.add(artifact)
             }
         }
     }

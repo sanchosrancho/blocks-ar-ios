@@ -8,6 +8,7 @@
 
 import Foundation
 import Moya
+import CoreLocation
 
 extension Api {
     enum Block {
@@ -20,6 +21,21 @@ extension Api.Block {
     struct Response: Decodable {
         let artifact: Int
         let id: Int
+    }
+    
+    struct FullBlockResponse: Decodable {
+        let id: Int
+        let artifact: Int
+        let color: String
+        let deltaX: Int32
+        let deltaY: Int32
+        let deltaZ: Int32
+        let latitude: CLLocationDegrees
+        let longitude: CLLocationDegrees
+        let altitude: CLLocationDistance
+        let horizontalAccuracy: Float
+        let verticalAccuracy: Float
+        let groundDistance: Float
     }
 }
 

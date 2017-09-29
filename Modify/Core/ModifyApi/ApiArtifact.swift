@@ -12,7 +12,23 @@ import CoreLocation
 
 extension Api {
     enum Artifact {
+        case getByPosition(CLLocationCoordinate2D)
         case getByBounds(from: CLLocationCoordinate2D, to: CLLocationCoordinate2D)
+    }
+}
+extension Api.Artifact {
+    struct Response: Decodable {
+        let id: Int
+        let count: Int
+        let size: Float
+        let latitude: CLLocationDegrees
+        let longitude: CLLocationDegrees
+        let altitude: CLLocationDistance
+        let horizontalAccuracy: Float
+        let verticalAccuracy: Float
+        let groundDistance: Float
+        
+        let blocks: [Api.Block.FullBlockResponse]
     }
 }
 
@@ -23,10 +39,18 @@ extension Api.Artifact: TargetType, AccessTokenAuthorizable {
     var method: Moya.Method { return .post }
     var authorizationType: AuthorizationType { return .bearer }
     
-    var path: String { return "/artifact/getByBounds" }
+    var path: String {
+        switch self {
+        case .getByPosition: return "/artifact/getByPosition"
+        case .getByBounds:   return "/artifact/getByBounds"
+        }
+    }
     
     var task: Task {
         switch self {
+        case .getByPosition(let position):
+            return .requestParameters(parameters: ["position": position.toDictionary], encoding: JSONEncoding.default)
+            
         case .getByBounds(let from, let to):
             return .requestParameters(parameters: [
                 "from": from.toDictionary,

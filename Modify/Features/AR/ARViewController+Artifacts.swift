@@ -72,18 +72,3 @@ extension ARViewController {
     }
     
 }
-
-
-extension ARViewController {
-    
-    override func motionEnded(_ motion: UIEventSubtype, with event: UIEvent?) {
-        if motion == .motionShake {
-            guard let obj = self.artifacts?.first else { return }
-            print("remove first object!")
-            let realm = self.realm
-            try! realm?.write {
-                realm?.delete(obj)
-            }
-        }
-    }
-}

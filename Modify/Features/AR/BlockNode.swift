@@ -13,8 +13,9 @@ import SceneKit
 typealias ArtifactPosition = (x: Int32, y: Int32, z: Int32)
 
 class BlockNode: CubeNode {
-    let artifactId: String
-    let blockId: String
+    let artifactId: ArtifactObjectIdentifier
+    let objectId: BlockObjectIdentifier
+    var id: Int
     
     var lat: Double
     var lon: Double
@@ -25,7 +26,7 @@ class BlockNode: CubeNode {
     var z: Int32
     
     
-    init(block: Block, artifactId: String) {
+    init(block: Block, artifactId: ArtifactObjectIdentifier) {
         self.lat = block.latitude
         self.lon = block.longitude
         self.alt = block.altitude
@@ -34,8 +35,9 @@ class BlockNode: CubeNode {
         self.y = block.y
         self.z = block.z
         
+        self.id = block.id
         self.artifactId = artifactId
-        self.blockId = block.objectId
+        self.objectId = block.objectId
         
         let size = BlockNode.size
         let position = SCNVector3(size * CGFloat(block.x), size * CGFloat(block.y), size * CGFloat(block.z))

@@ -14,13 +14,14 @@ extension ARViewController {
     
     func loadAllArtifacts() {
         guard let artifacts = self.artifacts else { return }
-        print("Loading all artifacts (\(artifacts.count))...")
+        print("Loading all artifacts (count: \(artifacts.count))...")
         
         let location = sceneLocationView.currentLocation()
         let position = sceneLocationView.currentScenePosition()
         
         for artifact in artifacts {
             guard let artifactNode = ArtifactNode(artifact, currentLocation: location, currentPosition: position) else { continue }
+            print("Placing artifact with location: (\(artifact.latitude), \(artifact.longitude), \(artifact.altitude))")
             sceneLocationView.addLocationNodeWithConfirmedLocation(locationNode: artifactNode)
             artifactNodes.append(artifactNode)
         }

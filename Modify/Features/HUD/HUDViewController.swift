@@ -21,6 +21,8 @@ protocol HUDViewControllerDelegate: class {
     func hudDidTapInEditing(gesture: UITapGestureRecognizer, color: UIColor, editMode: EditModeType)
     
     func hudDidChangeCurrentColor(_ color: UIColor)
+    
+    func hudDidEndEditing()
 }
 
 
@@ -60,6 +62,7 @@ class HUDViewController: UIViewController {
     
     
     func cameraReady(_ ready: Bool) {
+        canCreateArtifact = ready
         // self.addObjectButton.setTitleColor(ready ? .green : .lightGray, for: .normal)
     }
     
@@ -67,23 +70,26 @@ class HUDViewController: UIViewController {
     private func updateStateAppearance() {
         switch placeState {
         case .preview:
-            addObjectButton.isSelected = false
-            addObjectButton.isHidden = false
+            addObjectButton?.isSelected = false
+            addObjectButton?.isHidden = false
             cancelAddButton.isHidden = true
             colorPicker.isHidden = true
             editModeView.isHidden = true
+            editDoneButton.isHidden = true
         case .placing(_):
-            addObjectButton.isSelected = true
-            addObjectButton.isHidden = false
+            addObjectButton?.isSelected = true
+            addObjectButton?.isHidden = false
             cancelAddButton.isHidden = false
             colorPicker.isHidden = false
             editModeView.isHidden = true
+            editDoneButton.isHidden = true
         case .editing(_):
-            addObjectButton.isHidden = true
-            addObjectButton.isSelected = false
+            addObjectButton?.isHidden = true
+            addObjectButton?.isSelected = false
             cancelAddButton.isHidden = true
             colorPicker.isHidden = false
             editModeView.isHidden = false
+            editDoneButton.isHidden = false
         }
     }
     
@@ -92,13 +98,16 @@ class HUDViewController: UIViewController {
     
     var startYPan: CGFloat = 0
     var locationStatusLabel: UILabel?
-    var addObjectButton: UIButton!
+    var addObjectButton: UIButton?
     var cancelAddButton: UIButton!
     var editDoneButton: UIButton!
     var editModeView: EditModeView!
     var colorPicker: ColorPickerView!
     let bottomBaseYPosition: CGFloat = 54
     let baseXPadding: CGFloat = 15
+    var canCreateArtifact = false {
+        didSet { addObjectButton?.alpha = canCreateArtifact ? 1.0 : 0.7 }
+    }
     
     
     private func setupLocationStatusLabel() {
@@ -135,6 +144,7 @@ class HUDViewController: UIViewController {
         button.backgroundColor = .white
         button.tintColor = .innerGray
         button.layer.cornerRadius = size/2
+        button.alpha = 0.7
         button.addTarget(self, action: #selector(addObjectButtonPressed(_:)), for: .touchUpInside)
         
         self.view.addSubview(button)
@@ -142,6 +152,7 @@ class HUDViewController: UIViewController {
     }
     
     @objc private func addObjectButtonPressed(_ sender: UIButton) {
+        guard canCreateArtifact else { return }
         if sender.isSelected {
             delegate?.hudPlaceObjectPressed()
         }
@@ -209,6 +220,7 @@ class HUDViewController: UIViewController {
     }
     
     @objc private func editDoneButtonPressed() {
+        delegate?.hudDidEndEditing()
     }
 }
 

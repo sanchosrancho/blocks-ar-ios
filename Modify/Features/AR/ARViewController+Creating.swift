@@ -32,6 +32,7 @@ extension ARViewController {
         let locationEstimate = SceneLocationEstimate(location: location, position: position)
         let artifactLocation = locationEstimate.translatedLocation(to: cubeNode.position)
         
+        print("Creating artifact with location: (\(artifactLocation.coordinate.latitude), \(artifactLocation.coordinate.longitude), \(artifactLocation.altitude))")
         Artifacts.create(location: artifactLocation,
                 eulerX: cubeNode.eulerAngles.x,
                 eulerY: cubeNode.eulerAngles.y,
@@ -47,12 +48,22 @@ extension ARViewController {
     }
     
     
-    func addCube(with location: CLLocation, toArtifact artifactId: ArtifactObjectIdentifier, color: UIColor, position: ArtifactPosition) {
+    func addBlock(with location: CLLocation, toArtifact artifactId: ArtifactObjectIdentifier, color: UIColor, position: ArtifactPosition) {
         Blocks.create(artifactId: artifactId, location: location, color: color, position: position)
             .then {
                 print("Block was added")
             }.catch { error in
                 print("Block couldn't be added because some error occured: ", error)
+            }
+    }
+    
+    
+    func deleteBlock(with blockId: Int, latitude: Double, longitude: Double) {
+        Blocks.delete(blockId: blockId, latitude: latitude, longitude: longitude)
+            .then {
+                print("Block was deleted")
+            }.catch { error in
+                print("Block couldn't be deleted because some error occured: ", error)
             }
     }
 }

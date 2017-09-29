@@ -11,7 +11,7 @@ import SceneKit
 
 class ArtifactNode: LocationNode {
     
-    let artifactId: String
+    let artifactId: ArtifactObjectIdentifier
     
     
     init?(_ artifact: Artifact, currentLocation: CLLocation?, currentPosition: SCNVector3?) {
@@ -33,16 +33,23 @@ class ArtifactNode: LocationNode {
         guard artifact.objectId == self.artifactId else { return }
         guard let nodes = self.childNodes as? [BlockNode] else { return }
         
-        var presentedBlockIds = [String]()
+        var presentedBlockIds = [BlockObjectIdentifier]()
         
-        // delete
+        // delete or update
         var nodesToRemove = [BlockNode]()
-        let blockIds = artifact.blocks.map { $0.objectId }
         for node in nodes {
-            if !blockIds.contains(node.blockId) {
-                nodesToRemove.append(node)
+            var containsId: Int?
+            for block in artifact.blocks {
+                if block.objectId == node.objectId {
+                    containsId = block.id
+                    break
+                }
+            }
+            if let newId = containsId  {
+                node.id = newId
+                presentedBlockIds.append(node.objectId)
             } else {
-                presentedBlockIds.append(node.blockId)
+                nodesToRemove.append(node)
             }
         }
         nodesToRemove.forEach { $0.removeFromParentNode() }

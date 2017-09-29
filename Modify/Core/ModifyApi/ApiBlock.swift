@@ -12,7 +12,7 @@ import Moya
 extension Api {
     enum Block {
         case add(data: Data)
-        case delete(blockId: String)
+        case delete(blockId: Int, lat: Double, lon: Double)
     }
 }
 
@@ -39,8 +39,11 @@ extension Api.Block: TargetType, AccessTokenAuthorizable {
     
     var task: Task {
         switch self {
-        case .add(let data):       return .requestData(data) //.requestParameters(parameters: ["block": String.init(data: data, encoding: .utf8)!],       encoding: JSONEncoding.default)
-        case .delete(let blockId): return .requestParameters(parameters: ["block_id": blockId], encoding: JSONEncoding.default)
+        case .add(let data):
+            return .requestData(data) //.requestParameters(parameters: ["block": String.init(data: data, encoding: .utf8)!],       encoding: JSONEncoding.default)
+        case .delete(let blockId, let lat, let lon):
+            let position = ["latitude": lat, "longitude": lon]
+            return .requestParameters(parameters: ["block_id": blockId, "position": position], encoding: JSONEncoding.default)
         }
     }
 }

@@ -14,9 +14,15 @@ import CoreLocation
 
 struct Blocks {
     
-    static func find(id: BlockObjectIdentifier, realm: Realm) -> Block? {
-        return realm.object(ofType: Block.self, forPrimaryKey: id)
+    static func find(objectId: BlockObjectIdentifier, realm: Realm) -> Block? {
+        return realm.object(ofType: Block.self, forPrimaryKey: objectId)
     }
+    
+    
+    static func find(id: Int, realm: Realm) -> Block? {
+        return realm.objects(Block.self).filter("id = %@", id).first
+    }
+    
     
     static func create(artifactId: ArtifactObjectIdentifier, location: CLLocation, color: UIColor, position: ArtifactPosition) -> Promise<Void> {
         return firstly {
@@ -28,9 +34,9 @@ struct Blocks {
             }
     }
     
-    static func delete(blockId: BlockObjectIdentifier) throws -> Promise<Void> {
+    static func delete(blockId: Int, latitude: Double, longitude: Double) -> Promise<Void> {
         return firstly {
-                try Api.run(Api.Block.delete(blockId: blockId))
+                try Api.run(Api.Block.delete(blockId: blockId, lat: latitude, lon: longitude))
             }.then { response in
                 try JSONDecoder().decode(Api.Response<Api.NoReply>.self, from: response.data)
             }.then { (json: Api.Response<Api.NoReply>) -> Void in
@@ -56,7 +62,7 @@ struct Blocks {
     
     static private func upload(blockId: BlockObjectIdentifier) throws -> Promise<Void> {
         let realm = try Database.realmInCurrentContext()
-        guard let block = find(id: blockId, realm: realm) else { throw ArtifactsError.blockNotFound }
+        guard let block = find(objectId: blockId, realm: realm) else { throw ArtifactsError.blockNotFound }
         let encodedBlock = try JSONEncoder().encode(block)
         
         return firstly {
@@ -70,7 +76,7 @@ struct Blocks {
                 }
                 
                 let realm = try Database.realmInCurrentContext()
-                guard let block = find(id: blockId, realm: realm) else { throw ArtifactsError.blockNotFound }
+                guard let block = find(objectId: blockId, realm: realm) else { throw ArtifactsError.blockNotFound }
                 
                 Database.save(realm: realm) {
                     block.id = blockInfo.id

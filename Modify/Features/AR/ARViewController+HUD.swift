@@ -53,6 +53,11 @@ extension ARViewController: HUDViewControllerDelegate {
     }
     
     
+    func hudDidEndEditing() {
+        self.placeState = .preview
+    }
+    
+    
     func hudDidTapInPreview(gesture: UITapGestureRecognizer) {
         guard let result = hitResultFrom(tapGesture: gesture) else { return }
         guard let block = result.node as? BlockNode else { return }
@@ -74,9 +79,9 @@ extension ARViewController: HUDViewControllerDelegate {
             guard let face = block.findFace(with: result.geometryIndex) else { return }
             guard let newPosition = block.newPosition(from: face) else { return }
             let newLocation = block.newLocation(for: newPosition)
-            addCube(with: newLocation, toArtifact: block.artifactId, color: color, position: newPosition)
+            addBlock(with: newLocation, toArtifact: block.artifactId, color: color, position: newPosition)
         case .delete:
-            break
+            deleteBlock(with: block.id, latitude: block.lat, longitude: block.lon)
         }
     }
     

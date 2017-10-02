@@ -75,7 +75,7 @@ struct Artifacts {
             firstly {
                 createUploading(location: location, eulerX: eulerX, eulerY: eulerY, eulerZ: eulerZ, distanceToGround: distanceToGround, color: color, size: size)
             }.then { artifactId in
-                try upload(artifactId: artifactId)
+                try upload(artifactId: artifactId).then { artifactId }
             }
     }
     

@@ -70,12 +70,15 @@ struct Artifacts {
             }
     }
     
-    static func create(location: CLLocation, eulerX: Float, eulerY: Float, eulerZ: Float, distanceToGround: CLLocationDistance, color: String, size: Float) -> Promise<ArtifactObjectIdentifier> {
+    static func create(location: CLLocation, eulerX: Float, eulerY: Float, eulerZ: Float, distanceToGround: CLLocationDistance, color: String, size: Float, onCreateModel: @escaping (ArtifactObjectIdentifier) -> Void) -> Promise<Void> {
         return
             firstly {
                 createUploading(location: location, eulerX: eulerX, eulerY: eulerY, eulerZ: eulerZ, distanceToGround: distanceToGround, color: color, size: size)
+            }.then { (artifactId) -> ArtifactObjectIdentifier in
+                onCreateModel(artifactId)
+                return artifactId
             }.then { artifactId in
-                try upload(artifactId: artifactId).then { artifactId }
+                try upload(artifactId: artifactId)
             }
     }
     

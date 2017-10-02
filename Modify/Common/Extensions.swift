@@ -26,7 +26,7 @@ extension UIColor {
     
     
     class func fromHex(_ hexString: String?) -> UIColor {
-        guard let hex = hexString, hex.characters.count == 6 else { return UIColor.white }
+        guard let hex = hexString, hex.count == 6 else { return UIColor.white }
         
         let r, g, b: CGFloat
         let scanner = Scanner(string: hex)
@@ -70,5 +70,6 @@ extension Array where Element: Equatable {
 extension Notification.Name {
     
     static let locationAccuracyChanged = Notification.Name("ApplicationLocationAccuracyDidChange")
+    static let locationAccuracyStarted = Notification.Name("ApplicationLocationAccuracyDidStart")
 }
 

@@ -31,11 +31,20 @@ extension ARViewController {
     func deleteArtifacts(indexes: [Int]) {
         print("deleting artefacts at: \(indexes)")
         
+        var currentArtifactNodeId: BlockObjectIdentifier?
+        if case .editing(let artifactNode) = self.placeState {
+            currentArtifactNodeId = artifactNode.artifactId
+        }
+        
         for index in indexes {
             guard index < artifactNodes.count else { continue }
             let artifactNode = artifactNodes[index]
             sceneLocationView.removeLocationNode(locationNode: artifactNode)
             artifactNodes.remove(object: artifactNode)
+            
+            if artifactNode.artifactId == currentArtifactNodeId {
+                self.placeState = .preview
+            }
         }
     }
     
@@ -49,12 +58,20 @@ extension ARViewController {
         
         for index in indexes {
             guard index < artifacts.count else { continue }
-            guard let artifact = ArtifactNode(artifacts[index], currentLocation: location, currentPosition: position) else { continue }
-            sceneLocationView.addLocationNodeWithConfirmedLocation(locationNode: artifact)
-            if index < artifactNodes.count {
-                artifactNodes.insert(artifact, at: index)
+            let artifact = artifacts[index]
+            
+            guard let artifactNode = ArtifactNode(artifact, currentLocation: location, currentPosition: position) else { continue }
+            sceneLocationView.addLocationNodeWithConfirmedLocation(locationNode: artifactNode)
+            
+            if index < self.artifactNodes.count {
+                artifactNodes.insert(artifactNode, at: index)
             } else {
-                artifactNodes.append(artifact)
+                artifactNodes.append(artifactNode)
+            }
+            
+            if self.creatingArtifactObjectId == artifact.objectId, case .preview = self.placeState {
+                self.placeState = .editing(artifactNode)
+                self.creatingArtifactObjectId = nil
             }
         }
     }

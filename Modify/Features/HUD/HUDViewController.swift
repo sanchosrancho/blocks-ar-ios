@@ -55,6 +55,7 @@ class HUDViewController: UIViewController {
     
     func updateLocationStatus(_ status: Application.LocationAccuracyState) {
         switch status {
+            case .none: locationStatusLabel?.text = "No location accuracy"
             case .poor: locationStatusLabel?.text = "Bad location accuracy"
             case .good: locationStatusLabel?.text = "Good location accuracy"
         }

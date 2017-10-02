@@ -16,6 +16,7 @@ public final class Application {
     enum LocationAccuracyState {
         case poor
         case good
+        case none
     }
     
     private static let _shared = Application()
@@ -23,13 +24,12 @@ public final class Application {
         return _shared
     }
     
-    var state: Application.LocationAccuracyState = .poor {
+    var state: Application.LocationAccuracyState = .none {
         willSet(newState) {
             guard newState != state else { return }
-            switch newState {
-            case .poor:
-                NotificationCenter.default.post(name: .locationAccuracyChanged, object: nil, userInfo: ["current": Application.LocationAccuracyState.poor])
-            case .good: NotificationCenter.default.post(name: .locationAccuracyChanged, object: nil, userInfo: ["current": Application.LocationAccuracyState.good])
+            NotificationCenter.default.post(name: .locationAccuracyChanged, object: nil, userInfo: ["current": newState])
+            if state == .none {
+                NotificationCenter.default.post(name: .locationAccuracyStarted, object: nil)
             }
         }
     }

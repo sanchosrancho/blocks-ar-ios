@@ -25,6 +25,7 @@ class ARViewController: UIViewController {
     var placeState = PlaceState.preview {
         didSet { hudWindow?.hudController.placeState = self.placeState }
     }
+    var creatingArtifactObjectId: String?
     
     
     // MARK: - ViewController lifecycle
@@ -62,16 +63,23 @@ class ARViewController: UIViewController {
     func setupLocationAccuracyStatus() {
         self.hudWindow?.hudController.updateLocationStatus(Application.shared.state)
         
-        NotificationCenter.default.addObserver(forName: .locationAccuracyChanged, object: nil, queue: nil) {
+        NotificationCenter.default.addObserver(forName: .locationAccuracyChanged, object: nil, queue: nil) { [weak self] in
             guard let currentAccuracy = $0.userInfo?["current"] as? Application.LocationAccuracyState else { return }
-            self.hudWindow?.hudController.updateLocationStatus(currentAccuracy)
+            self?.hudWindow?.hudController.updateLocationStatus(currentAccuracy)
             
             if case Application.LocationAccuracyState.good = currentAccuracy {
-                self.sceneLocationView.shouldUpdateLocationEstimate = false
-                self.setupRealmResults()
+                self?.sceneLocationView.shouldUpdateLocationEstimate = false
+                self?.setupRealmResults()
             }
         }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(loadArtifacts), name: .locationAccuracyStarted, object: nil)
     }
+    
+    
+    @objc func loadArtifacts() {
+    }
+    
     
     func setupScene() {
         sceneLocationView.showsStatistics = false

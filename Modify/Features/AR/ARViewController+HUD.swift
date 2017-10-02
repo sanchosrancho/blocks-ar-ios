@@ -21,6 +21,7 @@ extension ARViewController: HUDViewControllerDelegate {
             let t = cube.worldTransform
             cube.removeFromParentNode()
             cube.transform = t
+//            placeState = .preview
             saveArtifact(cubeNode: cube)
             placeState = .preview
         }

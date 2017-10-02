@@ -33,15 +33,28 @@ extension ARViewController {
         let artifactLocation = locationEstimate.translatedLocation(to: cubeNode.position)
         
         print("Creating artifact with location: (\(artifactLocation.coordinate.latitude), \(artifactLocation.coordinate.longitude), \(artifactLocation.altitude))")
+        
+        let onCreateModelBlock = { [weak self] (artifactObjectId: ArtifactObjectIdentifier) -> Void in
+            self?.creatingArtifactObjectId = artifactObjectId
+            guard let artifactNodes = self?.artifactNodes else { return }
+            for artifactNode in artifactNodes {
+                guard artifactNode.artifactId == artifactObjectId else { continue }
+                self?.placeState = .editing(artifactNode)
+                self?.creatingArtifactObjectId = nil
+                break
+            }
+        }
+        
         Artifacts.create(location: artifactLocation,
                 eulerX: cubeNode.eulerAngles.x,
                 eulerY: cubeNode.eulerAngles.y,
                 eulerZ: cubeNode.eulerAngles.z,
                 distanceToGround: CLLocationDistance(cubeNode.position.y),
                 color: cubeNode.hexColor,
-                size: CubeNode.size)
-            .then { artifactObjectId in
-                print("Artifact was added with \(artifactObjectId)")
+                size: CubeNode.size,
+                onCreateModel: onCreateModelBlock)
+            .then {
+                print("Artifact was added")
             }.catch { error in
                 print("Artifact couldn't be added because some error occured: ", error)
             }

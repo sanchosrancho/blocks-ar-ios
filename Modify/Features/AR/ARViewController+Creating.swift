@@ -38,7 +38,8 @@ extension ARViewController {
                 eulerY: cubeNode.eulerAngles.y,
                 eulerZ: cubeNode.eulerAngles.z,
                 distanceToGround: CLLocationDistance(cubeNode.position.y),
-                color: cubeNode.hexColor)
+                color: cubeNode.hexColor,
+                size: CubeNode.size)
             .then {
                 print("Artifact was added")
             }.catch { error in

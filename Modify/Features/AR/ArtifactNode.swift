@@ -35,21 +35,14 @@ class ArtifactNode: LocationNode {
         
         var presentedBlockIds = [BlockObjectIdentifier]()
         
-        // delete or update
+        // delete
         var nodesToRemove = [BlockNode]()
+        let blockIds = artifact.blocks.map { $0.objectId }
         for node in nodes {
-            var containsId: Int?
-            for block in artifact.blocks {
-                if block.objectId == node.objectId {
-                    containsId = block.id
-                    break
-                }
-            }
-            if let newId = containsId  {
-                node.id = newId
-                presentedBlockIds.append(node.objectId)
-            } else {
+            if !blockIds.contains(node.objectId) {
                 nodesToRemove.append(node)
+            } else {
+                presentedBlockIds.append(node.objectId)
             }
         }
         nodesToRemove.forEach { $0.removeFromParentNode() }
@@ -57,7 +50,7 @@ class ArtifactNode: LocationNode {
         // insert
         for block in artifact.blocks {
             guard !presentedBlockIds.contains(block.objectId) else { continue }
-            let blockNode = BlockNode(block: block, artifactId: artifact.objectId)
+            let blockNode = BlockNode(block: block, artifactId: artifact.objectId, blockSize: artifact.size)
             self.addChildNode(blockNode)
         }
     }

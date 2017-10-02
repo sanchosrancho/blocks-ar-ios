@@ -70,10 +70,10 @@ struct Artifacts {
             }
     }
     
-    static func create(location: CLLocation, eulerX: Float, eulerY: Float, eulerZ: Float, distanceToGround: CLLocationDistance, color: String) -> Promise<Void> {
+    static func create(location: CLLocation, eulerX: Float, eulerY: Float, eulerZ: Float, distanceToGround: CLLocationDistance, color: String, size: Float) -> Promise<Void> {
         return
             firstly {
-                createUploading(location: location, eulerX: eulerX, eulerY: eulerY, eulerZ: eulerZ, distanceToGround: distanceToGround, color: color)
+                createUploading(location: location, eulerX: eulerX, eulerY: eulerY, eulerZ: eulerZ, distanceToGround: distanceToGround, color: color, size: size)
             }.then { artifactId in
                 try upload(artifactId: artifactId)
             }
@@ -108,7 +108,7 @@ struct Artifacts {
             }
     }
     
-    static private func createUploading(location: CLLocation, eulerX: Float, eulerY: Float, eulerZ: Float, distanceToGround: CLLocationDistance, color: String) -> Promise<ArtifactObjectIdentifier> {
+    static private func createUploading(location: CLLocation, eulerX: Float, eulerY: Float, eulerZ: Float, distanceToGround: CLLocationDistance, color: String, size: Float) -> Promise<ArtifactObjectIdentifier> {
         return Promise { fulfill, reject in
             let realm = try Database.realmInCurrentContext()
             Database.save(realm: realm) {
@@ -124,6 +124,8 @@ struct Artifacts {
                 artifact.horizontalAccuracy = Float(location.horizontalAccuracy)
                 artifact.verticalAccuracy   = Float(location.verticalAccuracy)
                 artifact.groundDistance     = Float(distanceToGround)
+                
+                artifact.size = size
 
                 let block = Block()
                 block.artifact = artifact

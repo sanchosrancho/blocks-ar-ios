@@ -15,7 +15,8 @@ typealias ArtifactPosition = (x: Int32, y: Int32, z: Int32)
 class BlockNode: CubeNode {
     let artifactId: ArtifactObjectIdentifier
     let objectId: BlockObjectIdentifier
-    var id: Int
+    
+    let size: Float
     
     var lat: Double
     var lon: Double
@@ -26,7 +27,7 @@ class BlockNode: CubeNode {
     var z: Int32
     
     
-    init(block: Block, artifactId: ArtifactObjectIdentifier) {
+    init(block: Block, artifactId: ArtifactObjectIdentifier, blockSize: Float) {
         self.lat = block.latitude
         self.lon = block.longitude
         self.alt = block.altitude
@@ -35,12 +36,12 @@ class BlockNode: CubeNode {
         self.y = block.y
         self.z = block.z
         
-        self.id = block.id
+        self.size = blockSize
+        
         self.artifactId = artifactId
         self.objectId = block.objectId
         
-        let size = BlockNode.size
-        let position = SCNVector3(size * CGFloat(block.x), size * CGFloat(block.y), size * CGFloat(block.z))
+        let position = SCNVector3(size * Float(block.x), size * Float(block.y), size * Float(block.z))
         super.init(position: position, color: block.color)
     }
     
@@ -74,9 +75,9 @@ class BlockNode: CubeNode {
     
     
     func newLocation(for newPosition: ArtifactPosition) -> CLLocation {
-        let d_lat = Double(newPosition.z - z) * Double(CubeNode.size)
-        let d_lon = Double(newPosition.x - x) * Double(CubeNode.size)
-        let d_alt = Double(newPosition.y - y) * Double(CubeNode.size)
+        let d_lat = Double(newPosition.z - z) * Double(size)
+        let d_lon = Double(newPosition.x - x) * Double(size)
+        let d_alt = Double(newPosition.y - y) * Double(size)
         let translation = LocationTranslation(latitudeTranslation: d_lat, longitudeTranslation: d_lon, altitudeTranslation: d_alt)
         
         let coord2D = CLLocationCoordinate2D(latitude: lat, longitude: lon)

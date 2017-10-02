@@ -15,15 +15,9 @@ enum CubeFace: Int {
 
 class CubeNode: SCNNode {
     
-    static let size: CGFloat = 0.1
+    static let size: Float = 0.1
     var hexColor: String {
         return self.color.hexString()
-    }
-    
-    convenience init(dx: Int32, dy: Int32, dz: Int32, color: UIColor) {
-        let size = CubeNode.size
-        let position = SCNVector3(size * CGFloat(dx), size * CGFloat(dy), size * CGFloat(dz))
-        self.init(position: position, color: color)
     }
     
     
@@ -32,7 +26,8 @@ class CubeNode: SCNNode {
         
         super.init()
         
-        let geometry = SCNBox(width: CubeNode.size, height: CubeNode.size, length: CubeNode.size, chamferRadius: CubeNode.chamfer)
+        let size = CGFloat(CubeNode.size)
+        let geometry = SCNBox(width: size, height: size, length: size, chamferRadius: CubeNode.chamfer)
         geometry.chamferSegmentCount = CubeNode.chamfersCount
         var materials = [SCNMaterial]()
         for _ in 0..<6 {

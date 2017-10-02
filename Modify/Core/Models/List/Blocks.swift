@@ -34,8 +34,14 @@ struct Blocks {
             }
     }
     
-    static func delete(blockId: Int, latitude: Double, longitude: Double) -> Promise<Void> {
-        return firstly {
+    static func delete(id: BlockObjectIdentifier, latitude: Double, longitude: Double) -> Promise<Void> {
+        return firstly { () -> Promise<Int> in
+                return Promise { fulfill, reject in
+                    let realm = try Database.realmInCurrentContext()
+                    guard let block = find(objectId: id, realm: realm) else { throw ArtifactsError.blockNotFound }
+                    fulfill(block.id)
+                }
+            }.then { blockId in
                 try Api.run(Api.Block.delete(blockId: blockId, lat: latitude, lon: longitude))
             }.then { response in
                 try JSONDecoder().decode(Api.Response<Api.NoReply>.self, from: response.data)
@@ -46,7 +52,7 @@ struct Blocks {
                 }
                 
                 let realm = try Database.realmInCurrentContext()
-                guard let block = find(id: blockId, realm: realm) else { throw ArtifactsError.blockNotFound }
+                guard let block = find(objectId: id, realm: realm) else { throw ArtifactsError.blockNotFound }
                 
                 Database.save(realm: realm) {
                     if let artifact = block.artifact, artifact.blocks.count <= 1 {

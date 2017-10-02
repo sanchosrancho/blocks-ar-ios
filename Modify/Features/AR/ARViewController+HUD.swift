@@ -81,7 +81,7 @@ extension ARViewController: HUDViewControllerDelegate {
             let newLocation = block.newLocation(for: newPosition)
             addBlock(with: newLocation, toArtifact: block.artifactId, color: color, position: newPosition)
         case .delete:
-//            deleteBlock(with: block.objectId, latitude: block.lat, longitude: block.lon)
+            deleteBlock(with: block.objectId, latitude: block.lat, longitude: block.lon)
             break
         }
     }

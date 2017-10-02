@@ -40,8 +40,8 @@ extension ARViewController {
                 distanceToGround: CLLocationDistance(cubeNode.position.y),
                 color: cubeNode.hexColor,
                 size: CubeNode.size)
-            .then {
-                print("Artifact was added")
+            .then { artifactObjectId in
+                print("Artifact was added with \(artifactObjectId)")
             }.catch { error in
                 print("Artifact couldn't be added because some error occured: ", error)
             }
@@ -59,8 +59,8 @@ extension ARViewController {
     }
     
     
-    func deleteBlock(with blockId: Int, latitude: Double, longitude: Double) {
-        Blocks.delete(blockId: blockId, latitude: latitude, longitude: longitude)
+    func deleteBlock(with blockId: BlockObjectIdentifier, latitude: Double, longitude: Double) {
+        Blocks.delete(id: blockId, latitude: latitude, longitude: longitude)
             .then {
                 print("Block was deleted")
             }.catch { error in

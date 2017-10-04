@@ -21,7 +21,7 @@ private enum ColorPickerState {
 
 class ColorPickerView: UIView {
     
-    static let itemSize: CGFloat = 46
+    static let itemSize: CGFloat = 60
     
     var currentColor: UIColor {
         return UIColor.fromHex(colorData[selectedView.index])

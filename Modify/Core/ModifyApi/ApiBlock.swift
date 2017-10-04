@@ -13,18 +13,18 @@ import CoreLocation
 extension Api {
     enum Block {
         case add(data: Data)
-        case delete(blockId: Int, lat: Double, lon: Double)
+        case delete(blockId: String)
     }
 }
 
 extension Api.Block {
     struct Response: Decodable {
         let artifact: Int
-        let id: Int
+        let id: String
     }
     
     struct FullBlockResponse: Decodable {
-        let id: Int
+        let id: String
         let artifact: Int
         let color: String
         let deltaX: Int32
@@ -57,9 +57,8 @@ extension Api.Block: TargetType, AccessTokenAuthorizable {
         switch self {
         case .add(let data):
             return .requestData(data) //.requestParameters(parameters: ["block": String.init(data: data, encoding: .utf8)!],       encoding: JSONEncoding.default)
-        case .delete(let blockId, let lat, let lon):
-            let position = ["latitude": lat, "longitude": lon]
-            return .requestParameters(parameters: ["block_id": blockId, "position": position], encoding: JSONEncoding.default)
+        case .delete(let blockId):
+            return .requestParameters(parameters: ["block_id": blockId], encoding: JSONEncoding.default)
         }
     }
 }

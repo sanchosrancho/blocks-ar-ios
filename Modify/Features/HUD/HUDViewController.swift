@@ -37,16 +37,18 @@ class HUDViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupLocationStatusLabel() // temp
+        
         setupRecButton()
         setupAddButton()
         setupCancelAddButton()
         setupEditModeView()
         setupEditDoneButton()
+        setupMapButton()
         
         setupPan()
         setupTap()
         
-        setupLocationStatusLabel()
         setupColorPicker()
         
         updateStateAppearance()
@@ -104,10 +106,10 @@ class HUDViewController: UIViewController {
     var editDoneButton: UIButton!
     var editModeView: EditModeView!
     var colorPicker: ColorPickerView!
-    let bottomBaseYPosition: CGFloat = 54
+    let bottomBaseYPosition: CGFloat = 48
     let baseXPadding: CGFloat = 15
     var canCreateArtifact = false {
-        didSet { addObjectButton?.alpha = canCreateArtifact ? 1.0 : 0.7 }
+        didSet { addObjectButton?.alpha = canCreateArtifact ? 1.0 : 0.5 }
     }
     
     
@@ -135,7 +137,7 @@ class HUDViewController: UIViewController {
     
     private func setupAddButton() {
         let screenSize = UIScreen.main.bounds.size
-        let size: CGFloat = 76
+        let size: CGFloat = 60
         let yPos = screenSize.height - bottomBaseYPosition - size/2
         
         let frame = CGRect(x: round((screenSize.width - size)/2), y: yPos, width: size, height: size)
@@ -145,7 +147,7 @@ class HUDViewController: UIViewController {
         button.backgroundColor = .white
         button.tintColor = .innerGray
         button.layer.cornerRadius = size/2
-        button.alpha = 0.7
+        button.alpha = 0.5
         button.addTarget(self, action: #selector(addObjectButtonPressed(_:)), for: .touchUpInside)
         
         self.view.addSubview(button)
@@ -223,6 +225,22 @@ class HUDViewController: UIViewController {
     @objc private func editDoneButtonPressed() {
         delegate?.hudDidEndEditing()
     }
+    
+    
+    private func setupMapButton() {
+        let size: CGFloat = 46
+        let frame = CGRect(x: 16, y: 36, width: size, height: size)
+        let button = UIButton(frame: frame)
+        button.layer.cornerRadius = size/2
+        button.setImage(UIImage(named: "btn_map"), for: .normal)
+        button.backgroundColor = .white
+        button.tintColor = .innerGray
+        button.addTarget(self, action: #selector(mapButtonPressed), for: .touchUpInside)
+        
+        self.view.addSubview(button)
+    }
+    
+    @objc private func mapButtonPressed() {}
 }
 
 

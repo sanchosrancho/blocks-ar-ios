@@ -14,7 +14,7 @@ typealias BlockObjectIdentifier = String
 class Block: RealmSwift.Object {
     @objc dynamic var objectId: BlockObjectIdentifier = NSUUID().uuidString
     
-    @objc dynamic var id: Int = 0
+    @objc dynamic var id: String = ""
     @objc dynamic var author: User?
     @objc dynamic var artifact: Artifact?
     
@@ -57,7 +57,7 @@ extension Block: Encodable {
         var container = mainContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: .block)
 //        var container = encoder.container(keyedBy: CodingKeys.self)
         
-        if id != 0 {
+        if !id.isEmpty {
             try container.encode(id, forKey: .id)
         }
         try container.encodeIfPresent(self.artifact?.id, forKey: .artifact)

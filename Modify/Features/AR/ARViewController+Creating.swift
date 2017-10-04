@@ -73,7 +73,7 @@ extension ARViewController {
     
     
     func deleteBlock(with blockId: BlockObjectIdentifier, latitude: Double, longitude: Double) {
-        Blocks.delete(id: blockId, latitude: latitude, longitude: longitude)
+        Blocks.delete(id: blockId)
             .then {
                 print("Block was deleted")
             }.catch { error in

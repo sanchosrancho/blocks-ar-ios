@@ -35,12 +35,17 @@ public final class Application {
     }
     
     var cameraTrackingState: ARCamera.TrackingState = .notAvailable
-    var locationHorizontalAccuracy: CLLocationAccuracy = -1 { didSet { adjustifyLocationAccuracyState() } }
-    var locationVerticalAccuracy:   CLLocationAccuracy = -1 { didSet { adjustifyLocationAccuracyState() } }
+    var currentLocation: CLLocation? {
+        didSet {
+            guard let location = currentLocation else { return }
+            adjustifyLocationAccuracyState(location)
+            NotificationCenter.default.post(name: .locationUpdated, object: location)
+        }
+    }
     
-    private func adjustifyLocationAccuracyState() {
-        // state = (0...10 ~= locationHorizontalAccuracy && 0...5 ~= locationVerticalAccuracy) ? .good : .poor
-        state = (0...70 ~= locationHorizontalAccuracy && 0...12 ~= locationVerticalAccuracy) ? .good : .poor
+    private func adjustifyLocationAccuracyState(_ location: CLLocation) {
+        // state = (0...10 ~= location.horizontalAccuracy && 0...5 ~= location.verticalAccuracy) ? .good : .poor
+        state = (0...70 ~= location.horizontalAccuracy && 0...12 ~= location.verticalAccuracy) ? .good : .poor
     }
     
     static let socket = Socket(socketUrl: Api.socketURL, token: Account.shared.accessToken)

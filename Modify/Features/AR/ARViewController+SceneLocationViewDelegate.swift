@@ -20,8 +20,7 @@ extension ARViewController: SceneLocationViewDelegate {
     }
     
     func sceneLocationViewDidUpdateLocation(sceneLocationView: SceneLocationView, location: CLLocation) {
-        Application.shared.locationHorizontalAccuracy = location.horizontalAccuracy
-        Application.shared.locationVerticalAccuracy   = location.verticalAccuracy
+        Application.shared.currentLocation = location
     }
     
     func sceneLocationViewDidSetupSceneNode(sceneLocationView: SceneLocationView, sceneNode: SCNNode) {}

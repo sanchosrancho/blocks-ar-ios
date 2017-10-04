@@ -30,7 +30,10 @@ class ARViewController: UIViewController {
     
     // MARK: - ViewController lifecycle
     
-    deinit { artifactsToken.stop() }
+    deinit {
+        artifactsToken.stop()
+        NotificationCenter.default.removeObserver(self)
+    }
     
     
     override func viewDidLoad() {

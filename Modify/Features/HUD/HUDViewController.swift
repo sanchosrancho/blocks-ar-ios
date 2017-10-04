@@ -240,7 +240,10 @@ class HUDViewController: UIViewController {
         self.view.addSubview(button)
     }
     
-    @objc private func mapButtonPressed() {}
+    @objc private func mapButtonPressed() {
+        let map = MapViewController()
+        self.present(map, animated: true, completion: nil)
+    }
 }
 
 

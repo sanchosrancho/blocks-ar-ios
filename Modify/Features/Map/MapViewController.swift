@@ -20,8 +20,30 @@ class MapViewController: UIViewController {
         setupMapView()
         setupCloseButton()
         setupCurrentLocationButton()
+        
+        addLongPressGesture()
     }
 
+    // test
+    func addLongPressGesture() {
+        let gesture = UILongPressGestureRecognizer(target:self , action: #selector(handleLongPress(_:)))
+        gesture.minimumPressDuration = 1.0
+        mapView?.addGestureRecognizer(gesture)
+    }
+    
+    @objc func handleLongPress(_ gestureRecognizer:UIGestureRecognizer){
+        if gestureRecognizer.state != .began { return }
+        guard let mapView = self.mapView else { return }
+        
+        let point = gestureRecognizer.location(in: mapView)
+        let coordinate = mapView.convert(point, toCoordinateFrom: mapView)
+        // let annotation = MKPointAnnotation()
+        // annotation.coordinate = coordinate
+        // mapView.addAnnotation(annotation)
+        let circle = MKCircle(center: coordinate, radius: 50)
+        mapView.add(circle)
+    }
+    //
     
     func setupMapView() {
         let mapView = MKMapView(frame: UIScreen.main.bounds)
@@ -34,6 +56,8 @@ class MapViewController: UIViewController {
             let initialSpan = MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005)
             centerMap(on: location, animated: false, span: initialSpan)
         }
+        
+        mapView.delegate = self
     }
     
     
@@ -78,5 +102,17 @@ class MapViewController: UIViewController {
         if let location = Application.shared.currentLocation {
             centerMap(on: location)
         }
+    }
+}
+
+
+extension MapViewController: MKMapViewDelegate {
+    
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        let circleOverlay = overlay as! MKCircle
+        let circleRenderer = MKCircleRenderer(circle: circleOverlay)
+        circleRenderer.fillColor = UIColor.red
+        circleRenderer.alpha = 0.3
+        return circleRenderer
     }
 }

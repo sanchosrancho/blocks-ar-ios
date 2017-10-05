@@ -83,6 +83,7 @@ class ARViewController: UIViewController {
     
     
     @objc func loadArtifacts() {
+//        Artifacts.getByBounds(from: <#T##CLLocationCoordinate2D#>, to: <#T##CLLocationCoordinate2D#>)
     }
     
     

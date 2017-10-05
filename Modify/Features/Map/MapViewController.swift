@@ -15,8 +15,7 @@ class MapViewController: UIViewController {
     
     
     deinit {
-        NotificationCenter.default.removeObserver(self, name: .locationUpdated, object: nil)
-        print("deinit")
+        NotificationCenter.default.removeObserver(self)
     }
     
     
@@ -26,16 +25,6 @@ class MapViewController: UIViewController {
         setupMapView()
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleUpdateLocation(_:)), name: .locationUpdated, object: nil)
-        
-//        NotificationCenter.default.addObserver(forName: .locationUpdated, object: nil, queue: nil) { [weak self] notification in
-//            guard let location = notification.object as? CLLocation else { return }
-//            print("!")
-//        }
-        
-        
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 10) { [weak self] in
-            self?.dismiss(animated: true, completion: nil)
-        }
     }
     
     

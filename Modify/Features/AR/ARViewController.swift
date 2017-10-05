@@ -32,7 +32,6 @@ class ARViewController: UIViewController {
     
     deinit {
         artifactsToken.stop()
-        NotificationCenter.default.removeObserver(self)
     }
     
     
@@ -66,17 +65,20 @@ class ARViewController: UIViewController {
     func setupLocationAccuracyStatus() {
         self.hudWindow?.hudController.updateLocationStatus(Application.shared.state)
         
-        NotificationCenter.default.addObserver(forName: .locationAccuracyChanged, object: nil, queue: nil) { [weak self] in
-            guard let currentAccuracy = $0.userInfo?["current"] as? Application.LocationAccuracyState else { return }
-            self?.hudWindow?.hudController.updateLocationStatus(currentAccuracy)
-            
-            if case Application.LocationAccuracyState.good = currentAccuracy {
-                self?.sceneLocationView.shouldUpdateLocationEstimate = false
-                self?.setupRealmResults()
-            }
-        }
+        NotificationCenter.default.addObserver(self, selector: #selector(locationAccuracyChanged(_:)), name: .locationAccuracyChanged, object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(loadArtifacts), name: .locationAccuracyStarted, object: nil)
+    }
+    
+    
+    @objc func locationAccuracyChanged(_ notification: Notification) {
+        guard let currentAccuracy = notification.userInfo?["current"] as? Application.LocationAccuracyState else { return }
+        hudWindow?.hudController.updateLocationStatus(currentAccuracy)
+        
+        if case Application.LocationAccuracyState.good = currentAccuracy {
+            sceneLocationView.shouldUpdateLocationEstimate = false
+            setupRealmResults()
+        }
     }
     
     

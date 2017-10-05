@@ -73,3 +73,4 @@ extension Notification.Name {
     static let locationAccuracyStarted = Notification.Name("ApplicationLocationAccuracyDidStart")
 }
 
+

@@ -171,7 +171,7 @@ class HUDViewController: UIViewController {
         
         let frame = CGRect(x: baseXPadding, y: yPos, width: size, height: size)
         let button = UIButton(frame: frame)
-        button.setImage(UIImage(named: "btn_cancel_add"), for: .normal)
+        button.setImage(UIImage(named: "btn_close"), for: .normal)
         button.backgroundColor = .white
         button.tintColor = .innerGray
         button.layer.cornerRadius = size/2

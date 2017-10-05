@@ -68,7 +68,6 @@ class ARViewController: UIViewController {
             self?.hudWindow?.hudController.updateLocationStatus(currentAccuracy)
             
             if case Application.LocationAccuracyState.good = currentAccuracy {
-                self?.sceneLocationView.shouldUpdateLocationEstimate = false
                 self?.setupRealmResults()
             }
         }

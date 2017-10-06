@@ -60,7 +60,7 @@ open class SceneLocationView: ARSCNView, ARSCNViewDelegate {
     
     public var locationNodes = [LocationNode]()
     
-    private var sceneLocationEstimates = [SceneLocationEstimate]()
+    public var sceneLocationEstimates = [SceneLocationEstimate]()
     
     public private(set) var sceneNode: SCNNode? {
         didSet {

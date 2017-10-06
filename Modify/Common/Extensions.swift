@@ -74,3 +74,4 @@ extension Notification.Name {
     static let locationUpdated         = Notification.Name("ApplicationLocationDidUpdate")
 }
 
+

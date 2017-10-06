@@ -70,8 +70,9 @@ extension Array where Element: Equatable {
 extension Notification.Name {
     
     static let locationAccuracyChanged = Notification.Name("ApplicationLocationAccuracyDidChange")
-    static let locationAccuracyStarted = Notification.Name("ApplicationLocationAccuracyDidStart")
-    static let locationUpdated         = Notification.Name("ApplicationLocationDidUpdate")
+    static let needUpdateDataAfterGoodLocaction = Notification.Name("NeedUpdateDataAfterGoodLocaction")
+    static let locationUpdated = Notification.Name("ApplicationLocationDidUpdate")
 }
+
 
 

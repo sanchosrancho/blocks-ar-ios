@@ -28,11 +28,18 @@ public final class Application {
         willSet(newState) {
             guard newState != state else { return }
             NotificationCenter.default.post(name: .locationAccuracyChanged, object: nil, userInfo: ["current": newState])
-            if state == .none {
-                NotificationCenter.default.post(name: .locationAccuracyStarted, object: nil)
+            if state == .good {
+                let date = Date()
+                if let lastGood = self.lastGoodLocationDate {
+                    let time = date.timeIntervalSince(lastGood)
+                    if time < 30 { return }
+                }
+                self.lastGoodLocationDate = date
+                NotificationCenter.default.post(name: .needUpdateDataAfterGoodLocaction, object: nil)
             }
         }
     }
+    private var lastGoodLocationDate: Date?
     
     var cameraTrackingState: ARCamera.TrackingState = .notAvailable
     var currentLocation: CLLocation? {

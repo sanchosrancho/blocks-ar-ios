@@ -32,6 +32,7 @@ class ARViewController: UIViewController {
     
     deinit {
         artifactsToken.stop()
+        NotificationCenter.default.removeObserver(self)
     }
     
     
@@ -65,26 +66,27 @@ class ARViewController: UIViewController {
     func setupLocationAccuracyStatus() {
         self.hudWindow?.hudController.updateLocationStatus(Application.shared.state)
         
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(handleLocationAccuracyChanged(_:)),
+                                               name: .locationAccuracyChanged,
+                                               object: nil)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(locationAccuracyChanged(_:)), name: .locationAccuracyChanged, object: nil)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(loadArtifacts), name: .locationAccuracyStarted, object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(fetchArtifacts),
+                                               name: .needUpdateDataAfterGoodLocaction,
+                                               object: nil)
     }
     
     
-    @objc func locationAccuracyChanged(_ notification: Notification) {
+    @objc func handleLocationAccuracyChanged(_ notification: Notification) {
         guard let currentAccuracy = notification.userInfo?["current"] as? Application.LocationAccuracyState else { return }
         hudWindow?.hudController.updateLocationStatus(currentAccuracy)
-        
-        if case Application.LocationAccuracyState.good = currentAccuracy {
-            sceneLocationView.shouldUpdateLocationEstimate = false
-            setupRealmResults()
-        }
     }
     
     
-    @objc func loadArtifacts() {
-//        Artifacts.getByBounds(from: <#T##CLLocationCoordinate2D#>, to: <#T##CLLocationCoordinate2D#>)
+    @objc func fetchArtifacts() {
+        setupRealmResults()
+        // load data
     }
     
     
@@ -126,11 +128,11 @@ class ARViewController: UIViewController {
             DispatchQueue.main.async { [weak self] in
                 switch changes {
                 case .initial:
-                    self?.loadAllArtifacts()
+                    self?.reload()
                 case .update(_, let deletions, let insertions, let modifications):
-                    self?.deleteArtifacts(indexes: deletions)
-                    self?.insertArtifacts(indexes: insertions)
-                    self?.updateArtifacts(indexes: modifications)
+                    self?.delete(indexes: deletions)
+                    self?.insert(indexes: insertions)
+                    self?.update(indexes: modifications)
                 case .error(let error):
                     print("Updating artifacts error: \(error)")
                 }

@@ -12,7 +12,7 @@ import CoreLocation
 
 extension ARViewController {
     
-    func loadAllArtifacts() {
+    func reload() {
         guard let artifacts = self.artifacts else { return }
         print("Loading all artifacts (count: \(artifacts.count))...")
         
@@ -28,7 +28,7 @@ extension ARViewController {
     }
     
     
-    func deleteArtifacts(indexes: [Int]) {
+    func delete(indexes: [Int]) {
         print("deleting artefacts at: \(indexes)")
         
         var currentArtifactNodeId: BlockObjectIdentifier?
@@ -49,7 +49,7 @@ extension ARViewController {
     }
     
     
-    func insertArtifacts(indexes: [Int]) {
+    func insert(indexes: [Int]) {
         guard let artifacts = self.artifacts else { return }
         print("inserting artefacts at: \(indexes)")
         
@@ -77,7 +77,7 @@ extension ARViewController {
     }
     
     
-    func updateArtifacts(indexes: [Int]) {
+    func update(indexes: [Int]) {
         guard let artifacts = self.artifacts else { return }
         print("updating artefacts at: \(indexes)")
         

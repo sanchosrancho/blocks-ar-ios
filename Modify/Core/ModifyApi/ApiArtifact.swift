@@ -12,8 +12,8 @@ import CoreLocation
 
 extension Api {
     enum Artifact {
-        case getByPosition(CLLocationCoordinate2D)
-        case getByBounds(from: CLLocationCoordinate2D, to: CLLocationCoordinate2D)
+        case getByPosition(CLLocationCoordinate2D, withBlocks: Bool)
+        case getByBounds(from: CLLocationCoordinate2D, to: CLLocationCoordinate2D, withBlocks: Bool)
     }
 }
 extension Api.Artifact {
@@ -21,6 +21,7 @@ extension Api.Artifact {
         let id: Int
         let count: Int
         let size: Float
+        let radius: Float
         let latitude: CLLocationDegrees
         let longitude: CLLocationDegrees
         let altitude: CLLocationDistance
@@ -48,13 +49,14 @@ extension Api.Artifact: TargetType, AccessTokenAuthorizable {
     
     var task: Task {
         switch self {
-        case .getByPosition(let position):
-            return .requestParameters(parameters: ["position": position.toDictionary], encoding: JSONEncoding.default)
+        case .getByPosition(let position, let withBlocks):
+            return .requestParameters(parameters: ["position": position.toDictionary, "with_blocks": withBlocks], encoding: JSONEncoding.default)
             
-        case .getByBounds(let from, let to):
+        case .getByBounds(let from, let to, let withBlocks):
             return .requestParameters(parameters: [
                 "from": from.toDictionary,
-                "to": to.toDictionary
+                "to": to.toDictionary,
+                "with_blocks": withBlocks
                 ], encoding: JSONEncoding.default)
         }
     }

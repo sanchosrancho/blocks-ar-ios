@@ -32,9 +32,9 @@ struct Artifacts {
         return realm.object(ofType: Artifact.self, forPrimaryKey: id)
     }
     
-    static func getByPosition(position: CLLocationCoordinate2D) -> Promise<Void> {
+    static func getByPosition(position: CLLocationCoordinate2D, withBlocks: Bool) -> Promise<Void> {
         return firstly {
-                try Api.run(Api.Artifact.getByPosition(position))
+                try Api.run(Api.Artifact.getByPosition(position, withBlocks: withBlocks))
             }.then { response in
                 try JSONDecoder().decode(Api.Response<[Api.Artifact.Response]>.self, from: response.data)
             }.then { (json: Api.Response<[Api.Artifact.Response]>) -> [Api.Artifact.Response] in
@@ -52,9 +52,9 @@ struct Artifacts {
     
     
     
-    static func getByBounds(from: CLLocationCoordinate2D, to: CLLocationCoordinate2D) throws -> Promise<Void> {
+    static func getByBounds(from: CLLocationCoordinate2D, to: CLLocationCoordinate2D, withBlocks: Bool) throws -> Promise<Void> {
         return firstly {
-                try Api.run(Api.Artifact.getByBounds(from: from, to: to))
+                try Api.run(Api.Artifact.getByBounds(from: from, to: to, withBlocks: withBlocks))
             }.then { response in
                 try JSONDecoder().decode(Api.Response<[Api.Artifact.Response]>.self, from: response.data)
             }.then { (json: Api.Response<[Api.Artifact.Response]>) -> [Api.Artifact.Response] in
@@ -156,6 +156,7 @@ struct Artifacts {
                 
                 artifact.id = artifactResp.id
                 artifact.size = artifactResp.size
+                artifact.radius = artifactResp.radius
                 
                 artifact.latitude = artifactResp.latitude
                 artifact.longitude = artifactResp.longitude

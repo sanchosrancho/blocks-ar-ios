@@ -17,6 +17,7 @@ class Artifact: RealmSwift.Object {
     @objc dynamic var id: Int = 0
     
     @objc dynamic var size: Float = 0
+    @objc dynamic var radius: Float = 0
     
     @objc dynamic var eulerX: Float = 0
     @objc dynamic var eulerY: Float = 0

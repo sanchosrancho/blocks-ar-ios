@@ -39,7 +39,7 @@ public final class Application {
         didSet {
             guard let location = currentLocation else { return }
             adjustifyLocationAccuracyState(location)
-            NotificationCenter.default.post(name: .locationUpdated, object: location)
+            // NotificationCenter.default.post(name: .locationUpdated, object: location)
         }
     }
     

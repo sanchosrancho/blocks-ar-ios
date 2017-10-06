@@ -37,9 +37,7 @@ class MapViewController: UIViewController {
         
         let point = gestureRecognizer.location(in: mapView)
         let coordinate = mapView.convert(point, toCoordinateFrom: mapView)
-        // let annotation = MKPointAnnotation()
-        // annotation.coordinate = coordinate
-        // mapView.addAnnotation(annotation)
+        
         let circle = MKCircle(center: coordinate, radius: 50)
         mapView.add(circle)
     }

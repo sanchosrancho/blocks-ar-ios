@@ -65,6 +65,7 @@ class ARViewController: UIViewController {
     func setupLocationAccuracyStatus() {
         self.hudWindow?.hudController.updateLocationStatus(Application.shared.state)
         
+        
         NotificationCenter.default.addObserver(self, selector: #selector(locationAccuracyChanged(_:)), name: .locationAccuracyChanged, object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(loadArtifacts), name: .locationAccuracyStarted, object: nil)

@@ -50,7 +50,8 @@ extension Api.Artifact: TargetType, AccessTokenAuthorizable {
     var task: Task {
         switch self {
         case .getByPosition(let position, let withBlocks):
-            return .requestParameters(parameters: ["position": position.toDictionary, "with_blocks": withBlocks], encoding: JSONEncoding.default)
+            return .requestParameters(parameters: ["position": position.toDictionary,
+                                                   "with_blocks": withBlocks], encoding: JSONEncoding.default)
             
         case .getByBounds(let from, let to, let withBlocks):
             return .requestParameters(parameters: [

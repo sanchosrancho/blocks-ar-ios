@@ -7,11 +7,17 @@
 //
 
 import MapKit
+import RealmSwift
 
 
 class MapViewController: UIViewController {
 
     var mapView: MKMapView?
+    var results: Results<Artifact>?
+    var token: NotificationToken?
+    
+    
+    deinit { token?.stop() }
     
     
     override func viewDidLoad() {
@@ -20,28 +26,12 @@ class MapViewController: UIViewController {
         setupMapView()
         setupCloseButton()
         setupCurrentLocationButton()
-        
+        // test
         addLongPressGesture()
+        //
+        setupResults()
     }
 
-    // test
-    func addLongPressGesture() {
-        let gesture = UILongPressGestureRecognizer(target:self , action: #selector(handleLongPress(_:)))
-        gesture.minimumPressDuration = 1.0
-        mapView?.addGestureRecognizer(gesture)
-    }
-    
-    @objc func handleLongPress(_ gestureRecognizer:UIGestureRecognizer){
-        if gestureRecognizer.state != .began { return }
-        guard let mapView = self.mapView else { return }
-        
-        let point = gestureRecognizer.location(in: mapView)
-        let coordinate = mapView.convert(point, toCoordinateFrom: mapView)
-        
-        let circle = MKCircle(center: coordinate, radius: 50)
-        mapView.add(circle)
-    }
-    //
     
     func setupMapView() {
         let mapView = MKMapView(frame: UIScreen.main.bounds)
@@ -56,6 +46,11 @@ class MapViewController: UIViewController {
         }
         
         mapView.delegate = self
+    }
+    
+    
+    func setupResults() {
+//        self.results = Database.realmMain.objects(Artifact)
     }
     
     
@@ -110,7 +105,60 @@ extension MapViewController: MKMapViewDelegate {
         let circleOverlay = overlay as! MKCircle
         let circleRenderer = MKCircleRenderer(circle: circleOverlay)
         circleRenderer.fillColor = UIColor.red
-        circleRenderer.alpha = 0.3
+        circleRenderer.alpha = 0.25
         return circleRenderer
     }
 }
+
+
+extension MapViewController {
+    
+    // test
+    func addLongPressGesture() {
+        let gesture = UILongPressGestureRecognizer(target:self , action: #selector(handleLongPress(_:)))
+        gesture.minimumPressDuration = 1.0
+        mapView?.addGestureRecognizer(gesture)
+    }
+    
+    @objc func handleLongPress(_ gestureRecognizer:UIGestureRecognizer){
+        if gestureRecognizer.state != .began { return }
+        guard let mapView = self.mapView else { return }
+        
+        let point = gestureRecognizer.location(in: mapView)
+        let coordinate = mapView.convert(point, toCoordinateFrom: mapView)
+        
+        // let circle = MKCircle(center: coordinate, radius: 50)
+        // mapView.add(circle)
+        
+        let location = CLLocation(coordinate: coordinate, altitude: 1)
+        let onCreateModelBlock = { (artifactObjectId: ArtifactObjectIdentifier) -> Void in
+        }
+        Artifacts.create(location: location, eulerX: 0, eulerY: 0, eulerZ: 0, distanceToGround: 0, color: UIColor.red.hexString(), size: CubeNode.size, onCreateModel: onCreateModelBlock)
+            .then {
+                print("Artifact was added")
+            }.catch { error in
+                print("Artifact couldn't be added because some error occured: ", error)
+        }
+    }
+    //
+}
+
+
+//class MapViewWithZoom: MKMapView {
+//
+//    var zoomLevel: Int {
+//        get {
+//            return Int(log2(360 * (Double(self.frame.size.width/256) / self.region.span.longitudeDelta)) + 1);
+//        }
+//
+//        set (newZoomLevel){
+//            setCenterCoordinate(self.centerCoordinate, zoomLevel: newZoomLevel, animated: false)
+//        }
+//    }
+//
+//    private func setCenterCoordinate(coordinate: CLLocationCoordinate2D, zoomLevel: Int, animated: Bool){
+//        let span = MKCoordinateSpanMake(0, 360 / pow(2, Double(zoomLevel)) * Double(self.frame.size.width) / 256)
+//        setRegion(MKCoordinateRegionMake(centerCoordinate, span), animated: animated)
+//    }
+//}
+

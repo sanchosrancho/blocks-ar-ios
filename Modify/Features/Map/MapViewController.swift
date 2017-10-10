@@ -12,7 +12,7 @@ import RealmSwift
 
 class MapViewController: UIViewController {
 
-    var mapView: MKMapView?
+    var mapView: ScalableMapView?
     var results: Results<Artifact>?
     var token: NotificationToken?
     
@@ -29,20 +29,17 @@ class MapViewController: UIViewController {
         // test
         addLongPressGesture()
         //
-        setupResults()
     }
 
     
     func setupMapView() {
-        let mapView = MKMapView(frame: UIScreen.main.bounds)
-        mapView.showsUserLocation = true
-        
+        let mapView = ScalableMapView(frame: UIScreen.main.bounds)
         self.view.addSubview(mapView)
         self.mapView = mapView
         
         if let location = Application.shared.currentLocation {
             let initialSpan = MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005)
-            centerMap(on: location, animated: false, span: initialSpan)
+            mapView.centerMap(on: location.coordinate, animated: false, span: initialSpan)
         }
         
         mapView.delegate = self
@@ -50,15 +47,6 @@ class MapViewController: UIViewController {
     
     
     func setupResults() {
-//        self.results = Database.realmMain.objects(Artifact)
-    }
-    
-    
-    func centerMap(on location: CLLocation, animated: Bool = true, span: MKCoordinateSpan? = nil) {
-        guard let spanValue = span ?? mapView?.region.span else { return }
-        
-        let region = MKCoordinateRegion(center: location.coordinate, span: spanValue)
-        mapView?.setRegion(region, animated: animated)
     }
     
     
@@ -93,7 +81,7 @@ class MapViewController: UIViewController {
     
     @objc func currentLocationButtonPressed() {
         if let location = Application.shared.currentLocation {
-            centerMap(on: location)
+            self.mapView?.centerMap(on: location.coordinate, animated: true, span: nil)
         }
     }
 }
@@ -107,6 +95,21 @@ extension MapViewController: MKMapViewDelegate {
         circleRenderer.fillColor = UIColor.red
         circleRenderer.alpha = 0.25
         return circleRenderer
+    }
+    
+    
+    func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+        if self.mapView!.zoomLevel < self.mapView!.minZoom {
+            self.mapView!.zoomLevel = self.mapView!.minZoom
+        }
+        else {
+            let leftBottom = mapView.swCoordinate
+            let rightTop = mapView.neCoordinate
+            
+            print("lat: (\(leftBottom.latitude) - \(rightTop.latitude))")
+            print("lon: (\(leftBottom.longitude) - \(rightTop.longitude))")
+            print("--------------------------------------------------------------------")
+        }
     }
 }
 
@@ -142,23 +145,3 @@ extension MapViewController {
     }
     //
 }
-
-
-//class MapViewWithZoom: MKMapView {
-//
-//    var zoomLevel: Int {
-//        get {
-//            return Int(log2(360 * (Double(self.frame.size.width/256) / self.region.span.longitudeDelta)) + 1);
-//        }
-//
-//        set (newZoomLevel){
-//            setCenterCoordinate(self.centerCoordinate, zoomLevel: newZoomLevel, animated: false)
-//        }
-//    }
-//
-//    private func setCenterCoordinate(coordinate: CLLocationCoordinate2D, zoomLevel: Int, animated: Bool){
-//        let span = MKCoordinateSpanMake(0, 360 / pow(2, Double(zoomLevel)) * Double(self.frame.size.width) / 256)
-//        setRegion(MKCoordinateRegionMake(centerCoordinate, span), animated: animated)
-//    }
-//}
-

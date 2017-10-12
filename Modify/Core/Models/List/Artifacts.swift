@@ -32,6 +32,12 @@ struct Artifacts {
         return realm.object(ofType: Artifact.self, forPrimaryKey: id)
     }
     
+    
+    static func objects(from leftBottom: CLLocationCoordinate2D, to rightTop: CLLocationCoordinate2D) -> Results<Artifact> {
+        return Database.realmMain.objects(Artifact.self).filter("latitude >= %@ AND latitude <= %@ AND longitude >= %@ AND longitude <= %@", leftBottom.latitude, rightTop.latitude, leftBottom.longitude, rightTop.longitude)
+    }
+    
+    
     static func getByPosition(position: CLLocationCoordinate2D, withBlocks: Bool) -> Promise<Void> {
         return firstly {
                 try Api.run(Api.Artifact.getByPosition(position, withBlocks: withBlocks))

@@ -55,6 +55,8 @@
 		B653B1831F72C52700C43946 /* Socket.swift in Sources */ = {isa = PBXBuildFile; fileRef = B653B15F1F72C39200C43946 /* Socket.swift */; };
 		B653B1871F74002C00C43946 /* BlockNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = B653B1861F74002C00C43946 /* BlockNode.swift */; };
 		B65E73891F8D25EF00715E33 /* ScalableMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65E73881F8D25EF00715E33 /* ScalableMapView.swift */; };
+		B65E738B1F8FA1C600715E33 /* MapCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65E738A1F8FA1C600715E33 /* MapCircle.swift */; };
+		B65E738D1F8FAECE00715E33 /* MapViewController+MapCircles.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65E738C1F8FAECE00715E33 /* MapViewController+MapCircles.swift */; };
 		B6650F971F57130C0085ABBE /* SCNScene+Lighting.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6650F961F57130C0085ABBE /* SCNScene+Lighting.swift */; };
 		B680AA981F6FE99E002F2632 /* HUDViewController+Gestures.swift in Sources */ = {isa = PBXBuildFile; fileRef = B680AA971F6FE99E002F2632 /* HUDViewController+Gestures.swift */; };
 		B680AA9A1F6FEB19002F2632 /* HUDViewController+Recording.swift in Sources */ = {isa = PBXBuildFile; fileRef = B680AA991F6FEB19002F2632 /* HUDViewController+Recording.swift */; };
@@ -120,6 +122,8 @@
 		B653B1751F72C4DE00C43946 /* ApiArtifact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ApiArtifact.swift; path = Modify/Core/ModifyApi/ApiArtifact.swift; sourceTree = SOURCE_ROOT; };
 		B653B1861F74002C00C43946 /* BlockNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockNode.swift; sourceTree = "<group>"; };
 		B65E73881F8D25EF00715E33 /* ScalableMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScalableMapView.swift; sourceTree = "<group>"; };
+		B65E738A1F8FA1C600715E33 /* MapCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapCircle.swift; sourceTree = "<group>"; };
+		B65E738C1F8FAECE00715E33 /* MapViewController+MapCircles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MapViewController+MapCircles.swift"; sourceTree = "<group>"; };
 		B6650F961F57130C0085ABBE /* SCNScene+Lighting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SCNScene+Lighting.swift"; sourceTree = "<group>"; };
 		B680AA971F6FE99E002F2632 /* HUDViewController+Gestures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HUDViewController+Gestures.swift"; sourceTree = "<group>"; };
 		B680AA991F6FEB19002F2632 /* HUDViewController+Recording.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HUDViewController+Recording.swift"; sourceTree = "<group>"; };
@@ -316,8 +320,10 @@
 		B6988CE41F852BD400B1499E /* Map */ = {
 			isa = PBXGroup;
 			children = (
+				B65E738C1F8FAECE00715E33 /* MapViewController+MapCircles.swift */,
 				B6988CE51F852C1500B1499E /* MapViewController.swift */,
 				B65E73881F8D25EF00715E33 /* ScalableMapView.swift */,
+				B65E738A1F8FA1C600715E33 /* MapCircle.swift */,
 			);
 			path = Map;
 			sourceTree = "<group>";
@@ -516,6 +522,7 @@
 				B653B1811F72C52700C43946 /* User.swift in Sources */,
 				B653B1821F72C52700C43946 /* Application.swift in Sources */,
 				B653B1831F72C52700C43946 /* Socket.swift in Sources */,
+				B65E738D1F8FAECE00715E33 /* MapViewController+MapCircles.swift in Sources */,
 				B606BC121F5EB77E002555A2 /* SCNNode+Cube.swift in Sources */,
 				829A6DE31F576D9F00FFE858 /* ARViewController+SceneLocationViewDelegate.swift in Sources */,
 				8DFF39EE1F50344700E55652 /* CGPoint+Extensions.swift in Sources */,
@@ -533,6 +540,7 @@
 				B6F97E161F6AA1AE0061CDBF /* ColorPickerView.swift in Sources */,
 				B6988CE61F852C1500B1499E /* MapViewController.swift in Sources */,
 				8DFF39F41F50344700E55652 /* SceneLocationEstimate+Extensions.swift in Sources */,
+				B65E738B1F8FA1C600715E33 /* MapCircle.swift in Sources */,
 				8DFF39F51F50344700E55652 /* SceneLocationView.swift in Sources */,
 				829A6DDF1F576A1000FFE858 /* ARViewController+Creating.swift in Sources */,
 				8DFF39F61F50344700E55652 /* SCNNode+Extensions.swift in Sources */,

@@ -43,10 +43,27 @@ class MapViewController: UIViewController {
         }
         
         mapView.delegate = self
+        updateResults()
     }
     
     
-    func setupResults() {
+    func updateResults() {
+        let leftBottom = mapView!.swCoordinate
+        let rightTop = mapView!.neCoordinate
+        
+        self.results = Artifacts.objects(from: leftBottom, to: rightTop)
+        self.token = self.results?.addNotificationBlock { [weak self] changes in
+            switch changes {
+            case .initial:
+                self?.reloadCircles()
+            case .update(_, let deletions, let insertions, let modifications):
+                self?.deleteCircles(indexes: deletions)
+                self?.insertCircles(indexes: insertions)
+                self?.updateCircles(indexes: modifications)
+            case .error(let error):
+                print("Realm notification block error: \(error)")
+            }
+        }
     }
     
     
@@ -90,9 +107,9 @@ class MapViewController: UIViewController {
 extension MapViewController: MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
-        let circleOverlay = overlay as! MKCircle
+        let circleOverlay = overlay as! MapCircle
         let circleRenderer = MKCircleRenderer(circle: circleOverlay)
-        circleRenderer.fillColor = UIColor.red
+        circleRenderer.fillColor = .mapArtifact
         circleRenderer.alpha = 0.25
         return circleRenderer
     }
@@ -103,20 +120,15 @@ extension MapViewController: MKMapViewDelegate {
             self.mapView!.zoomLevel = self.mapView!.minZoom
         }
         else {
-            let leftBottom = mapView.swCoordinate
-            let rightTop = mapView.neCoordinate
-            
-            print("lat: (\(leftBottom.latitude) - \(rightTop.latitude))")
-            print("lon: (\(leftBottom.longitude) - \(rightTop.longitude))")
-            print("--------------------------------------------------------------------")
+            updateResults()
         }
     }
 }
 
 
+// func
 extension MapViewController {
     
-    // test
     func addLongPressGesture() {
         let gesture = UILongPressGestureRecognizer(target:self , action: #selector(handleLongPress(_:)))
         gesture.minimumPressDuration = 1.0
@@ -130,9 +142,6 @@ extension MapViewController {
         let point = gestureRecognizer.location(in: mapView)
         let coordinate = mapView.convert(point, toCoordinateFrom: mapView)
         
-        // let circle = MKCircle(center: coordinate, radius: 50)
-        // mapView.add(circle)
-        
         let location = CLLocation(coordinate: coordinate, altitude: 1)
         let onCreateModelBlock = { (artifactObjectId: ArtifactObjectIdentifier) -> Void in
         }
@@ -143,5 +152,4 @@ extension MapViewController {
                 print("Artifact couldn't be added because some error occured: ", error)
         }
     }
-    //
 }

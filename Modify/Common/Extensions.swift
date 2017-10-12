@@ -54,6 +54,8 @@ extension UIColor {
     
     
     class var innerGray: UIColor { return UIColor.fromRGB(r: 76, g: 76, b: 76) }
+    
+    class var mapArtifact: UIColor { return UIColor.fromRGB(r: 87, g: 152, b: 226) }
 }
 
 

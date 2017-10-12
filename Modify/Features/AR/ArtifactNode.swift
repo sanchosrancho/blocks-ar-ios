@@ -25,7 +25,6 @@ class ArtifactNode: LocationNode {
         super.init(location: CLLocation(coordinate: coord, altitude: Double(altitude)))
         self.eulerAngles = SCNVector3(artifact.eulerX, artifact.eulerY, artifact.eulerZ)
         self.continuallyAdjustNodePositionWhenWithinRange = false
-        
         updateBlocks(with: artifact)
     }
     

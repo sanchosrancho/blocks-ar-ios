@@ -36,6 +36,7 @@
 		8DFF39F61F50344700E55652 /* SCNNode+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC8263D1F50335900DF7DF9 /* SCNNode+Extensions.swift */; };
 		8DFF39F71F50344700E55652 /* SCNVector3+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC826401F50335900DF7DF9 /* SCNVector3+Extensions.swift */; };
 		B606BC121F5EB77E002555A2 /* SCNNode+Cube.swift in Sources */ = {isa = PBXBuildFile; fileRef = B606BC111F5EB77E002555A2 /* SCNNode+Cube.swift */; };
+		B615D4A01F91199200A0C865 /* MapViewController+UIControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = B615D49F1F91199200A0C865 /* MapViewController+UIControls.swift */; };
 		B63038591F790E290041A0EF /* HUDWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = B63038581F790E290041A0EF /* HUDWindow.swift */; };
 		B630385B1F7943930041A0EF /* EditModeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B630385A1F7943930041A0EF /* EditModeView.swift */; };
 		B64F0C371F4DBA920004BA49 /* HUDViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B64F0C361F4DBA920004BA49 /* HUDViewController.swift */; };
@@ -102,6 +103,7 @@
 		8DC826421F50335900DF7DF9 /* LocationNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationNode.swift; sourceTree = "<group>"; };
 		8DFBC5381F7D23220048C7AD /* Users.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Users.swift; path = Modify/Core/Models/List/Users.swift; sourceTree = SOURCE_ROOT; };
 		B606BC111F5EB77E002555A2 /* SCNNode+Cube.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SCNNode+Cube.swift"; sourceTree = "<group>"; };
+		B615D49F1F91199200A0C865 /* MapViewController+UIControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MapViewController+UIControls.swift"; sourceTree = "<group>"; };
 		B63038581F790E290041A0EF /* HUDWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUDWindow.swift; sourceTree = "<group>"; };
 		B630385A1F7943930041A0EF /* EditModeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditModeView.swift; sourceTree = "<group>"; };
 		B635793B1F66D6210016E598 /* Artifacts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Artifacts.swift; sourceTree = "<group>"; };
@@ -321,6 +323,7 @@
 			isa = PBXGroup;
 			children = (
 				B65E738C1F8FAECE00715E33 /* MapViewController+MapCircles.swift */,
+				B615D49F1F91199200A0C865 /* MapViewController+UIControls.swift */,
 				B6988CE51F852C1500B1499E /* MapViewController.swift */,
 				B65E73881F8D25EF00715E33 /* ScalableMapView.swift */,
 				B65E738A1F8FA1C600715E33 /* MapCircle.swift */,
@@ -524,6 +527,7 @@
 				B653B1831F72C52700C43946 /* Socket.swift in Sources */,
 				B65E738D1F8FAECE00715E33 /* MapViewController+MapCircles.swift in Sources */,
 				B606BC121F5EB77E002555A2 /* SCNNode+Cube.swift in Sources */,
+				B615D4A01F91199200A0C865 /* MapViewController+UIControls.swift in Sources */,
 				829A6DE31F576D9F00FFE858 /* ARViewController+SceneLocationViewDelegate.swift in Sources */,
 				8DFF39EE1F50344700E55652 /* CGPoint+Extensions.swift in Sources */,
 				8DFF39EF1F50344700E55652 /* CLLocation+Extensions.swift in Sources */,

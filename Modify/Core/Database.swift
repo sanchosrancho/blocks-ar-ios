@@ -47,4 +47,12 @@ struct Database {
             print(error)
         }
     }
+    
+    
+    static func clean() {
+        let realm = Database.realmMain
+        try? realm.write {
+            realm.deleteAll()
+        }
+    }
 }

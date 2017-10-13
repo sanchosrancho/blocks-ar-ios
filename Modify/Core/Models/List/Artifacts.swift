@@ -58,7 +58,7 @@ struct Artifacts {
     
     
     
-    static func getByBounds(from: CLLocationCoordinate2D, to: CLLocationCoordinate2D, withBlocks: Bool) throws -> Promise<Void> {
+    static func getByBounds(from: CLLocationCoordinate2D, to: CLLocationCoordinate2D, withBlocks: Bool) -> Promise<Void> {
         return firstly {
                 try Api.run(Api.Artifact.getByBounds(from: from, to: to, withBlocks: withBlocks))
             }.then { response in
@@ -155,9 +155,8 @@ struct Artifacts {
     
     static private func parseAndSave(response: [Api.Artifact.Response]) throws {
         let realm = try Database.realmInCurrentContext()
-        for artifactResp in response {
-            Database.save(realm: realm) {
-                
+        Database.save(realm: realm) {
+            for artifactResp in response {
                 let artifact = Artifact()
                 
                 artifact.id = artifactResp.id
@@ -172,17 +171,19 @@ struct Artifacts {
                 artifact.verticalAccuracy = artifactResp.verticalAccuracy
                 artifact.groundDistance = artifactResp.groundDistance
                 
-                for blockResp in artifactResp.blocks {
-                    let block = Block()
-                    block.id = blockResp.id
-                    block.hexColor = blockResp.color
-                    block.x = blockResp.deltaX
-                    block.y = blockResp.deltaY
-                    block.z = blockResp.deltaZ
-                    block.latitude = blockResp.latitude
-                    block.longitude = blockResp.longitude
-                    block.altitude = blockResp.altitude
-                    artifact.blocks.append(block)
+                if let blocks = artifactResp.blocks {
+                    for blockResp in blocks {
+                        let block = Block()
+                        block.id = blockResp.id
+                        block.hexColor = blockResp.color
+                        block.x = blockResp.deltaX
+                        block.y = blockResp.deltaY
+                        block.z = blockResp.deltaZ
+                        block.latitude = blockResp.latitude
+                        block.longitude = blockResp.longitude
+                        block.altitude = blockResp.altitude
+                        artifact.blocks.append(block)
+                    }
                 }
                 
                 realm.add(artifact)

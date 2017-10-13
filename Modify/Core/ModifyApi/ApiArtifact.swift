@@ -29,7 +29,7 @@ extension Api.Artifact {
         let verticalAccuracy: Float
         let groundDistance: Float
         
-        let blocks: [Api.Block.FullBlockResponse]
+        let blocks: [Api.Block.FullBlockResponse]?
     }
 }
 
@@ -55,8 +55,7 @@ extension Api.Artifact: TargetType, AccessTokenAuthorizable {
             
         case .getByBounds(let from, let to, let withBlocks):
             return .requestParameters(parameters: [
-                "from": from.toDictionary,
-                "to": to.toDictionary,
+                "points": [from.toDictionary, to.toDictionary],
                 "with_blocks": withBlocks
                 ], encoding: JSONEncoding.default)
         }

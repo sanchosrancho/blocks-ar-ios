@@ -28,14 +28,14 @@ class Api {
 extension Api {
     static func run<T>(_ method: T) throws -> Promise<Moya.Response> where T: TargetType & AccessTokenAuthorizable {
         if method.authorizationType == .none {
-            return MoyaProvider<T>(plugins: [NetworkLoggerPlugin()]).request(target: method)
+            return MoyaProvider<T>(plugins: [/*NetworkLoggerPlugin()*/]).request(target: method)
         }
         
         guard let token = Api.shared.token else {
             throw Application.ConnectionError.loginNeeded
         }
         let authPlugin = AccessTokenPlugin(tokenClosure: token)
-        let api = MoyaProvider<T>(plugins: [authPlugin, NetworkLoggerPlugin()])
+        let api = MoyaProvider<T>(plugins: [authPlugin/*, NetworkLoggerPlugin()*/])
         return api.request(target: method)
     }
 }

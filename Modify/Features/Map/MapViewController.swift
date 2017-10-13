@@ -64,6 +64,11 @@ class MapViewController: UIViewController {
                 print("Realm notification block error: \(error)")
             }
         }
+        
+        Artifacts.getByBounds(from: leftBottom, to: rightTop, withBlocks: false).then { _ -> Void in
+        }.catch {
+            print("Loading artifacts for map error: \($0)")
+        }
     }
     
     
@@ -97,9 +102,14 @@ class MapViewController: UIViewController {
     }
     
     @objc func currentLocationButtonPressed() {
-        if let location = Application.shared.currentLocation {
-            self.mapView?.centerMap(on: location.coordinate, animated: true, span: nil)
+        let realm = Database.realmMain
+        try! realm.write {
+            realm.deleteAll()
         }
+        
+//        if let location = Application.shared.currentLocation {
+//            self.mapView?.centerMap(on: location.coordinate, animated: true, span: nil)
+//        }
     }
 }
 
@@ -110,7 +120,7 @@ extension MapViewController: MKMapViewDelegate {
         let circleOverlay = overlay as! MapCircle
         let circleRenderer = MKCircleRenderer(circle: circleOverlay)
         circleRenderer.fillColor = .mapArtifact
-        circleRenderer.alpha = 0.25
+        circleRenderer.alpha = 0.4
         return circleRenderer
     }
     
@@ -126,7 +136,7 @@ extension MapViewController: MKMapViewDelegate {
 }
 
 
-// func
+// test
 extension MapViewController {
     
     func addLongPressGesture() {

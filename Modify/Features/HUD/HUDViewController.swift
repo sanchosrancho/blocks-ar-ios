@@ -45,13 +45,25 @@ class HUDViewController: UIViewController {
         setupEditModeView()
         setupEditDoneButton()
         setupMapButton()
-        
         setupPan()
         setupTap()
-        
         setupColorPicker()
-        
         updateStateAppearance()
+    }
+    
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        showPermissionsIfNeeded()
+    }
+    
+    
+    func showPermissionsIfNeeded() {
+        guard Settings.needRequestPermissions else { return }
+        let controller = PermissionsController()
+        controller.view.frame = UIScreen.main.bounds
+        self.present(controller, animated: false, completion: nil)
     }
     
     

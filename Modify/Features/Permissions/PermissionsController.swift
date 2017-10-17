@@ -10,7 +10,6 @@ import UIKit
 
 
 protocol PermissionViewProtocol: class {
-    // var permissionType: PermissionType { get }
     func actionButtonPressed(with type: PermissionType)
 }
 
@@ -40,6 +39,7 @@ class PermissionsController: UIViewController {
 
         self.view.backgroundColor = UIColor.black
         setupContainer()
+        setupScreens()
     }
 
     
@@ -55,5 +55,23 @@ class PermissionsController: UIViewController {
         let view = UIScrollView(frame: frame)
         self.view.addSubview(view)
         self.container = view
+    }
+    
+    
+    func setupScreens() {
+        let width = self.view.bounds.width
+        for i in 0..<permissionTypes.count - 1 {
+            let frame = CGRect(x: CGFloat(i) * width, y: 0, width: width, height: self.view.bounds.height)
+            let view = PermissionsPrivacyView(frame: frame, type: permissionTypes[i])
+            view.delegate = self
+            container?.addSubview(view)
+        }
+    }
+}
+
+
+extension PermissionsController: PermissionViewProtocol {
+    
+    func actionButtonPressed(with type: PermissionType) {
     }
 }

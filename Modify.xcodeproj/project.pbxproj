@@ -37,6 +37,9 @@
 		8DFF39F71F50344700E55652 /* SCNVector3+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC826401F50335900DF7DF9 /* SCNVector3+Extensions.swift */; };
 		B606BC121F5EB77E002555A2 /* SCNNode+Cube.swift in Sources */ = {isa = PBXBuildFile; fileRef = B606BC111F5EB77E002555A2 /* SCNNode+Cube.swift */; };
 		B615D4A01F91199200A0C865 /* MapViewController+UIControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = B615D49F1F91199200A0C865 /* MapViewController+UIControls.swift */; };
+		B62B82E31F960008005E21F1 /* PermissionsPrivacyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62B82E21F960008005E21F1 /* PermissionsPrivacyView.swift */; };
+		B62B82E51F960038005E21F1 /* PermissionsAccuracyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62B82E41F960038005E21F1 /* PermissionsAccuracyView.swift */; };
+		B62B82F51F965ACA005E21F1 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B62B82F71F965ACA005E21F1 /* Localizable.strings */; };
 		B63038591F790E290041A0EF /* HUDWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = B63038581F790E290041A0EF /* HUDWindow.swift */; };
 		B630385B1F7943930041A0EF /* EditModeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B630385A1F7943930041A0EF /* EditModeView.swift */; };
 		B64F0C371F4DBA920004BA49 /* HUDViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B64F0C361F4DBA920004BA49 /* HUDViewController.swift */; };
@@ -106,6 +109,10 @@
 		8DFBC5381F7D23220048C7AD /* Users.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Users.swift; path = Modify/Core/Models/List/Users.swift; sourceTree = SOURCE_ROOT; };
 		B606BC111F5EB77E002555A2 /* SCNNode+Cube.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SCNNode+Cube.swift"; sourceTree = "<group>"; };
 		B615D49F1F91199200A0C865 /* MapViewController+UIControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MapViewController+UIControls.swift"; sourceTree = "<group>"; };
+		B62B82E21F960008005E21F1 /* PermissionsPrivacyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionsPrivacyView.swift; sourceTree = "<group>"; };
+		B62B82E41F960038005E21F1 /* PermissionsAccuracyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionsAccuracyView.swift; sourceTree = "<group>"; };
+		B62B82F81F965B08005E21F1 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		B62B82F91F965B14005E21F1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		B63038581F790E290041A0EF /* HUDWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUDWindow.swift; sourceTree = "<group>"; };
 		B630385A1F7943930041A0EF /* EditModeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditModeView.swift; sourceTree = "<group>"; };
 		B635793B1F66D6210016E598 /* Artifacts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Artifacts.swift; sourceTree = "<group>"; };
@@ -306,6 +313,8 @@
 			isa = PBXGroup;
 			children = (
 				B664539A1F94EC1100FD9EF0 /* PermissionsController.swift */,
+				B62B82E21F960008005E21F1 /* PermissionsPrivacyView.swift */,
+				B62B82E41F960038005E21F1 /* PermissionsAccuracyView.swift */,
 			);
 			path = Permissions;
 			sourceTree = "<group>";
@@ -353,6 +362,7 @@
 				826A73541F4CCB8A00204DC7 /* Main.storyboard */,
 				826A73591F4CCB8A00204DC7 /* LaunchScreen.storyboard */,
 				826A735C1F4CCB8A00204DC7 /* Info.plist */,
+				B62B82F71F965ACA005E21F1 /* Localizable.strings */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -424,6 +434,7 @@
 			knownRegions = (
 				en,
 				Base,
+				ru,
 			);
 			mainGroup = 826A73421F4CCB8A00204DC7;
 			productRefGroup = 826A734C1F4CCB8A00204DC7 /* Products */;
@@ -440,6 +451,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B62B82F51F965ACA005E21F1 /* Localizable.strings in Resources */,
 				826A73511F4CCB8A00204DC7 /* art.scnassets in Resources */,
 				826A735B1F4CCB8A00204DC7 /* LaunchScreen.storyboard in Resources */,
 				826A73581F4CCB8A00204DC7 /* Assets.xcassets in Resources */,
@@ -550,11 +562,13 @@
 				8DFF39F01F50344700E55652 /* FloatingPoint+Radians.swift in Sources */,
 				8DFF39F11F50344700E55652 /* LocationManager.swift in Sources */,
 				8DFF39F21F50344700E55652 /* LocationNode.swift in Sources */,
+				B62B82E31F960008005E21F1 /* PermissionsPrivacyView.swift in Sources */,
 				829A6DE11F576C9E00FFE858 /* ARViewController+ARSessionDelegate.swift in Sources */,
 				B680AA9A1F6FEB19002F2632 /* HUDViewController+Recording.swift in Sources */,
 				8DFF39F31F50344700E55652 /* SceneLocationEstimate.swift in Sources */,
 				82645FB71F746AB2000447DC /* Database.swift in Sources */,
 				B680AA981F6FE99E002F2632 /* HUDViewController+Gestures.swift in Sources */,
+				B62B82E51F960038005E21F1 /* PermissionsAccuracyView.swift in Sources */,
 				829A6DE51F57706800FFE858 /* ARViewController+HUD.swift in Sources */,
 				B630385B1F7943930041A0EF /* EditModeView.swift in Sources */,
 				B6F97E161F6AA1AE0061CDBF /* ColorPickerView.swift in Sources */,
@@ -598,6 +612,15 @@
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
+		B62B82F71F965ACA005E21F1 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B62B82F81F965B08005E21F1 /* ru */,
+				B62B82F91F965B14005E21F1 /* Base */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
@@ -605,6 +628,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -662,6 +686,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -721,7 +746,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.de.Modify;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -738,7 +763,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.de.Modify;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

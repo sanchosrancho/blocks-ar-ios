@@ -27,6 +27,11 @@ class ARViewController: UIViewController {
     }
     var creatingArtifactObjectId: String?
     
+    var screenCenter: CGPoint {
+        let bounds = sceneLocationView.bounds
+        return CGPoint(x: bounds.midX, y: bounds.midY)
+    }
+    
     
     // MARK: - ViewController lifecycle
     
@@ -92,6 +97,7 @@ class ARViewController: UIViewController {
     
     func setupScene() {
         sceneLocationView.showsStatistics = false
+        sceneLocationView.showFeaturePoints = true
         sceneLocationView.run()
 //        sceneLocationView.scene.enableEnvironmentMapWithIntensity(1000, queue: serialQueue)
         sceneLocationView.antialiasingMode = .multisampling4X

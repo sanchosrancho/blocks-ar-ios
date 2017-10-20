@@ -12,14 +12,14 @@ import CoreLocation
 
 enum PlaceState {
     case preview
-    case placing(CubeNode)
+    case placing(CubePlaceableNode)
     case editing(ArtifactNode)
 }
 
 extension ARViewController {
     
     func addInitialCubeToCamera(with color: UIColor) {
-        let cubeNode = CubeNode(position: SCNVector3(0, 0, zDistance), color: color)
+        let cubeNode = CubePlaceableNode(position: SCNVector3(0, 0, zDistance), color: color)
         sceneLocationView.pointOfView?.addChildNode(cubeNode)
         self.placeState = PlaceState.placing(cubeNode)
     }

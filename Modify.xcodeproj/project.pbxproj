@@ -23,6 +23,7 @@
 		829A6DE51F57706800FFE858 /* ARViewController+HUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829A6DE41F57706800FFE858 /* ARViewController+HUD.swift */; };
 		829A6DE71F5770E500FFE858 /* ARViewController+Artifacts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829A6DE61F5770E500FFE858 /* ARViewController+Artifacts.swift */; };
 		8D0BD0121F7410D200CEE05B /* AccountUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D0BD0111F7410D200CEE05B /* AccountUser.swift */; };
+		8D3B3CBB1F9A509F00EC842F /* CubePlaceableNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3B3CBA1F9A509F00EC842F /* CubePlaceableNode.swift */; };
 		8D46978F1F7BDA7E0089EE86 /* ApiResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D46978E1F7BDA7D0089EE86 /* ApiResponse.swift */; };
 		8DFBC5391F7D23220048C7AD /* Users.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DFBC5381F7D23220048C7AD /* Users.swift */; };
 		8DFF39EE1F50344700E55652 /* CGPoint+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC8263E1F50335900DF7DF9 /* CGPoint+Extensions.swift */; };
@@ -35,7 +36,7 @@
 		8DFF39F51F50344700E55652 /* SceneLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC826391F50335900DF7DF9 /* SceneLocationView.swift */; };
 		8DFF39F61F50344700E55652 /* SCNNode+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC8263D1F50335900DF7DF9 /* SCNNode+Extensions.swift */; };
 		8DFF39F71F50344700E55652 /* SCNVector3+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC826401F50335900DF7DF9 /* SCNVector3+Extensions.swift */; };
-		B606BC121F5EB77E002555A2 /* SCNNode+Cube.swift in Sources */ = {isa = PBXBuildFile; fileRef = B606BC111F5EB77E002555A2 /* SCNNode+Cube.swift */; };
+		B606BC121F5EB77E002555A2 /* CubeNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = B606BC111F5EB77E002555A2 /* CubeNode.swift */; };
 		B615D4A01F91199200A0C865 /* MapViewController+UIControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = B615D49F1F91199200A0C865 /* MapViewController+UIControls.swift */; };
 		B62B82E31F960008005E21F1 /* PermissionsPrivacyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62B82E21F960008005E21F1 /* PermissionsPrivacyView.swift */; };
 		B62B82E51F960038005E21F1 /* PermissionsAccuracyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62B82E41F960038005E21F1 /* PermissionsAccuracyView.swift */; };
@@ -91,6 +92,7 @@
 		829A6DE41F57706800FFE858 /* ARViewController+HUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ARViewController+HUD.swift"; sourceTree = "<group>"; };
 		829A6DE61F5770E500FFE858 /* ARViewController+Artifacts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ARViewController+Artifacts.swift"; sourceTree = "<group>"; };
 		8D0BD0111F7410D200CEE05B /* AccountUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AccountUser.swift; path = Modify/Core/Models/Item/AccountUser.swift; sourceTree = SOURCE_ROOT; };
+		8D3B3CBA1F9A509F00EC842F /* CubePlaceableNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CubePlaceableNode.swift; sourceTree = "<group>"; };
 		8D46978E1F7BDA7D0089EE86 /* ApiResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ApiResponse.swift; path = Modify/Core/ModifyApi/ApiResponse.swift; sourceTree = SOURCE_ROOT; };
 		8D68DCF31F6C28A000764F23 /* ApiUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiUser.swift; sourceTree = "<group>"; };
 		8D68DCF51F6C2A0700764F23 /* ApiArtifact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiArtifact.swift; sourceTree = "<group>"; };
@@ -107,7 +109,7 @@
 		8DC826411F50335900DF7DF9 /* CLLocation+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CLLocation+Extensions.swift"; sourceTree = "<group>"; };
 		8DC826421F50335900DF7DF9 /* LocationNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationNode.swift; sourceTree = "<group>"; };
 		8DFBC5381F7D23220048C7AD /* Users.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Users.swift; path = Modify/Core/Models/List/Users.swift; sourceTree = SOURCE_ROOT; };
-		B606BC111F5EB77E002555A2 /* SCNNode+Cube.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SCNNode+Cube.swift"; sourceTree = "<group>"; };
+		B606BC111F5EB77E002555A2 /* CubeNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CubeNode.swift; sourceTree = "<group>"; };
 		B615D49F1F91199200A0C865 /* MapViewController+UIControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MapViewController+UIControls.swift"; sourceTree = "<group>"; };
 		B62B82E21F960008005E21F1 /* PermissionsPrivacyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionsPrivacyView.swift; sourceTree = "<group>"; };
 		B62B82E41F960038005E21F1 /* PermissionsAccuracyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionsAccuracyView.swift; sourceTree = "<group>"; };
@@ -211,6 +213,8 @@
 				829A6DDC1F5768CE00FFE858 /* ArtifactSceneView.swift */,
 				829A6DDA1F57688F00FFE858 /* ArtifactNode.swift */,
 				B653B1861F74002C00C43946 /* BlockNode.swift */,
+				B606BC111F5EB77E002555A2 /* CubeNode.swift */,
+				8D3B3CBA1F9A509F00EC842F /* CubePlaceableNode.swift */,
 			);
 			path = AR;
 			sourceTree = "<group>";
@@ -323,7 +327,6 @@
 			isa = PBXGroup;
 			children = (
 				B6650F961F57130C0085ABBE /* SCNScene+Lighting.swift */,
-				B606BC111F5EB77E002555A2 /* SCNNode+Cube.swift */,
 				B6DA6E861F66A4BE006EB7F7 /* Extensions.swift */,
 				B66453971F94CB1C00FD9EF0 /* Settings.swift */,
 			);
@@ -553,7 +556,7 @@
 				B653B1821F72C52700C43946 /* Application.swift in Sources */,
 				B653B1831F72C52700C43946 /* Socket.swift in Sources */,
 				B65E738D1F8FAECE00715E33 /* MapViewController+MapCircles.swift in Sources */,
-				B606BC121F5EB77E002555A2 /* SCNNode+Cube.swift in Sources */,
+				B606BC121F5EB77E002555A2 /* CubeNode.swift in Sources */,
 				B664539B1F94EC1100FD9EF0 /* PermissionsController.swift in Sources */,
 				B615D4A01F91199200A0C865 /* MapViewController+UIControls.swift in Sources */,
 				829A6DE31F576D9F00FFE858 /* ARViewController+SceneLocationViewDelegate.swift in Sources */,
@@ -562,6 +565,7 @@
 				8DFF39F01F50344700E55652 /* FloatingPoint+Radians.swift in Sources */,
 				8DFF39F11F50344700E55652 /* LocationManager.swift in Sources */,
 				8DFF39F21F50344700E55652 /* LocationNode.swift in Sources */,
+				8D3B3CBB1F9A509F00EC842F /* CubePlaceableNode.swift in Sources */,
 				B62B82E31F960008005E21F1 /* PermissionsPrivacyView.swift in Sources */,
 				829A6DE11F576C9E00FFE858 /* ARViewController+ARSessionDelegate.swift in Sources */,
 				B680AA9A1F6FEB19002F2632 /* HUDViewController+Recording.swift in Sources */,

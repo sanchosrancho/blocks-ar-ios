@@ -64,16 +64,20 @@ class CubePlaceableNode: CubeNode, NodePlaceable {
     
     /// Update the transform of the focus square to be aligned with the camera.
     private func updateTransform(for position: float3, camera: ARCamera?) {
+//        guard let camera = camera else { return }
+//        eulerAngles.x = -camera.eulerAngles.x
+//        eulerAngles.z = -camera.eulerAngles.z - Float(Double.pi / 2)
+//        return
         simdTransform = matrix_identity_float4x4
-        
+
         // Average using several most recent positions.
         recentFocusSquarePositions = Array(recentFocusSquarePositions.suffix(10))
-        
+
         // Move to average of recent positions to avoid jitter.
         let average = recentFocusSquarePositions.reduce(float3(0), { $0 + $1 }) / Float(recentFocusSquarePositions.count)
         self.simdPosition = average
         self.simdScale = float3(scaleBasedOnDistance(camera: camera))
-        
+
         // Correct y rotation of camera square.
         guard let camera = camera else { return }
         let tilt = abs(camera.eulerAngles.x)
@@ -81,16 +85,16 @@ class CubePlaceableNode: CubeNode, NodePlaceable {
         let threshold2: Float = .pi / 2 * 0.75
         let yaw = atan2f(camera.transform.columns.0.x, camera.transform.columns.1.x)
         var angle: Float = 0
-        
+
         switch tilt {
         case 0..<threshold1:
             angle = camera.eulerAngles.y
-            
+
         case threshold1..<threshold2:
             let relativeInRange = abs((tilt - threshold1) / (threshold2 - threshold1))
             let normalizedY = normalize(camera.eulerAngles.y, forMinimalRotationTo: yaw)
             angle = normalizedY * (1 - relativeInRange) + yaw * relativeInRange
-            
+
         default:
             angle = yaw
         }

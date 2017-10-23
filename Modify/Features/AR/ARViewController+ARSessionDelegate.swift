@@ -55,7 +55,7 @@ extension ARViewController: ARSessionDelegate {
         }
         
         serialQueue.async {
-//            self.sceneLocationView.scene.rootNode.addChildNode(cube)
+            self.sceneLocationView.scene.rootNode.addChildNode(cube)
             let camera = self.sceneLocationView.session.currentFrame?.camera
             
             if let planeAnchor = planeAnchor {

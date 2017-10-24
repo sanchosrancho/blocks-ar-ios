@@ -97,7 +97,6 @@ class ARViewController: UIViewController {
     
     func setupScene() {
         sceneLocationView.showsStatistics = false
-        sceneLocationView.showFeaturePoints = true
         sceneLocationView.run()
 //        sceneLocationView.scene.enableEnvironmentMapWithIntensity(1000, queue: serialQueue)
         sceneLocationView.antialiasingMode = .multisampling4X

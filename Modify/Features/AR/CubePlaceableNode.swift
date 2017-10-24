@@ -40,24 +40,118 @@ class CubePlaceableNode: CubeNode, NodePlaceable {
                 break
                 
             case .featuresDetected(let anchorPosition, let camera):
-                displayAsOpen(at: anchorPosition, camera: camera)
+                displayOnGround(at: anchorPosition, camera: camera)
                 
             case .planeDetected(let anchorPosition, let planeAnchor, let camera):
 //                displayAsClosed(at: anchorPosition, planeAnchor: planeAnchor, camera: camera)
-                displayAsOpen(at: anchorPosition, camera: camera)
+                displayOnGround(at: anchorPosition, camera: camera)
             }
         }
     }
     
-    /// The focus square's most recent positions.
-    private var recentFocusSquarePositions: [float3] = []
+    /// The cube's most recent positions.
+    private var recentPositions: [float3] = []
+    
+    private var onTheGround: Bool = false
+    private var cubeLevitationHeight = 0.2
+    
+    // MARK: Appearance
     
     /// Called when a surface has been detected.
-    private func displayAsOpen(at position: float3, camera: ARCamera?) {
+    private func displayOnGround(at position: float3, camera: ARCamera?) {
 //        performOpenAnimation()
 //        performShowThumb()
-        recentFocusSquarePositions.append(position)
+        recentPositions.append(position)
         updateTransform(for: position, camera: camera)
+    }
+    
+    // MARK: Animations
+    
+    private func falldown() {
+        let correctionFactor = FocusSquare.thickness / 2 // correction to align lines perfectly
+        let length = 1.0 - FocusSquare.thickness * 2 + correctionFactor
+        let currentPosition = thumbBlock.position
+        let groundPosition = SCNVector3(x: currentPosition.x, y: currentPosition.y, z: -length/2.0)
+        let flyPosition = SCNVector3(x: currentPosition.x, y: currentPosition.y, z: -length)
+        
+        if onTheGround {
+            onTheGround = false
+            
+            self.thumbBlock.runAction(blockMove(to: flyPosition)) {
+                self.thumbBlock.runAction(levitationAction(), forKey: "levitation")
+            }
+            self.occlusionShadow.runAction(.group([
+                shadowIntensityAction(from: 0.6, to: 0.4),
+                shadowScaleAction(from: 1.04, to: 1.2)
+                ]))
+            
+        } else {
+            onTheGround = true
+            thumbBlock.removeAction(forKey: "levitation")
+            
+            
+            self.thumbBlock.runAction(blockMove(to: groundPosition)) {
+                self.thumbBlock.runAction(levitationAction(), forKey: "levitation")
+            }
+            self.occlusionShadow.runAction(.group([
+                shadowIntensityAction(from: 0.4, to: 0.6),
+                shadowScaleAction(from: 1.2, to: 1.04)
+                ]))
+        }
+    }
+    
+    private func blockMove(to position: SCNVector3) -> SCNAction {
+        let fallDownAction = SCNAction.move(to: SCNVector3(x: position.x, y: position.y, z: position.z), duration: 0.4)
+        let bounceUpAction = SCNAction.move(to: SCNVector3(x: position.x, y: position.y, z: position.z - 0.04), duration: 0.08)
+        let bounceDownAction = SCNAction.move(to: SCNVector3(x: position.x, y: position.y, z: position.z), duration: 0.08)
+        fallDownAction.timingMode = .easeIn
+        bounceUpAction.timingMode = .easeOut
+        bounceDownAction.timingMode = .easeIn
+        return .sequence([fallDownAction, bounceUpAction, bounceDownAction])
+    }
+    
+    private func shadowIntensityAction(from: CGFloat, to: CGFloat) -> SCNAction {
+        let fallDownAction = SCNAction.fadeOpacity(to: to, duration: 0.4)
+        let bounceUpAction = SCNAction.fadeOpacity(to: to - (from - to)*(0.08/0.4), duration: 0.08)
+        let bounceDownAction = SCNAction.fadeOpacity(to: to, duration: 0.08)
+        fallDownAction.timingMode = .easeIn
+        bounceUpAction.timingMode = .easeOut
+        bounceDownAction.timingMode = .easeIn
+        return .sequence([fallDownAction, bounceUpAction, bounceDownAction])
+    }
+    
+    private func shadowScaleAction(from: CGFloat, to: CGFloat) -> SCNAction {
+        let fallDownAction = SCNAction.scale(to: to, duration: 0.4)
+        let bounceUpAction = SCNAction.scale(to: to - (from - to)*(0.08/0.4), duration: 0.08)
+        let bounceDownAction = SCNAction.scale(to: to, duration: 0.08)
+        fallDownAction.timingMode = .easeIn
+        bounceUpAction.timingMode = .easeOut
+        bounceDownAction.timingMode = .easeIn
+        return .sequence([fallDownAction, bounceUpAction, bounceDownAction])
+    }
+    
+    private func falldownAction(to position: SCNVector3) -> SCNAction {
+        // todo: use math
+        // https://www.smashingmagazine.com/2011/10/quick-look-math-animations-javascript/
+        // https://github.com/chenglou/tween-functions/blob/master/index.js
+        // https://github.com/luowenxing/TFAnimation/blob/master/TFAnimation/TFAnimation/TFEasingFunction.swift
+        // http://www.cocoawithlove.com/2008/09/parametric-acceleration-curves-in-core.html
+        
+        let fallDownAction = SCNAction.move(to: SCNVector3(x: position.x, y: position.y, z: position.z), duration: 0.4)
+        let bounceUpAction = SCNAction.move(to: SCNVector3(x: position.x, y: position.y, z: position.z - 0.04), duration: 0.08)
+        let bounceDownAction = SCNAction.move(to: SCNVector3(x: position.x, y: position.y, z: position.z), duration: 0.08)
+        fallDownAction.timingMode = .easeIn
+        bounceUpAction.timingMode = .easeOut
+        bounceDownAction.timingMode = .easeIn
+        return .sequence([fallDownAction, bounceUpAction, bounceDownAction])
+    }
+    
+    private func levitationAction() -> SCNAction {
+        let moveUpAction = SCNAction.move(by: SCNVector3(0, 0, 0.125), duration: 2.0)
+        let moveDownAction = SCNAction.move(by: SCNVector3(0, 0, -0.125), duration: 2.0)
+        moveUpAction.timingMode = .easeInEaseOut
+        moveDownAction.timingMode = .easeInEaseOut
+        return SCNAction.repeatForever(SCNAction.sequence([moveUpAction, moveDownAction]))
     }
     
     // MARK: Helper Methods
@@ -71,10 +165,10 @@ class CubePlaceableNode: CubeNode, NodePlaceable {
         simdTransform = matrix_identity_float4x4
 
         // Average using several most recent positions.
-        recentFocusSquarePositions = Array(recentFocusSquarePositions.suffix(10))
+        recentPositions = Array(recentPositions.suffix(10))
 
         // Move to average of recent positions to avoid jitter.
-        let average = recentFocusSquarePositions.reduce(float3(0), { $0 + $1 }) / Float(recentFocusSquarePositions.count)
+        let average = recentPositions.reduce(float3(0), { $0 + $1 }) / Float(recentPositions.count)
         self.simdPosition = average
         self.simdScale = float3(scaleBasedOnDistance(camera: camera))
 

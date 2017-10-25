@@ -9,17 +9,22 @@
 import Foundation
 import ARKit
 
-protocol NodePlaceable {
-    var state: NodePlaceableState { get }
+protocol NodeGroundable {
+    var state: PlainDetectionState { get }
 }
 
-enum NodePlaceableState {
+enum PlainDetectionState {
     case initializing
     case featuresDetected(anchorPosition: float3, camera: ARCamera?)
     case planeDetected(anchorPosition: float3, planeAnchor: ARPlaneAnchor, camera: ARCamera?)
 }
 
-class CubePlaceableNode: CubeNode, NodePlaceable {
+class CubeGroundable: SCNNode, NodeGroundable {
+    
+    public let cube: CubeNode
+    private var cubeGroundPosition: SCNVector3 { return SCNVector3(x: 0, y: -CubeNode.size/2, z: 0) }
+    private var cubeFlyPosition: SCNVector3 { return SCNVector3(x: 0, y: CubeNode.size/2, z: 0) }
+    private var isCubeOnGround: Bool = true
     
     var lastPosition: float3? {
         switch state {
@@ -29,14 +34,14 @@ class CubePlaceableNode: CubeNode, NodePlaceable {
         }
     }
     
-    var state: NodePlaceableState = .initializing {
+    var state: PlainDetectionState = .initializing {
         didSet {
             guard state != oldValue else { return }
             
             switch state {
             case .initializing:
 //                displayAsBillboard()
-//                displayAsOpen(at: anchorPosition, camera: camera)
+//                display(at: anchorPosition, camera: camera)
                 break
                 
             case .featuresDetected(let anchorPosition, let camera):
@@ -229,8 +234,8 @@ class CubePlaceableNode: CubeNode, NodePlaceable {
 }
 
 
-extension NodePlaceableState: Equatable {
-    static func ==(lhs: NodePlaceableState, rhs: NodePlaceableState) -> Bool {
+extension PlainDetectionState: Equatable {
+    static func ==(lhs: PlainDetectionState, rhs: PlainDetectionState) -> Bool {
         switch (lhs, rhs) {
         case (.initializing, .initializing):
             return true

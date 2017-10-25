@@ -17,7 +17,8 @@ extension ARViewController: HUDViewControllerDelegate {
     
     
     func hudPlaceObjectPressed() {
-        if case .placing(let cube) = placeState {
+        if case .placing(let placeableCube) = placeState {
+            let cube = placeableCube.cube
             let t = cube.worldTransform
             cube.removeFromParentNode()
             cube.transform = t
@@ -89,8 +90,8 @@ extension ARViewController: HUDViewControllerDelegate {
     
     
     func hudDidChangeCurrentColor(_ color: UIColor) {
-        guard case .placing(let cube) = placeState else { return }
-        cube.updateColor(color)
+        guard case .placing(let placeableCube) = placeState else { return }
+        placeableCube.cube.updateColor(color)
     }
     
     

@@ -37,7 +37,7 @@ extension ARViewController: ARSessionDelegate {
         }
     }
     
-    func updatePlacingCube(_ cube: CubePlaceableNode) {
+    func updatePlacingCube(_ cube: CubeGroundable) {
 //        if isObjectVisible {
 //            focusSquare.hide()
 //        } else {

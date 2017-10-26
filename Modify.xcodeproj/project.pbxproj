@@ -23,7 +23,7 @@
 		829A6DE51F57706800FFE858 /* ARViewController+HUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829A6DE41F57706800FFE858 /* ARViewController+HUD.swift */; };
 		829A6DE71F5770E500FFE858 /* ARViewController+Artifacts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829A6DE61F5770E500FFE858 /* ARViewController+Artifacts.swift */; };
 		8D0BD0121F7410D200CEE05B /* AccountUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D0BD0111F7410D200CEE05B /* AccountUser.swift */; };
-		8D3B3CBB1F9A509F00EC842F /* CubePlaceableNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3B3CBA1F9A509F00EC842F /* CubePlaceableNode.swift */; };
+		8D3B3CBB1F9A509F00EC842F /* CubeGroundable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3B3CBA1F9A509F00EC842F /* CubeGroundable.swift */; };
 		8D46978F1F7BDA7E0089EE86 /* ApiResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D46978E1F7BDA7D0089EE86 /* ApiResponse.swift */; };
 		8DFBC5391F7D23220048C7AD /* Users.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DFBC5381F7D23220048C7AD /* Users.swift */; };
 		8DFF39EE1F50344700E55652 /* CGPoint+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC8263E1F50335900DF7DF9 /* CGPoint+Extensions.swift */; };
@@ -92,7 +92,7 @@
 		829A6DE41F57706800FFE858 /* ARViewController+HUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ARViewController+HUD.swift"; sourceTree = "<group>"; };
 		829A6DE61F5770E500FFE858 /* ARViewController+Artifacts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ARViewController+Artifacts.swift"; sourceTree = "<group>"; };
 		8D0BD0111F7410D200CEE05B /* AccountUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AccountUser.swift; path = Modify/Core/Models/Item/AccountUser.swift; sourceTree = SOURCE_ROOT; };
-		8D3B3CBA1F9A509F00EC842F /* CubePlaceableNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CubePlaceableNode.swift; sourceTree = "<group>"; };
+		8D3B3CBA1F9A509F00EC842F /* CubeGroundable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CubeGroundable.swift; sourceTree = "<group>"; };
 		8D46978E1F7BDA7D0089EE86 /* ApiResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ApiResponse.swift; path = Modify/Core/ModifyApi/ApiResponse.swift; sourceTree = SOURCE_ROOT; };
 		8D68DCF31F6C28A000764F23 /* ApiUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiUser.swift; sourceTree = "<group>"; };
 		8D68DCF51F6C2A0700764F23 /* ApiArtifact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiArtifact.swift; sourceTree = "<group>"; };
@@ -214,7 +214,7 @@
 				829A6DDA1F57688F00FFE858 /* ArtifactNode.swift */,
 				B653B1861F74002C00C43946 /* BlockNode.swift */,
 				B606BC111F5EB77E002555A2 /* CubeNode.swift */,
-				8D3B3CBA1F9A509F00EC842F /* CubePlaceableNode.swift */,
+				8D3B3CBA1F9A509F00EC842F /* CubeGroundable.swift */,
 			);
 			path = AR;
 			sourceTree = "<group>";
@@ -565,7 +565,7 @@
 				8DFF39F01F50344700E55652 /* FloatingPoint+Radians.swift in Sources */,
 				8DFF39F11F50344700E55652 /* LocationManager.swift in Sources */,
 				8DFF39F21F50344700E55652 /* LocationNode.swift in Sources */,
-				8D3B3CBB1F9A509F00EC842F /* CubePlaceableNode.swift in Sources */,
+				8D3B3CBB1F9A509F00EC842F /* CubeGroundable.swift in Sources */,
 				B62B82E31F960008005E21F1 /* PermissionsPrivacyView.swift in Sources */,
 				829A6DE11F576C9E00FFE858 /* ARViewController+ARSessionDelegate.swift in Sources */,
 				B680AA9A1F6FEB19002F2632 /* HUDViewController+Recording.swift in Sources */,

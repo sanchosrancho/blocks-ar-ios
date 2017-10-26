@@ -1,5 +1,5 @@
 //
-//  CubePlaceableNode.swift
+//  CubeGroundable.swift
 //  Modify
 //
 //  Created by Alex Shevlyakov on 20/10/2017.

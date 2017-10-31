@@ -302,9 +302,9 @@ class CubeGroundable: SCNNode, NodeGroundable {
         
         let positions: (CGFloat, CGFloat) = (0, CGFloat(cubeFlyPosition.y))
         let castIntensities: (CGFloat, CGFloat) = (0.0, 0.3)
-        let castScales: (CGFloat, CGFloat) = (1.0, 0.7)
+        let castScales: (CGFloat, CGFloat) = (0.9, 0.61)
         let occlusionIntensities: (CGFloat, CGFloat) = (0.98, 0.18)
-        let occlusionScales: (CGFloat, CGFloat) = (0.938, 1.3)
+        let occlusionScales: (CGFloat, CGFloat) = (0.938, 1.14)
         
         let positionFactor = (CGFloat(height) - positions.0) / (positions.1 - positions.0)
         

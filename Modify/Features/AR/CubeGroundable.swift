@@ -76,8 +76,10 @@ class CubeGroundable: SCNNode, NodeGroundable {
         self.addChildNode(occlusionShadow)
         self.addChildNode(cube)
         
-        castShadow.renderingOrder = -2
-        occlusionShadow.renderingOrder = -1
+        castShadow.position = SCNVector3(0, -0.000001, 0)
+        
+//        castShadow.renderingOrder = -2
+//        occlusionShadow.renderingOrder = -1
      
         falldown()
     }
@@ -126,7 +128,7 @@ class CubeGroundable: SCNNode, NodeGroundable {
         material.diffuse.contents = img
         material.cullMode = .front
         material.isDoubleSided = true
-        material.readsFromDepthBuffer = false
+//        material.readsFromDepthBuffer = false
 //        material.ambient.contents = UIColor.black
 //        material.lightingModel = .constant
 //        material.emission.contents = FocusSquare.fillColor
@@ -163,7 +165,7 @@ class CubeGroundable: SCNNode, NodeGroundable {
         material.diffuse.contents = img
         material.cullMode = .front
         material.isDoubleSided = true
-        material.readsFromDepthBuffer = false
+//        material.readsFromDepthBuffer = false
         
         return node
     }()
@@ -223,7 +225,7 @@ class CubeGroundable: SCNNode, NodeGroundable {
     }
     
     private func runFalldown(to: Float, complete: (() -> Void)? = nil) {
-        let stages: [Float] = [to, to + 0.04, to]
+        let stages: [Float] = [to, to + 0.008, to]
         let durations: [TimeInterval] = [0.4, 0.08, 0.08]
         let timings: [SCNActionTimingMode] = [.easeIn, .easeOut, .easeIn]
         

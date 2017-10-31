@@ -179,7 +179,7 @@ class CubeGroundable: SCNNode, NodeGroundable {
         self.runAction(fadeInAction)
     }
     
-    public func falldown() {
+    public func falldown(complete completionHandler: (() -> Void)? = nil) {
         if isCubeOnGround {
             isCubeOnGround = false
             runMove(to: cubeFlyPosition.y, complete: { self.levitation() })
@@ -188,7 +188,7 @@ class CubeGroundable: SCNNode, NodeGroundable {
             cube.removeAction(forKey: "levitation")
             occlusionShadow.removeAction(forKey: "levitation")
             castShadow.removeAction(forKey: "levitation")
-            runFalldown(to: cubeGroundPosition.y)
+            runFalldown(to: cubeGroundPosition.y, complete: completionHandler)
         }
     }
     
@@ -242,7 +242,7 @@ class CubeGroundable: SCNNode, NodeGroundable {
         occlusionShadow.runAction(shadowAction(appearances: occlusionShadowAppearances, durations: durations, timingModes: timings))
     }
     
-    private func runMove(to: Float, complete: (() -> Void)? = nil) {
+    private func runMove(to: Float, complete completionHandler: (() -> Void)? = nil) {
         let stages: [Float] = [to]
         let durations: [TimeInterval] = [0.4]
         let timings: [SCNActionTimingMode] = [.easeInEaseOut]
@@ -256,7 +256,7 @@ class CubeGroundable: SCNNode, NodeGroundable {
         }
         
         cube.runAction(cubeMoveAction(to: stages, inTime: durations, withTimingFunctions: timings)) {
-            complete?()
+            completionHandler?()
         }
         castShadow.runAction(shadowAction(appearances: castShadowAppearances, durations: durations, timingModes: timings))
         occlusionShadow.runAction(shadowAction(appearances: occlusionShadowAppearances, durations: durations, timingModes: timings))

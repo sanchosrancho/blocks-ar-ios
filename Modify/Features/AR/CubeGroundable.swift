@@ -76,7 +76,7 @@ class CubeGroundable: SCNNode, NodeGroundable {
         self.addChildNode(occlusionShadow)
         self.addChildNode(cube)
         
-        castShadow.position = SCNVector3(0, -0.000001, 0)
+        castShadow.position = SCNVector3(0, -0.0001, 0)
         
 //        castShadow.renderingOrder = -2
 //        occlusionShadow.renderingOrder = -1
@@ -326,26 +326,6 @@ class CubeGroundable: SCNNode, NodeGroundable {
         return .sequence(actions)
     }
     
-    // MARK: Convinience Methods
-    
-    /// Sets the rendering order of the node to show on top or under other scene content.
-    func displayNodeHierarchyOnTop(_ isOnTop: Bool) {
-        // Recursivley traverses the node's children to update the rendering order depending on the `isOnTop` parameter.
-        func updateRenderOrder(for node: SCNNode) {
-            node.renderingOrder = isOnTop ? 2 : 0
-            
-            for material in node.geometry?.materials ?? [] {
-                material.readsFromDepthBuffer = !isOnTop
-            }
-            
-            for child in node.childNodes {
-                updateRenderOrder(for: child)
-            }
-        }
-        
-        updateRenderOrder(for: self)
-    }
-    
     
     // MARK: Helper Methods
     
@@ -369,8 +349,6 @@ class CubeGroundable: SCNNode, NodeGroundable {
         let yaw = atan2f(camera.transform.columns.0.x, camera.transform.columns.1.x)
         var angle: Float = 0
         
-        
-
         switch tilt {
         case 0..<threshold1:
             angle = camera.eulerAngles.y

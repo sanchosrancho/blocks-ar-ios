@@ -24,7 +24,7 @@ class CubeGroundable: SCNNode, NodeGroundable {
     public let cube: CubeNode
     private var cubeGroundPosition: SCNVector3 { return SCNVector3(x: 0, y: -CubeNode.size/2, z: 0) }
     private var cubeFlyPosition: SCNVector3 { return SCNVector3(x: 0, y: CubeNode.size/2, z: 0) }
-    private var isCubeOnGround: Bool = true
+    private var isCubeOnGround: Bool = false
     
     var lastPosition: float3? {
         switch state {
@@ -285,20 +285,20 @@ class CubeGroundable: SCNNode, NodeGroundable {
     }
     
     private func shadowForCube(atHeight height: Float) -> CubeShadow {
-        func shadowAppearanceInterpolatedForPoint(_ point: CGFloat, intensities: ClosedRange<CGFloat>, scales: ClosedRange<CGFloat>) -> ShadowAppearance {
+        func shadowAppearanceInterpolatedForPoint(_ point: CGFloat, intensities: (CGFloat, CGFloat), scales: (CGFloat, CGFloat)) -> ShadowAppearance {
             return ShadowAppearance(
-                intensity: point * (intensities.upperBound - intensities.lowerBound) + intensities.lowerBound,
-                scale: point * (scales.upperBound - scales.lowerBound) + scales.lowerBound
+                intensity: point * (intensities.1 - intensities.0) + intensities.0,
+                scale: point * (scales.1 - scales.0) + scales.0
             )
         }
         
-        let positions: ClosedRange<CGFloat> = 0 ... CGFloat(CubeNode.size)
-        let castIntensities: ClosedRange<CGFloat> = 0.98 ... 0.18
-        let castScales: ClosedRange<CGFloat> = 0.938 ... 1.3
-        let occlusionIntensities: ClosedRange<CGFloat> = 0.2 ... 0.4
-        let occlusionScales: ClosedRange<CGFloat> = 1.0 ... 1.0
+        let positions: (CGFloat, CGFloat) = (0, CGFloat(CubeNode.size))
+        let castIntensities: (CGFloat, CGFloat) = (0.98, 0.18)
+        let castScales: (CGFloat, CGFloat) = (0.938, 1.3)
+        let occlusionIntensities: (CGFloat, CGFloat) = (0.2, 0.4)
+        let occlusionScales: (CGFloat, CGFloat) = (1.0, 1.0)
         
-        let positionFactor = (CGFloat(height) - positions.lowerBound) / (positions.upperBound - positions.lowerBound)
+        let positionFactor = (CGFloat(height) - positions.0) / (positions.1 - positions.0)
         
         return CubeShadow(
             cast: shadowAppearanceInterpolatedForPoint(positionFactor, intensities: castIntensities, scales: castScales),

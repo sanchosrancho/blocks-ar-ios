@@ -8,6 +8,7 @@
 
 import UIKit
 import RealmSwift
+import SceneKit
 
 class ARViewController: UIViewController {
     
@@ -94,6 +95,38 @@ class ARViewController: UIViewController {
         // load data
     }
     
+
+    private lazy var groundPlane: SCNNode = {
+        let plane = SCNFloor()
+        let node = SCNNode(geometry: plane)
+        node.name = "groundPlane"
+        node.castsShadow = false
+//        node.eulerAngles.x = .pi / 2
+        
+        let material = plane.firstMaterial!
+        material.cullMode = .front
+        material.isDoubleSided = true
+        material.lightingModel = .constant
+        material.writesToDepthBuffer = true
+        material.colorBufferWriteMask = []
+        
+        return node
+    }()
+    
+    private lazy var sunLight: SCNNode = {
+        let light = SCNLight()
+        light.type = .directional
+        light.castsShadow = true
+        light.shadowMode = .deferred
+        light.intensity = 2000
+        light.shadowColor = UIColor.blue.withAlphaComponent(0.2)
+        
+        let node = SCNNode()
+        node.light = light
+        node.eulerAngles = SCNVector3(-2.33, -0.15, -0.43)
+        return node
+    }()
+
     
     func setupScene() {
         sceneLocationView.showsStatistics = false
@@ -113,6 +146,10 @@ class ARViewController: UIViewController {
         }
         sceneLocationView.session.delegate = self
         sceneLocationView.locationDelegate = self
+        
+        sceneLocationView.scene.rootNode.addChildNode(groundPlane)
+        sceneLocationView.scene.rootNode.addChildNode(sunLight)
+        
         view.addSubview(sceneLocationView)
     }
     

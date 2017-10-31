@@ -22,9 +22,9 @@ enum PlainDetectionState {
 class CubeGroundable: SCNNode, NodeGroundable {
     
     public let cube: CubeNode
-    private var cubeGroundPosition: SCNVector3 { return SCNVector3(x: 0, y: -CubeNode.size/2, z: 0) }
-    private var cubeFlyPosition: SCNVector3 { return SCNVector3(x: 0, y: CubeNode.size/2, z: 0) }
-    private var isCubeOnGround: Bool = false
+    private var cubeGroundPosition: SCNVector3 { return SCNVector3(x: 0, y: CubeNode.size/2, z: 0) }
+    private var cubeFlyPosition: SCNVector3 { return SCNVector3(x: 0, y: CubeNode.size*1.5, z: 0) }
+    private var isCubeOnGround: Bool = true
     
     var lastPosition: float3? {
         switch state {
@@ -182,16 +182,12 @@ class CubeGroundable: SCNNode, NodeGroundable {
     public func falldown() {
         if isCubeOnGround {
             isCubeOnGround = false
-            runMove(to: cubeFlyPosition.y) {
-                self.levitation()
-            }
-            
+            runMove(to: cubeFlyPosition.y, complete: { self.levitation() })
         } else {
             isCubeOnGround = true
             cube.removeAction(forKey: "levitation")
             occlusionShadow.removeAction(forKey: "levitation")
             castShadow.removeAction(forKey: "levitation")
-            
             runFalldown(to: cubeGroundPosition.y)
         }
     }
@@ -209,9 +205,21 @@ class CubeGroundable: SCNNode, NodeGroundable {
             occlusionShadowAppearances.append(shadow.occlusion)
         }
         
-        cube.runAction(cubeMoveAction(to: stages, inTime: durations, withTimingFunctions: [.easeInEaseOut, .easeInEaseOut]))
-        castShadow.runAction(shadowAction(appearances: castShadowAppearances, durations: durations, timingModes: [.easeOut, .easeIn]), forKey: "levitation")
-        occlusionShadow.runAction(shadowAction(appearances: occlusionShadowAppearances, durations: durations, timingModes: [.easeOut, .easeIn]), forKey: "levitation")
+        print("stages", stages)
+        print("occlusionShadowAppearances", occlusionShadowAppearances)
+        print("castShadowAppearances", castShadowAppearances)
+        
+        cube.runAction(.repeatForever(
+            cubeMoveAction(to: stages, inTime: durations, withTimingFunctions: [.easeInEaseOut, .easeInEaseOut])
+        ), forKey: "levitation")
+        
+        castShadow.runAction(.repeatForever(
+            shadowAction(appearances: castShadowAppearances, durations: durations, timingModes: [.easeOut, .easeIn])
+        ), forKey: "levitation")
+        
+        occlusionShadow.runAction(.repeatForever(
+            shadowAction(appearances: occlusionShadowAppearances, durations: durations, timingModes: [.easeOut, .easeIn])
+        ), forKey: "levitation")
     }
     
     private func runFalldown(to: Float, complete: (() -> Void)? = nil) {
@@ -292,11 +300,11 @@ class CubeGroundable: SCNNode, NodeGroundable {
             )
         }
         
-        let positions: (CGFloat, CGFloat) = (0, CGFloat(CubeNode.size))
-        let castIntensities: (CGFloat, CGFloat) = (0.98, 0.18)
-        let castScales: (CGFloat, CGFloat) = (0.938, 1.3)
-        let occlusionIntensities: (CGFloat, CGFloat) = (0.2, 0.4)
-        let occlusionScales: (CGFloat, CGFloat) = (1.0, 1.0)
+        let positions: (CGFloat, CGFloat) = (0, CGFloat(cubeFlyPosition.y))
+        let castIntensities: (CGFloat, CGFloat) = (0.0, 0.3)
+        let castScales: (CGFloat, CGFloat) = (1.0, 0.7)
+        let occlusionIntensities: (CGFloat, CGFloat) = (0.98, 0.18)
+        let occlusionScales: (CGFloat, CGFloat) = (0.938, 1.3)
         
         let positionFactor = (CGFloat(height) - positions.0) / (positions.1 - positions.0)
         
@@ -358,6 +366,8 @@ class CubeGroundable: SCNNode, NodeGroundable {
         let threshold2: Float = .pi / 2 * 0.75
         let yaw = atan2f(camera.transform.columns.0.x, camera.transform.columns.1.x)
         var angle: Float = 0
+        
+        
 
         switch tilt {
         case 0..<threshold1:
@@ -371,6 +381,7 @@ class CubeGroundable: SCNNode, NodeGroundable {
         default:
             angle = yaw
         }
+        print("yaw", yaw, "angle: ", angle)
         eulerAngles.y = angle
     }
     

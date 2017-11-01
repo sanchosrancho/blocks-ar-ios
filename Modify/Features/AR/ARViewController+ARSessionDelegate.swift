@@ -65,6 +65,10 @@ extension ARViewController: ARSessionDelegate {
             } else {
                 cube.state = .featuresDetected(anchorPosition: worldPosition, camera: camera)
             }
+            
+            var groundPosition = self.groundPlane.position
+            groundPosition.y = worldPosition.y - 0.0002
+            self.groundPlane.position = groundPosition
         }
 //        addObjectButton.isHidden = false
 //        statusViewController.cancelScheduledMessage(for: .focusSquare)

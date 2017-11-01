@@ -96,15 +96,18 @@ class ARViewController: UIViewController {
     }
     
 
-    private lazy var groundPlane: SCNNode = {
+    internal lazy var groundPlane: SCNNode = {
         let plane = SCNFloor()
         let node = SCNNode(geometry: plane)
         node.name = "groundPlane"
         node.castsShadow = false
+        plane.reflectivity = 0
 //        node.eulerAngles.x = .pi / 2
+//        node.opacity = 0.4
         
         let material = plane.firstMaterial!
-        material.cullMode = .front
+//        material.diffuse.contents = UIColor.red.withAlphaComponent(0.2)
+        material.cullMode = .back
         material.isDoubleSided = true
         material.lightingModel = .constant
         material.writesToDepthBuffer = true
@@ -119,7 +122,7 @@ class ARViewController: UIViewController {
         light.castsShadow = true
         light.shadowMode = .deferred
         light.intensity = 2000
-        light.shadowColor = UIColor.blue.withAlphaComponent(0.2)
+        light.shadowColor = UIColor.black.withAlphaComponent(0.2)
         
         let node = SCNNode()
         node.light = light

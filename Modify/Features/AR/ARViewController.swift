@@ -150,6 +150,8 @@ class ARViewController: UIViewController {
         sceneLocationView.scene.rootNode.addChildNode(groundPlane)
         sceneLocationView.scene.rootNode.addChildNode(sunLight)
         
+//        sun(date: Date(), lat: , lon: <#T##Double#>)
+        
         view.addSubview(sceneLocationView)
     }
     

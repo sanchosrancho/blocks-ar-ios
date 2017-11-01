@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		131DA9D72052669805CDADFC /* Pods_Modify.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCDA4043423E1BCB46521F8B /* Pods_Modify.framework */; };
+		821A6A7C1FA94594002A7016 /* Sun.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821A6A7B1FA94593002A7016 /* Sun.swift */; };
 		82645FB71F746AB2000447DC /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82645FB61F746AB2000447DC /* Database.swift */; };
 		826A734F1F4CCB8A00204DC7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826A734E1F4CCB8A00204DC7 /* AppDelegate.swift */; };
 		826A73511F4CCB8A00204DC7 /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 826A73501F4CCB8A00204DC7 /* art.scnassets */; };
@@ -75,6 +76,7 @@
 /* Begin PBXFileReference section */
 		210909720452535616B550CB /* Pods-Modify.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Modify.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Modify/Pods-Modify.debug.xcconfig"; sourceTree = "<group>"; };
 		28F14B050ED07137CB15BF8E /* Pods-Modify.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Modify.release.xcconfig"; path = "Pods/Target Support Files/Pods-Modify/Pods-Modify.release.xcconfig"; sourceTree = "<group>"; };
+		821A6A7B1FA94593002A7016 /* Sun.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sun.swift; sourceTree = "<group>"; };
 		82645FB61F746AB2000447DC /* Database.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Database.swift; path = Modify/Core/Database.swift; sourceTree = SOURCE_ROOT; };
 		826A734B1F4CCB8A00204DC7 /* Modify.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Modify.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		826A734E1F4CCB8A00204DC7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -329,6 +331,7 @@
 				B6650F961F57130C0085ABBE /* SCNScene+Lighting.swift */,
 				B6DA6E861F66A4BE006EB7F7 /* Extensions.swift */,
 				B66453971F94CB1C00FD9EF0 /* Settings.swift */,
+				821A6A7B1FA94593002A7016 /* Sun.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -537,6 +540,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				821A6A7C1FA94594002A7016 /* Sun.swift in Sources */,
 				B653B1761F72C52700C43946 /* Api.swift in Sources */,
 				B653B1771F72C52700C43946 /* ApiArtifact.swift in Sources */,
 				B653B1781F72C52700C43946 /* ApiBlock.swift in Sources */,

@@ -18,20 +18,20 @@ extension ARViewController: HUDViewControllerDelegate {
     
     func hudPlaceObjectPressed() {
         if case .placing(let placeableCube) = placeState {
-            serialQueue.async {
-                placeableCube.falldown(complete: { /* [weak self] in */
-                    let cube = placeableCube.cube
-                    let t = cube.worldTransform
-                    
-                    placeableCube.removeFromParentNode()
-                    cube.transform = t
-                    
-                    DispatchQueue.main.async {
-                        self.saveArtifact(cubeNode: cube)
-                        self.placeState = .preview
-                    }
-                })
-            }
+            let cube = placeableCube.cube
+            
+            placeableCube.falldown(complete: { /* [weak self] in */
+            
+                let t = cube.worldTransform
+            
+                placeableCube.removeFromParentNode()
+                cube.transform = t
+                
+                DispatchQueue.main.async {
+                    self.saveArtifact(cubeNode: cube)
+                    self.placeState = .preview
+                }
+            })
         }
     }
     

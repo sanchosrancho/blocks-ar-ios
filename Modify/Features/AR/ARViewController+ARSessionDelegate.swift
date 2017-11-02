@@ -48,7 +48,6 @@ extension ARViewController: ARSessionDelegate {
         // We should always have a valid world position unless the sceen is just being initialized.
         guard let (worldPosition, planeAnchor, _) = sceneLocationView.worldPosition(fromScreenPosition: screenCenter, objectPosition: cube.lastPosition) else {
             serialQueue.async {
-                self.sceneLocationView.debugOptions = [ARSCNDebugOptions.showFeaturePoints]
                 cube.state = .initializing
                 self.sceneLocationView.pointOfView?.addChildNode(cube)
             }
@@ -56,7 +55,6 @@ extension ARViewController: ARSessionDelegate {
         }
         
         serialQueue.async {
-            self.sceneLocationView.debugOptions = []
             self.sceneLocationView.scene.rootNode.addChildNode(cube)
             let camera = self.sceneLocationView.session.currentFrame?.camera
             
